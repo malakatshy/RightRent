@@ -3,7 +3,7 @@ import time
 
 
 st.title("RightRent")
-st.write("Hello! My first Streamlit app Malakkkk 🚀")
+st.write("Hello! My first Streamlit app Malakkkk ::::::::)))))))))))))))) 🚀")
 st.write("This is updated from GitHub ✅")
 st.write("Version:", time.time())
 
