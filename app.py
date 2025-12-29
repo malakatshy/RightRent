@@ -1,55 +1,56 @@
 import streamlit as st
 
-# --- הגדרות דף ---
-st.set_page_config(page_title="RightRent - ניתוח חוזי שכירות", page_icon="🏠")
+# --- Page Configuration ---
+st.set_page_config(page_title="RightRent - Rental Agreement Analysis", page_icon="🏠")
 
-# --- אתחול הזיכרון (Session State) ---
+# --- Initialize Session State ---
 if 'step' not in st.session_state:
-    st.session_state.step = 1  # מתחילים בשלב 1
+    st.session_state.step = 1  # Start at Step 1
 
 if 'user_prefs' not in st.session_state:
     st.session_state.user_prefs = {}
 
-# --- פונקציות ניווט ---
+# --- Navigation Functions ---
 def go_to_step(step_number):
     st.session_state.step = step_number
 
 # ==========================================
-# מסך 1: ברוכים הבאים (Welcome & Disclaimer)
+# Step 1: Welcome & Disclaimer
 # ==========================================
 if st.session_state.step == 1:
     st.title("RightRent 🏠")
-    st.subheader("ניתוח חוזה השכירות שלך בכמה דקות")
+    st.subheader("Analyze your rental agreement in minutes")
     
     st.write("""
-    ברוכים הבאים! המערכת שלנו עוזרת לכם להבין את חוזה השכירות שלכם, 
-    לזהות סיכונים ולהתאים אותו לצרכים האישיים שלכם.
+    Welcome! Our system helps you understand your rental contract, 
+    identify potential risks, and align the terms with your personal needs.
     """)
     
-    # Disclaimer - לפי Guideline 1 (Expectations)
+    # Disclaimer - Based on HAI Guideline 1 (Expectations)
     st.info("""
-    **הבהרה חשובה:** המערכת מבוססת על בינה מלאכותית והיא נועדה לשמש ככלי עזר בלבד. 
-    המידע המוצג אינו מהווה ייעוץ משפטי מחייב. בכל מקרה של ספק, מומלץ להתייעץ עם עו"ד.
+    **Important Note:** This system is powered by AI and is intended as a support tool only. 
+    The information provided does **not** constitute binding legal advice. 
+    In case of doubt, we strongly recommend consulting a lawyer.
     """)
     
-    if st.button("בואו נתחיל! 🚀"):
+    if st.button("Let's Get Started! 🚀"):
         go_to_step(2)
 
 # ==========================================
-# מסך 2: העדפות אישיות (Onboarding)
+# Step 2: Personal Preferences (Onboarding)
 # ==========================================
 elif st.session_state.step == 2:
-    st.title("מה חשוב לכם בחוזה? 📝")
-    st.write("סמנו את הנושאים שחשובים לכם כדי שנתאים את הניתוח עבורכם:")
+    st.title("What matters to you? 📝")
+    st.write("Select the themes that are important to you to personalize the analysis:")
     
-    # שאלון העדפות (Personalization)
-    pets = st.checkbox("יש לי בעלי חיים (או שאני מתכנן להביא)")
-    sublet = st.checkbox("אני מעוניין באפשרות להכניס דייר משנה (סאבלט)")
-    exit_option = st.checkbox("חשוב לי שתהיה נקודת יציאה מוקדמת מהחוזה")
-    repairs = st.checkbox("אני רוצה לוודא שתיקון בלאי סביר הוא על בעל הבית")
+    # User Preferences (Personalization Layer)
+    pets = st.checkbox("I have pets (or plan to have them)")
+    sublet = st.checkbox("I want the option to sublet the apartment")
+    exit_option = st.checkbox("An early exit/termination clause is important to me")
+    repairs = st.checkbox("I want to ensure wear-and-tear repairs are the landlord's duty")
     
-    # שמירת הנתונים
-    if st.button("המשך להעלאת החוזה ➔"):
+    # Saving data
+    if st.button("Continue to Upload ➔"):
         st.session_state.user_prefs = {
             "pets": pets,
             "sublet": sublet,
@@ -58,24 +59,25 @@ elif st.session_state.step == 2:
         }
         go_to_step(3)
     
-    if st.button("⬅ חזור"):
+    if st.button("⬅ Back"):
         go_to_step(1)
 
 # ==========================================
-# מסך 3: העלאת חוזה (Upload)
+# Step 3: Contract Upload
 # ==========================================
 elif st.session_state.step == 3:
-    st.title("העלאת חוזה השכירות 📂")
-    st.write("אנא העלו את החוזה בפורמט PDF:")
+    st.title("Upload Rental Agreement 📂")
+    st.write("Please upload your contract in PDF format:")
     
-    uploaded_file = st.file_uploader("בחרו קובץ PDF", type=["pdf"])
+    uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
     
     if uploaded_file is not None:
-        st.success("הקובץ נטען בהצלחה! ✔️")
-        # כאן יבוא בהמשך שלב 3 (חילוץ טקסט)
-        if st.button("נתח את החוזה שלי 🧠"):
-            st.write("מתחיל בניתוח... (כאן נחבר את ה-AI בהמשך)")
+        st.success("File uploaded successfully! ✔️")
+        
+        # Placeholder for Step 4 (Analysis Logic)
+        if st.button("Analyze My Contract 🧠"):
+            st.write("Processing... (AI analysis will be integrated here)")
             # go_to_step(4)
             
-    if st.button("⬅ חזור לשאלון"):
+    if st.button("⬅ Back to Preferences"):
         go_to_step(2)
