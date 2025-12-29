@@ -1,9 +1,14 @@
 import streamlit as st
-import time
 
+st.set_page_config(
+    page_title="RightRent",
+    page_icon="📄",
+    layout="centered"
+)
+
+if "preferences" not in st.session_state:
+    st.session_state.preferences = {}
 
 st.title("RightRent")
-st.write("Hello! My first Streamlit app Malakkkk    ff   kkk      ::::::::)))))))))))))))) 🚀")
-st.write("This is updated from GitHub ✅")
-st.write("Version:", time.time())
+st.write("AI-assisted contract understanding for renters")
 
