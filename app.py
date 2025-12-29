@@ -1,12 +1,15 @@
 import streamlit as st
 
 # --- Page Configuration ---
-# Using the requested icon file
-st.set_page_config(page_title="RightRent - Rental Agreement Analysis", page_icon="icon_page.png")
+st.set_page_config(
+    page_title="RightRent - Rental Agreement Analysis", 
+    page_icon="icon_page.png",
+    layout="wide" # Using wide layout for better spacing of the 3 cards
+)
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
-    st.session_state.step = 1  # Start at Step 1
+    st.session_state.step = 1
 
 if 'user_prefs' not in st.session_state:
     st.session_state.user_prefs = {}
@@ -14,66 +17,68 @@ if 'user_prefs' not in st.session_state:
 # --- Navigation Functions ---
 def go_to_step(step_number):
     st.session_state.step = step_number
+    st.rerun() # 👈 This fix ensures one-click navigation
 
 # ==========================================
 # Step 1: Welcome & Homepage (Mockup Design)
 # ==========================================
 if st.session_state.step == 1:
-    # --- Top Navigation Bar ---
-    nav_col1, nav_col2 = st.columns([8, 2])
-    with nav_col1:
-        # Display logo and text inline
-        col_logo, col_text = st.columns([1, 10])
-        with col_logo:
-            st.image("icon_page.png", width=40)
-        with col_text:
-            st.markdown("<h3 style='color: #2E7D32; margin-top: -5px;'>RightRent</h3>", unsafe_allow_html=True)
-    with nav_col2:
-        st.write("About / Help")
+    # --- Header Navigation ---
+    header_left, header_right = st.columns([8, 2])
+    with header_left:
+        # Display logo and brand name inline
+        col_icon, col_brand = st.columns([0.5, 10])
+        with col_icon:
+            st.image("icon_page.png", width=35)
+        with col_brand:
+            st.markdown("<h3 style='color: #2E7D32; margin-top: -5px; font-weight: 600;'>RightRent</h3>", unsafe_allow_html=True)
+    with header_right:
+        st.markdown("<p style='text-align: right; color: black; font-weight: 500;'>About / Help</p>", unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # --- Main Hero Section ---
-    st.markdown("<h1 style='text-align: center;'>Understand your rental <br> contract with confidence</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: gray; font-size: 18px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>", unsafe_allow_html=True)
+    # --- Hero Section ---
+    st.markdown("<h1 style='text-align: center; font-size: 50px; font-weight: 700;'>Understand your rental <br> contract with confidence</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #666; font-size: 20px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>", unsafe_allow_html=True)
     
-    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # --- Feature Cards ---
-    card1, card2, card3 = st.columns(3)
+    # --- Feature Cards Layout ---
+    # Centering the cards by using empty columns on sides
+    c_pad1, c1, c2, c3, c_pad2 = st.columns([1, 3, 3, 3, 1])
     
-    with card1:
+    with c1:
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("⚙️", unsafe_allow_html=True) # Gear Icon
-        st.markdown("**Preferences setup**")
-        st.markdown("<p style='font-size: 14px; color: #555;'>Tell us what matters so the AI can personalize the review</p>", unsafe_allow_html=True)
+        st.markdown("<h2 style='margin-bottom: 0;'>⚙️</h2>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top: 5px;'>Preferences setup</h4>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #666;'>Tell us what matters so the AI can personalize the review</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    with card2:
+    with c2:
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("📄", unsafe_allow_html=True) # Document Icon
-        st.markdown("**Contract upload**")
-        st.markdown("<p style='font-size: 14px; color: #555;'>We analyse risks, mismatches, and unclear terms</p>", unsafe_allow_html=True)
+        st.markdown("<h2 style='margin-bottom: 0;'>📄</h2>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top: 5px;'>Contract upload</h4>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #666;'>We analyse risks, mismatches, and unclear terms</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
-    with card3:
+    with c3:
         st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("👁️", unsafe_allow_html=True) # Eye Icon
-        st.markdown("**Review & negotiation**")
-        st.markdown("<p style='font-size: 14px; color: #555;'>See AI-highlighted clauses and draft your message to the landlord</p>", unsafe_allow_html=True)
+        st.markdown("<h2 style='margin-bottom: 0;'>👁️</h2>", unsafe_allow_html=True)
+        st.markdown("<h4 style='margin-top: 5px;'>Review & negotiation</h4>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #666;'>See AI-highlighted clauses and draft your message to the landlord</p>", unsafe_allow_html=True)
         st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
     # --- Centered Start Button ---
-    col_btn1, col_btn2, col_btn3 = st.columns([2, 1, 2])
-    with col_btn2:
+    b_left, b_center, b_right = st.columns([2, 1, 2])
+    with b_center:
         if st.button("Start now", use_container_width=True, type="primary"):
             go_to_step(2)
 
-    # Disclaimer (Keeping it at the bottom for Guideline 1 Compliance)
-    st.markdown("<br><hr>", unsafe_allow_html=True)
-    st.caption("Note: RightRent is an AI support tool and does not provide binding legal advice.")
+    # Legal Disclaimer (HAI Guideline compliance)
+    st.markdown("<br><br><br><hr>", unsafe_allow_html=True)
+    st.caption("RightRent is an AI-powered assistant. It does not provide legal advice. Always review your final contract with a professional.")
 # ==========================================
 # Step 2: Personal Preferences (Onboarding)
 # ==========================================
