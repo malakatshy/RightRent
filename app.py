@@ -1,7 +1,7 @@
 import streamlit as st
 
 # --- Page Configuration ---
-st.set_page_config(page_title="RightRent - Rental Agreement Analysis", page_icon="🏠")
+st.set_page_config(page_title="RightRent - Rental Agreement Analysis", page_icon="icon_page.png")
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
