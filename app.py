@@ -161,18 +161,62 @@ elif st.session_state.step == 2:
 # Step 3: Contract Upload
 # ==========================================
 elif st.session_state.step == 3:
-    st.title("Upload Rental Agreement 📂")
-    st.write("Please upload your contract in PDF format:")
+    # --- Top Navigation Bar (Consistent with previous steps) ---
+    header_left, header_right = st.columns([8, 2])
+    with header_left:
+        col_icon, col_brand = st.columns([0.4, 10])
+        with col_icon: 
+            st.image("icon_page.png", width=35)
+        with col_brand: 
+            st.markdown("<h3 style='color: #2E7D32; font-weight: 600; line-height: 1;'>RightRent</h3>", unsafe_allow_html=True)
+    with header_right:
+        st.markdown("<p style='text-align: right; color: black; font-weight: 500; margin: 0;'>About / Help</p>", unsafe_allow_html=True)
+
+    st.markdown("<div style='margin: 10px;'></div>", unsafe_allow_html=True)
+
+    # --- Page Title ---
+    st.markdown("<h1 style='text-align: center; font-size: 42px; font-weight: 700;'>Upload your rental contract</h1>", unsafe_allow_html=True)
     
-    uploaded_file = st.file_uploader("Choose a PDF file", type=["pdf"])
-    
-    if uploaded_file is not None:
-        st.success("File uploaded successfully! ✔️")
+    st.markdown("<div style='margin: 20px;'></div>", unsafe_allow_html=True)
+
+    # --- Central Upload Card ---
+    # Centering the card using columns
+    col_pad_left, col_main, col_pad_right = st.columns([1, 2, 1])
+
+    with col_main:
+        st.markdown("""
+            <div style='border: 1px solid #E6E9EF; padding: 40px; border-radius: 15px; background-color: white; text-align: center;'>
+                <div style='color: #666; font-size: 18px; font-weight: 500;'>
+                    <p>Select your contract in PDF format</p>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        # Positioning the file uploader slightly over the card or inside
+        # We use a spacer to pull the uploader into the card's visual space
+        st.markdown("<div style='margin-top: -80px;'></div>", unsafe_allow_html=True)
         
-        # Placeholder for Step 4 (Analysis Logic)
-        if st.button("Analyze My Contract 🧠"):
-            st.write("Processing... (AI analysis will be integrated here)")
-            # go_to_step(4)
+        uploaded_file = st.file_uploader(
+            "Drag & drop your PDF here", 
+            type=["pdf"], 
+            label_visibility="collapsed"
+        )
+
+        if uploaded_file is not None:
+            st.success(f"'{uploaded_file.name}' ready for analysis! ✔️")
+            st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
             
-    if st.button("⬅ Back to Preferences"):
-        go_to_step(2)
+            # Action Button
+            if st.button("Upload & analyze →", type="primary", use_container_width=True):
+                # We'll save the file into session state for the next step
+                st.session_state.contract_file = uploaded_file
+                st.write("AI is analyzing your contract...")
+                # go_to_step(4)
+
+    st.markdown("<div style='margin: 40px;'></div>", unsafe_allow_html=True)
+
+    # --- Footer Navigation ---
+    f_left, f_mid, f_right = st.columns([1, 4, 1])
+    with f_left:
+        if st.button("Back", use_container_width=True):
+            go_to_step(2)
