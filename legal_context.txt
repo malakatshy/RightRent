@@ -1,0 +1,288 @@
+CHAPTER 1: LEASE (RENTAL)
+
+Article 1: Nature of a Lease
+A lease is a right granted for consideration (the “rent”) to possess an asset and use it on a non-permanent basis.
+
+Article 2: Scope of Application
+(a) This Chapter applies to the lease of immovable property (real estate) and movable property, and—with the necessary adaptations—also to the lease of rights.
+(b) This Chapter applies—with the necessary adaptations—also to subleases; for this purpose, the principal tenant is regarded as the landlord and the subtenant as the tenant.
+(c) This Chapter applies where no other law contains special provisions for the matter in question and where no different intention can be inferred from the parties’ agreement.
+
+Article 3: Matters Not Set in the Agreement
+Terms of a lease contract that were not agreed between the parties shall be determined according to the custom that the parties regarded as applicable based on prior transactions between them; if there is no such custom, then according to the custom that reasonable parties regard as applicable in transactions of the same type.
+
+Article 4: Good Faith
+An obligation arising from a lease contract must be performed in an accepted manner and in good faith; the same applies to the exercise of a right arising from the contract.
+
+CHAPTER 1, SECTION B: LANDLORD’S OBLIGATIONS
+
+Article 5: Delivery—Time and Place
+(a) The landlord must deliver the leased asset to the tenant by placing it at the tenant’s disposal.
+(b) If delivery within a specified period was agreed, the landlord may set the delivery date within that period. If no delivery date was agreed, delivery shall be within a reasonable time after the contract is formed. In these cases, the landlord must notify the tenant a reasonable time in advance of the delivery date.
+(c) Delivery shall take place at the location where the leased asset was located at the time the contract was formed.
+(d) If it was agreed that the landlord is responsible for transporting the leased asset, the delivery obligation is performed when the carrier delivers the asset to the tenant at the place agreed with the landlord.
+
+Article 6: Conformity of the Leased Asset and Reliance on Non-Conformity
+(a) The landlord shall deliver the leased asset in conformity with what was agreed between the landlord and the tenant.
+(b) Non-conformity of the leased asset is governed by Section 11 of the Sale Law, 1968, with the necessary adaptations (hereinafter: “non-conformity”), whether the source of the non-conformity is in the asset itself or in its environment.
+(c) The tenant is not entitled to rely on non-conformity in any of the following cases:
+(1) The tenant knew of the non-conformity when the lease contract was formed;
+(2) The tenant did not notify the landlord of the non-conformity within a reasonable time after discovering it or after the tenant should have discovered it, including a reasonable description of the non-conformity; this does not apply if the landlord knew or should have known of the non-conformity;
+(3) The tenant did not give the landlord a reasonable opportunity to inspect the leased asset and, insofar as reasonable in the circumstances, a reasonable opportunity to remedy the non-conformity.
+(d) Despite subsection (c), if the tenant did not meet one or more of the burdens in items (1)–(3), the tenant may still rely on the non-conformity to the extent that the failure did not prejudice the landlord.
+
+Article 6A: Conformity of Rights in the Leased Asset
+(a) The landlord shall provide the tenant with rights to possess and use the leased asset free of any right that conflicts with the tenant’s rights, including a third-party right. If the landlord provided such rights not free of a conflicting right, this shall be deemed non-conformity and the rules applicable to non-conformity shall apply, with the necessary adaptations. However, Article 6(c)(2) (regarding non-conformity in rights where the tenant did not notify within a reasonable time after the tenant should have discovered it) applies only to a lease that requires registration under Article 152 of the Tenant Protection Law [Consolidated Version], 1972.
+(b) The landlord shall prevent the existence of conflicting rights as stated in subsection (a) throughout the entire lease period.
+
+Article 7: Duty to Repair the Leased Asset
+(a) The landlord must, within a reasonable time after receiving a request from the tenant, repair in the leased asset—or in the landlord’s property serving the leased asset—anything that causes substantial interference with the ordinary use of the leased asset or with use as agreed between the landlord and the tenant (hereinafter: a “defect”), whether the defect existed at the time of delivery or arose later, except for:
+(1) a defect for which the tenant is responsible under the Guardians Law, 1967; or
+(2) a defect whose repair, under the agreement or customary practice in the circumstances, is not the landlord’s responsibility.
+(b) If the leased asset or the property serving it is movable property, the landlord may perform the duty under this Article by replacing the asset with another asset, provided this is reasonable in the circumstances.
+(c) If the leased asset or the property serving it is movable property and repairing the defect would involve an unreasonable disturbance to its use, the tenant is entitled to demand replacement instead of repair.
+(d) The costs of replacement under subsections (b) and (c) are borne by the landlord.
+(e) This Article does not apply to property leased under a “lease in perpetuity” (long-term leasehold) as defined in Article 3 of the Land Law, 1969.
+
+Article 8: Disclaimer or Limitation of Liability for Non-Conformity or Defect
+A clause in a lease contract that exempts the landlord from liability for non-conformity or a defect, or limits such liability, is void if the landlord knew or should have known of the non-conformity or defect at the time the contract was formed or at the time of delivery and did not inform the tenant.
+
+Article 9: Remedies for Failure to Repair a Defect or Non-Conformity
+(a) If the tenant demanded that the landlord repair the defect or non-conformity and the landlord did not repair it within a reasonable time from receiving the demand, the tenant may:
+(1) repair the defect or non-conformity and demand reimbursement of reasonable expenses from the landlord;
+(2) reduce the rent for as long as the defect or non-conformity has not been repaired, in proportion to the decrease in the rental value caused by the defect compared to the value under the contract.
+(b) If the tenant wishes to repair the defect or non-conformity, the tenant must notify the landlord a reasonable time in advance.
+(c) If the defect or non-conformity is urgent such that the tenant cannot reasonably be required to wait for the landlord to repair it, the tenant may repair it as in subsection (a)(1) without a demand under Article 7(a) or notice under subsection (b).
+(d) Despite Article 16A, the tenant may at any time repair a defect whose repair is not the landlord’s responsibility, provided the tenant gave the landlord a reasonable opportunity to repair it.
+
+Article 10: Defect Whose Repair Cannot Be Required
+If the defect resulted from circumstances that, at the time the contract was formed, the landlord did not know and should not have known, did not see and should not have been expected to foresee, and could not have prevented—and repairing the defect in those circumstances is impossible or would impose on the landlord an obligation fundamentally different from what the parties agreed—then the defect shall not be grounds for demanding repair, damages, or reimbursement of expenses under Article 9(a)(1).
+
+Article 11: Undisturbed Use
+The landlord must enable the tenant to use the leased asset during the lease period, as agreed between the parties, without interference by the landlord or anyone acting on the landlord’s behalf.
+
+CHAPTER 1, SECTION C: TENANT’S OBLIGATIONS
+
+Article 12: Duty to Accept Delivery
+The tenant must accept the leased asset into possession at the time and place stated in Article 5.
+
+Article 13: Rent
+(a) The tenant must pay the landlord the rent.
+(b) If the amount of rent or the method of determining it was not agreed, the rent shall be the amount that would have been appropriate in the circumstances at the time the contract was formed.
+
+Article 14: Time and Place of Payment
+(a) If rent was set as a fixed amount for fixed periods, the tenant shall pay it at the beginning of each period.
+(b) Rent shall be paid, by one of the accepted methods, at the landlord’s place of business; if the landlord has no place of business, then at the landlord’s residence.
+
+Article 15: Exemption from Paying Rent
+(a) If the leased asset is real estate and the tenant is prevented from using it for the purpose of the lease due to circumstances connected to the leased asset or the access routes to it, and the tenant did not cancel the contract for that reason, the tenant is exempt from paying rent for the period during which use was prevented. After a reasonable time in the circumstances, the landlord may cancel the contract, unless the tenant has notified the landlord beforehand that the tenant waives the exemption from paying rent.
+(b) The exemption applies only if, at the time the contract was formed, the tenant did not know and should not have known of the circumstances in subsection (a), did not see and should not have been expected to foresee them, and could not have prevented them.
+
+Article 16: Use of the Leased Asset
+The tenant shall not use the leased asset except as agreed; however, if that use was not stipulated as exclusive, the tenant may use the leased asset for another use, provided that it does not harm the leased asset or burden the landlord more than under the agreement.
+
+Article 16A: Alterations to the Leased Asset
+(a) The tenant may not make alterations to the leased asset unless the tenant obtained the landlord’s consent.
+(b) Despite subsection (a), and subject to the lease contract, a holder of a long-term leasehold (“lease in perpetuity”) as defined in Article 3 of the Land Law is entitled to make alterations to the leased property that do not diminish the property’s value, provided the lessee returns the property at the end of the lease period in accordance with Article 20A.
+
+Article 17: Inspection and Repairs by the Landlord
+The tenant must allow the landlord, at any reasonable time, to inspect the leased asset and carry out repairs in it, provided the landlord notifies the tenant a reasonable time in advance and minimizes interference with the tenant as much as possible.
+
+CHAPTER 1, SECTION D: LEASE TERM
+
+Article 18: Commencement of the Lease
+The lease term begins upon delivery of the leased asset to the tenant.
+
+Article 19: Termination of the Lease
+(a) If no lease term was agreed, or the parties continued the lease after the agreed term ended without setting a new term, either party may terminate the lease by giving the other party reasonable advance notice.
+(b) [Repealed.]
+
+Article 20: Return of the Leased Asset at the End of the Lease Term
+(a) At the end of the lease term, the tenant shall return the leased asset to the landlord, free of any person or property, except for the landlord’s property serving the leased asset.
+(b) Once the tenant returns the leased asset as stated in subsection (a), the landlord shall accept it.
+(c) If the leased asset is movable property, the tenant shall return it at the place where it was delivered to the tenant.
+
+Article 20A: Return of a Leased Asset After Alterations
+(a) If the tenant made alterations to the leased asset with the landlord’s consent, the tenant may choose between returning the leased asset as-is after the alterations or restoring it to its previous condition and returning it as it was before the alterations; if the tenant chooses to return it as-is, the tenant is not entitled to compensation for the alterations.
+(b) If the tenant made alterations without the landlord’s consent, the following apply:
+(1) If the landlord demands restoration, the tenant shall return the leased asset to the landlord as it was before the alterations; this does not derogate from the Unjust Enrichment Law, 1979;
+(2) If the alteration was made to real estate and involved construction of fixtures as defined in Article 21 of the Land Law, the provisions of Chapter D of that Law apply.
+
+CHAPTER 1, SECTION E: MISCELLANEOUS
+
+Article 21: Tenant’s Rights Against Third Parties
+(a) Once the lease right is granted to the tenant, it is effective against any person.
+(b) The landlord may transfer the landlord’s right in the leased asset to another (the “purchaser”); if so, the purchaser replaces the landlord regarding the landlord’s rights and obligations under the lease contract and by law, even if the purchaser did not know of the lease contract.
+(c) Any claim the tenant has against the landlord due to non-performance of obligations that applied to the landlord before completion of the transfer under subsection (b) shall also be valid against the purchaser.
+
+Article 22: Assignment and Sublease
+(a) The tenant may not assign to another the right to possess and use the leased asset, nor the tenant’s other obligations under the lease contract, and may not sublease the leased asset, except with the landlord’s consent. However, if the landlord withholds consent for unreasonable reasons or makes consent conditional on unreasonable terms, then:
+(1) in a lease of real estate, the tenant may carry out the transaction without the landlord’s consent;
+(2) in any lease, the court may authorize the transaction on terms it deems appropriate; and in a lease of real estate, the court may do so even contrary to the lease contract.
+(b) Consent under subsection (a), for a lease of real estate, must be given in advance and in writing.
+
+Article 23: General Remedies for Breach
+The remedies available to the parties under this Chapter are in addition to, and do not derogate from, the Contracts (Remedies for Breach of Contract) Law, 1970.
+
+Article 24: Application of the Guardians Law
+For the purposes of the Guardians Law, 1967, a tenant is regarded as a paid bailee where the purpose of safeguarding the asset is secondary to the primary purpose of possessing it.
+
+Article 25: Set-Off
+Mutual obligations that the parties owe each other due to the lease may be set off.
+
+CHAPTER 1, SECTION F: RESIDENTIAL LEASE AGREEMENT
+
+Article 25A: Definitions
+“Apartment” means a room or set of rooms used for residence.
+“The leased apartment” means the apartment leased under a residential lease agreement, including parts of the common property attached to it by attachment as defined in Article 55(a) and (c) of the Land Law, which were leased as part of the agreement.
+“Apartment unfit for residence” means an apartment in which one of the conditions listed in the First Schedule exists.
+“Residential lease agreement” means a lease agreement granting a lease right in an apartment for the purpose of residence.
+
+Article 25B: Form of a Residential Lease Agreement
+A residential lease agreement shall be made in writing and signed by the landlord and the tenant; however, non-compliance with this requirement does not impair the agreement’s validity. A signed copy of the agreement shall be delivered to each party.
+
+Article 25C: Content of a Residential Lease Agreement
+A residential lease agreement shall include, among other things, the details listed in the Second Schedule. The Minister of Justice, with approval of the Knesset’s Interior and Environmental Protection Committee, may amend the Second Schedule by order.
+
+Article 25D: Standard Form Agreement—Supplementation
+(a) The Minister of Justice may prescribe, by regulations, a standard form residential lease agreement (a “standard form agreement”).
+(b) If a standard form agreement is prescribed, then:
+(1) if a residential lease agreement was not made in accordance with Article 25B and the parties did not agree otherwise, the standard form agreement shall be deemed the residential lease agreement between the parties;
+(2) if a residential lease agreement lacks a provision that must be included under Article 25C and the parties did not agree otherwise, the provision on that matter included in the standard form agreement shall be deemed part of the residential lease agreement between the parties.
+
+Article 25E: Apartment Suitable for Residence
+The landlord shall deliver the leased apartment suitable for residence. Delivery of an apartment not suitable for residence contrary to this Article is governed by the rules applicable to non-conformity.
+
+Article 25F: Apartment Fit for Residence
+(a) The landlord shall deliver the leased apartment fit for residence. An apartment in which any condition listed in the First Schedule exists is deemed unfit for residence. The Minister of Justice, after consultation with the Minister of Construction and Housing and with approval of the Knesset’s Interior and Environmental Protection Committee, may amend the First Schedule by order.
+(b) If the landlord delivers an apartment that is unfit for residence, such delivery is deemed a breach of contract.
+
+Article 25G: Delivery of the Leased Apartment
+(a) The landlord shall deliver the leased apartment to the tenant, and the tenant shall accept it into possession, on the date agreed under the residential lease agreement.
+(b) Delivery shall be when the apartment is free of any person or property, except for property agreed to remain in the apartment at delivery.
+(c) No later than the delivery date, the landlord shall provide the tenant with maintenance and use instructions regarding the apartment, its installations, and the property within it, insofar as such instructions are required.
+
+Article 25H: Repair of Defects and Failures in the Leased Apartment
+(a) (1) The tenant is responsible for any failure in the leased apartment, including a defect, caused by unreasonable use of the apartment.
+(2) The tenant shall repair, at the tenant’s expense, a failure under item (1), unless the parties agreed otherwise.
+(b) Despite Article 7, the landlord shall repair, at the landlord’s expense, any other failure or defect in the leased apartment that is not covered by subsection (a) and is not minor, within a reasonable time and no later than 30 days from receiving the tenant’s demand; if the defect requires urgent repair, the landlord shall repair it within a reasonable time and no later than 3 days from receiving the demand. “Defect requiring urgent repair” means a defect that does not allow reasonable living in the apartment. This does not derogate from Article 9(c).
+(c) If the landlord does not repair a failure or defect within the period stated in subsection (b), Article 9(a) and (b) apply, with the necessary adaptations.
+
+Article 25T: Ongoing Payments Borne by the Tenant
+(a) The tenant shall bear the following payments for the lease period:
+(1) rent under the residential lease agreement;
+(2) taxes imposed on the holder/occupant of the apartment, including municipal property tax (arnona);
+(3) payments for consumption of ongoing services provided to the tenant in the apartment, including water, electricity, gas, and heating;
+(4) payments for routine maintenance paid to the building’s condominium/house committee or to a party contracted to manage and maintain the common property;
+(5) another type of payment as prescribed by the Minister.
+(b) The tenant shall not directly bear payments not listed in subsection (a), including:
+(1) payments intended for purchase or improvement of systems or fixed installations serving the leased apartment, except for special adaptations or improvements requested by the tenant;
+(2) insurance premiums for building (structure) insurance of the leased apartment;
+(3) payments the landlord owes to third parties that are not listed in subsection (a), including brokerage fees where the broker acted on the landlord’s behalf.
+(c) This Article does not derogate from the tenant’s duty to bear repair costs for failures under Article 25H(a).
+
+Article 25Y: Security (Guarantee)
+(a) In this Article, “security” means security provided to ensure the tenant’s obligations under a residential lease agreement.
+(b) If the landlord requests one or more forms of security that involve a financial expense to the tenant, including a bank guarantee or cash, the total amount of such security shall not exceed the lower of:
+(1) the rent the tenant undertook to pay under the residential lease agreement for one-third of the lease period;
+(2) an amount equal to three months’ rent that the tenant undertook to pay under the residential lease agreement.
+(c) The landlord may realize (enforce) the tenant’s security only in the following cases and up to the amounts specified:
+(1) the tenant did not pay rent on the contractual due date—up to the unpaid rent plus indexation and interest as set in the contract;
+(2) the tenant did not repair failures the tenant is responsible to repair under Article 25H(a)—up to the cost of repair;
+(3) the tenant did not pay the ongoing payments owed under Article 25T(a)(2)–(5)—up to the unpaid amounts;
+(4) the tenant did not vacate the leased apartment at the end of the lease term—in an amount according to the contract.
+(d) The landlord shall notify the tenant a reasonable time in advance of the intention to realize the security and shall allow the tenant to remedy what needs remedy within a reasonable time.
+(e) After the lease term ends, the landlord shall return the security or its remaining balance after realization, including its yields, within 60 days from the date the leased apartment is returned to the landlord’s possession, or by the date on which the tenant’s debts under subsection (c) are repaid—whichever is later.
+
+Article 25YA: Notice of Transfer of Rights in the Apartment
+If the landlord transfers the landlord’s rights in the leased apartment to another under Article 21(b), the landlord shall notify the tenant in writing before the date on which the landlord must deliver the apartment to the purchaser. The notice shall include the purchaser’s details and contact information.
+
+Article 25YB: Extension of the Lease Term
+(a) The landlord shall notify the tenant a reasonable time before the end of the lease term under the residential lease agreement whether the landlord wishes to extend the lease term and on what conditions.
+(b) If the landlord has an option to extend the lease term under the residential lease agreement, the landlord shall notify the tenant no later than 90 days before the end of the lease term whether the landlord intends to exercise the option; the landlord may exercise the option only if the contract set, in advance, terms regarding the extension period, and subject to those terms.
+(c) If the tenant has an option to extend the lease term under the residential lease agreement, the tenant shall notify the landlord no later than 60 days before the end of the lease term whether the tenant intends to exercise the option.
+
+Article 25YG: Clause Allowing Cancellation Without Cause
+(a) A clause in a residential lease agreement allowing the landlord to cancel the agreement other than due to breach is void unless the tenant also has an equivalent cancellation right.
+(b) The landlord shall notify the tenant of cancellation under such a clause at least 90 days in advance, and the tenant shall notify the landlord at least 60 days in advance.
+
+Article 25YD: Non-Derogable Provisions (No Contracting Out)
+Despite Article 2(c), in a residential lease agreement:
+(1) The parties may not derogate from Article 25F.
+(2) The parties may not derogate from Articles 6, 8–10, 15, 21(b)–(c), 23–25E, 25H(a)(1), (b)–(c), and 25T–25YG, except in the tenant’s favor.
+
+Article 25YE: Exceptions to Application
+(a) The provisions of this Section do not apply to a residential lease agreement in any of the following cases:
+(1) A residential lease agreement for an apartment that is:
+(A) an apartment in a hotel as defined in the Tourism Services Law, 1976, or another apartment leased for vacation purposes;
+(B) an apartment in a dormitory as defined in the Supervision of Dormitories Law, 1965;
+(C) an apartment in assisted living as defined in the Assisted Living Law, 2012;
+(D) an apartment in dormitories for students, pupils, or workers;
+(E) an apartment to which the Tenant Protection Law [Consolidated Version], 1972 applies;
+(2) a residential lease agreement with a lease term not exceeding three months and with no option to extend;
+(3) a residential lease agreement with a lease term exceeding ten years and with no option for the landlord to cancel earlier;
+(4) a residential lease agreement where monthly rent exceeds 20,000 NIS, or another amount set by the Minister of Justice with approval of the Knesset’s Interior and Environmental Protection Committee; the amount is updated on January 1 each year according to the change in the Consumer Price Index published by the Central Bureau of Statistics, known on the update date compared to the CPI known on January 1 of the previous year, rounded to the nearest amount that is a multiple of 10 NIS; the Minister of Justice will publish notice of the updated amount in the official gazette;
+(5) another type of residential lease agreement as set by the Minister of Justice with approval of the Knesset’s Interior and Environmental Protection Committee.
+(b) Article 25YD(2) does not apply to a residential lease agreement made between a landlord and a tenant who is the landlord’s relative. “Relative” means: spouse, brother, sister, parent, grandparent, descendant and spouse’s descendants, and the spouse of any of these.
+(c) Despite Article 2(b), where the tenant leased the leased apartment from the landlord for a period not exceeding ten years (the “principal tenant”) and the principal tenant sublet the apartment, in whole or in part, to a subtenant, then:
+(1) the landlord’s rights under Articles 16A(a) and 20A remain the landlord’s rights, not the principal tenant’s;
+(2) the obligations under Article 25H(b)–(c) apply to the landlord, not the principal tenant;
+(3) payments that do not apply to the tenant under Article 25T(b) do not apply to the principal tenant.
+
+CHAPTER 2: LOAN FOR USE (BAILMENT WITHOUT CONSIDERATION)
+
+Article 26: Nature of a Loan for Use
+A loan for use is a right to possess an asset and use it on a non-permanent basis, granted without consideration.
+
+Article 27: Application of Provisions
+Articles 2–5, 11, 12, 16A, 17, 18, 20, 20A, 21, and 25 apply, with the necessary adaptations, also to a loan for use.
+
+Article 28: Limitation of Remedies
+(a) Non-conformity of the borrowed asset is governed by Article 6, but it is not grounds for damages unless the lender knew of it when the contract was formed and the borrower did not know of it.
+(b) Breach of a loan-for-use contract is not grounds for a claim of specific performance.
+
+Article 29: Termination of the Loan for Use
+(a) The lender may cancel the loan-for-use contract as long as the asset has not been delivered to the borrower. The lender may also terminate the loan during its term if the borrower dies or if the asset is needed by the lender for the lender’s own use, provided the lender gives the borrower reasonable advance notice.
+(b) If no loan term was agreed, or the parties continued it after the agreed term ended without setting a new term, either party may terminate the loan by giving the other party reasonable advance notice.
+
+Article 30: Transfer of the Loan for Use
+The borrower may not transfer to another the right to possess and use the borrowed asset, nor lend it onward as a sub-loan, except with the lender’s consent.
+
+CHAPTER 3: MISCELLANEOUS
+
+Article 31: Use Without Possession
+The provisions of Chapter 1 apply, with the necessary adaptations, also to a right granted for consideration to use an asset without a right to possess it; and the provisions of Chapter 2 apply, with the necessary adaptations, to such a right granted without consideration.
+
+Article 32: Repeal
+The second book of the Majalla, insofar as it relates to the lease of assets, is repealed.
+
+Article 33: Amendment to the Land Law, 1969
+In the Land Law, 1969:
+(1) In Article 3, the words “in consideration of rent” are replaced with “for consideration”;
+(2) Article 82 is repealed;
+(3) In Article 83, the words “except for Article 82” are deleted.
+
+Article 34: Commencement and Transitional Provision
+This Law takes effect on 1 January 1972. For a transaction made before the commencement of this Law, the prior law continues to apply.
+
+SCHEDULE 1 (Articles 25A and 25F): APARTMENT UNFIT FOR RESIDENCE
+
+An apartment is unfit for residence if any of the following applies:
+(1) It does not include a drainage system, including a system for the regular disposal of sewage and wastewater.
+(2) It does not include an electrical system or a lighting system.
+(3) It lacks ventilation openings and natural lighting, as well as doors and windows to close those openings, including a main entrance door with a locking mechanism.
+(4) It does not include a system for supplying drinking water.
+(5) It does not include a partition between the toilet and the living area.
+(6) It involves an unreasonable risk to the tenant’s safety or health.
+
+SCHEDULE 2 (Article 25C): RESIDENTIAL LEASE AGREEMENT—REQUIRED DETAILS
+
+A residential lease agreement shall include, among other things:
+(1) The address of the leased apartment.
+(2) The parties’ names, ID numbers, and addresses.
+(3) A description of the leased apartment, furniture, and accessories in it, including a description of any attached parts of the common property leased with the apartment.
+(4) The lease term, whether an option to extend exists and its terms, and whether a right to cancel exists and the cancellation terms.
+(5) The rent amount, payment dates, and payment method.
+(6) Additional payments owed by the tenant (if any) that are not rent, and their amounts.
+(7) Any defect or other non-minor failure in the leased apartment known to the landlord at contract formation, and any other matter in the apartment, its environment, or a property serving it that causes or may cause substantial interference with use of the apartment and is known to the landlord at contract formation.
+(8) Additional details as prescribed by the Minister of Justice.
