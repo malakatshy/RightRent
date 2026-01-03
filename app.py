@@ -28,7 +28,6 @@ def highlight_pdf(original_pdf_bytes, analysis_json):
 
         if len(quote) > 3:
             for page in doc:
-                # ניסיון חיפוש ראשון: מדויק
                 text_instances = page.search_for(quote)
 
                 # ניסיון שני: אם לא נמצא, נחפש רק את 20 התווים הראשונים של הציטוט
