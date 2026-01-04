@@ -3,12 +3,13 @@ import streamlit as st
 import fitz
 import io
 import base64
+from streamlit_pdf_viewer import pdf_viewer
 
-def display_pdf(pdf_bytes):
-    """Embeds the PDF in an iframe for viewing in the browser."""
-    base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
+# def display_pdf(pdf_bytes):
+#     """Embeds the PDF in an iframe for viewing in the browser."""
+#     base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
+#     pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800" type="application/pdf"></iframe>'
+#     st.markdown(pdf_display, unsafe_allow_html=True)
 
 
 def highlight_pdf(original_pdf_bytes, analysis_json):
@@ -329,6 +330,7 @@ elif st.session_state.step == 3:
 
     if st.button("Back"): go_to_step(2)
 
+
 # ==========================================
 # Step 4: Review & Negotiation
 # ==========================================
@@ -342,9 +344,26 @@ elif st.session_state.step == 4:
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
+    if "highlighted_pdf" in st.session_state:
+        col_spacer, col_save, col_print = st.columns([6, 2, 2])
+
+        with col_save:
+            st.download_button(
+                label="💾 Save PDF",
+                data=st.session_state.highlighted_pdf,
+                file_name="RightRent_Analysis.pdf",
+                mime="application/pdf",
+                use_container_width=True
+            )
+
+        with col_print:
+            if st.button("🖨️ Print", use_container_width=True):
+                st.info("To print, use the printer icon in the PDF menu below. 👇")
+
     # --- PDF Viewer Section ---
     if "highlighted_pdf" in st.session_state:
-        display_pdf(st.session_state.highlighted_pdf)
+        # שימוש ב-viewer החדש שעוקף את חסימות Chrome ו-Edge
+        pdf_viewer(st.session_state.highlighted_pdf, height=750)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -361,7 +380,6 @@ elif st.session_state.step == 4:
             unsafe_allow_html=True)
 
         with st.container():
-            # Adjust margin-top if the popup is too high/low on your screen
             st.markdown(
                 "<div style='background-color: white; padding: 30px; border-radius: 15px; border: 1px solid #ddd; position: relative; z-index: 1000; margin-top: -700px;'>",
                 unsafe_allow_html=True)
@@ -371,7 +389,6 @@ elif st.session_state.step == 4:
 
             tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True)
 
-            # Using the fast DeepSeek logic for drafting
             draft_text = f"Hello, I have reviewed the rental agreement. Based on my preferences, I would like to discuss some points..."
 
             final_message = st.text_area("Edit your message:", value=draft_text, height=200)
@@ -382,7 +399,7 @@ elif st.session_state.step == 4:
                     st.session_state.show_popup = False
                     st.rerun()
             with c3:
-                whatsapp_url = f"[https://wa.me/?text=](https://wa.me/?text=){final_message.replace(' ', '%20')}"
+                whatsapp_url = f"https://wa.me/?text={final_message.replace(' ', '%20')}"
                 st.markdown(
                     f'<a href="{whatsapp_url}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:10px; text-align:center; font-weight:bold;">Send via WhatsApp</div></a>',
                     unsafe_allow_html=True)
