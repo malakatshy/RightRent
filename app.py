@@ -4,7 +4,7 @@ import fitz
 import io
 import base64
 from streamlit_pdf_viewer import pdf_viewer
-.
+
 # def display_pdf(pdf_bytes):
 #     """Embeds the PDF in an iframe for viewing in the browser."""
 #     base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
