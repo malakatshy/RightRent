@@ -38,7 +38,7 @@ def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
             # חילוץ בטוח של המספר (ניקוי פסיקים או סימני מטבע אם ה-AI טעה והחזיר מחרוזת)
             raw_rent = risk.get("rent_amount", 0)
             try:
-                rent_amount = float(str(raw_rent).replace(',', '').replace('$', '').strip())
+                rent_amount = float(str(raw_rent).replace(',', '').replace('$', '').replace('₪', '').strip())
             except ValueError:
                 rent_amount = 0
 
@@ -124,8 +124,9 @@ def analyze_contract(contract_text, user_prefs):
     ### ANALYSIS PROTOCOL:
 
     **STEP 1 - BUDGET CHECK (MANDATORY):**
-    - Find the monthly rent amount in the contract.
-    - User's maximum budget is: ${user_prefs.get('budget', 'Not specified')} per month.
+    - Find the monthly rent amount in the contract (usually in NIS/Shekels).
+    - User's maximum budget is: ₪{user_prefs.get('budget', 'Not specified')} per month.
+    - Ensure you convert or recognize the currency correctly as Israeli New Shekels (NIS).
     - ONLY if rent is GREATER than budget → Include with preference_category "budget".
     - Do NOT include rent if it is LESS THAN or EQUAL TO the budget - this is fine!
 
@@ -254,7 +255,16 @@ st.markdown("""
 if 'step' not in st.session_state:
     st.session_state.step = 1
 if 'user_prefs' not in st.session_state:
-    st.session_state.user_prefs = {}
+    # הגדרת ערכי ברירת מחדל התחלתיים
+    st.session_state.user_prefs = {
+        "rent_increase": "Low",
+        "termination": "Low",
+        "repairs": "High",
+        "pets": "Low",
+        "subletting": "Low",
+        "deposit": "High",
+        "budget": 2500
+    }
 
 
 # --- Navigation ---
@@ -262,6 +272,40 @@ def go_to_step(step_number):
     st.session_state.step = step_number
     st.rerun()
 
+
+def generate_negotiation_message(selected_items, tone):
+    """
+    Generates a negotiation message from the tenant's first-person perspective.
+    Ensures a consistent sign-off and WhatsApp formatting.
+    """
+    issues_summary = "\n".join([f"- {item['issue_name']}: {item['explanation']}" for item in selected_items])
+
+    system_prompt = f"""
+    You are the TENANT. Write a {tone} message to your potential landlord.
+    Focus ONLY on these issues: 
+    {issues_summary}
+
+    ### CRITICAL IDENTITY RULES:
+    - ALWAYS write in the FIRST person (use "I", "my", "me", "mine").
+    - NEVER speak as an advocate, lawyer, or third party.
+
+    ### WHATSAPP FORMATTING:
+    - Use single asterisks for bold: *Text*.
+    - No Markdown headers (#).
+    - Clear line breaks between paragraphs.
+
+    ### MANDATORY SIGN-OFF:
+    - You MUST end the message EXACTLY with:
+      Best regards,
+      [Your Name]
+    """
+
+    response = client.chat.completions.create(
+        model="deepseek-chat",
+        messages=[{"role": "system", "content": system_prompt}],
+        stream=False
+    )
+    return response.choices[0].message.content
 
 # ==========================================
 # Step 1: Welcome & Homepage
@@ -337,7 +381,6 @@ if st.session_state.step == 1:
 # Step 2: Personal Preferences
 # ==========================================
 elif st.session_state.step == 2:
-    # Header
     header_left, header_right = st.columns([8, 2])
     with header_left:
         col_icon, col_brand = st.columns([0.4, 10])
@@ -350,7 +393,6 @@ elif st.session_state.step == 2:
         "<p style='color: gray; font-size: 17px;'>Your preferences help identify clauses that may not match your needs.</p>",
         unsafe_allow_html=True)
 
-    # Main Grid
     col_ratings, col_budget = st.columns([1.6, 1])
 
     with col_ratings:
@@ -359,39 +401,48 @@ elif st.session_state.step == 2:
             unsafe_allow_html=True)
 
 
-        def importance_row(label, key, help_text):
+        # פונקציה מעודכנת שזוכרת את הבחירה הקודמת
+        def importance_row(label, key, category_name, help_text):
+            options = ["Low", "Medium", "High"]
+            # מציאת האינדקס של הערך השמור כיום בזיכרון
+            current_val = st.session_state.user_prefs.get(category_name, "Medium")
+            default_index = options.index(current_val)
+
             c_label, c_input = st.columns([2, 1])
             with c_label:
                 st.markdown(
                     f"<p style='margin-top: 12px; font-size: 15px;'>{label} <span title='{help_text}' style='cursor: help; color: #2E7D32;'>(?)</span></p>",
                     unsafe_allow_html=True)
             with c_input:
-                return st.radio(label, ["Low", "Medium", "High"], key=key, horizontal=True,
+                return st.radio(label, options, index=default_index, key=key, horizontal=True,
                                 label_visibility="collapsed")
 
 
-        rent_inc = importance_row("📈 Rent increase limitations", "rent_inc", "Limit rent increases")
-        termination = importance_row("🕒 Early termination flexibility", "term", "Break lease early")
-        repairs = importance_row("🔧 Repairs responsibility", "repairs", "Landlord covers repairs")
-        pets = importance_row("🐾 Pets policy", "pets", "Pets in property")
-        subletting = importance_row("👥 Subletting permissions", "sublet", "Renting to rooms")
-        deposit = importance_row("🛡️ Deposit & guarantees", "deposit", "Security deposit fairness")
+        # קריאה לפונקציות עם מיפוי לקטגוריות הנכונות
+        rent_inc = importance_row("📈 Rent increase limitations", "rent_inc", "rent_increase", "Limit rent increases")
+        termination = importance_row("🕒 Early termination flexibility", "term", "termination", "Break lease early")
+        repairs = importance_row("🔧 Repairs responsibility", "repairs", "repairs", "Landlord covers repairs")
+        pets = importance_row("🐾 Pets policy", "pets", "pets", "Pets in property")
+        subletting = importance_row("👥 Subletting permissions", "sublet", "subletting", "Renting to rooms")
+        deposit = importance_row("🛡️ Deposit & guarantees", "deposit", "deposit", "Security deposit fairness")
 
     with col_budget:
         st.markdown(
             "<div style='border: 1px solid #E6E9EF; padding: 15px; border-radius: 10px; background-color: white;'><b>Budget</b><br><small style='color:gray;'>Maximum monthly rent</small></div>",
             unsafe_allow_html=True)
-        budget = st.number_input("Budget", min_value=0, step=100, value=2500, label_visibility="collapsed")
-        st.markdown("<p style='color: gray; font-size: 12px; margin-top: -5px;'>Max amount in $</p>",
+        # שימוש בערך השמור בזיכרון כברירת מחדל
+        budget = st.number_input("Budget", min_value=0, step=100, value=st.session_state.user_prefs.get("budget", 2500),
+                                 label_visibility="collapsed")
+        st.markdown("<p style='color: gray; font-size: 12px; margin-top: -5px;'>Max amount in ₪ (NIS)</p>",
                     unsafe_allow_html=True)
 
-    # Footer
     st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
     f_left, f_mid, f_right = st.columns([1, 4, 1])
     with f_left:
         if st.button("Back", use_container_width=True): go_to_step(1)
     with f_right:
         if st.button("Next", use_container_width=True, type="primary"):
+            # שמירה סופית לזיכרון לפני מעבר דף
             st.session_state.user_prefs = {
                 "rent_increase": rent_inc,
                 "termination": termination,
@@ -457,6 +508,29 @@ elif st.session_state.step == 3:
 # Step 4: Review & Negotiation
 # ==========================================
 elif st.session_state.step == 4:
+    # --- CSS for a clean "Popup" look without breaking widgets ---
+    st.markdown("""
+        <style>
+        .negotiation-box {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 15px;
+            border: 2px solid #2E7D32;
+            margin-top: 20px;
+        }
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white !important;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            display: block;
+            text-decoration: none;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
     header_left, header_right = st.columns([8, 2])
     with header_left:
         col_icon, col_brand = st.columns([0.4, 10])
@@ -466,94 +540,103 @@ elif st.session_state.step == 4:
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
-    # --- שורת כפתורי פעולה עליונה ---
+    # 1. Show PDF and Justifications first
     if "highlighted_pdf" in st.session_state:
-        col_spacer, col_save, col_print = st.columns([6, 2, 2])
+        pdf_viewer(st.session_state.highlighted_pdf, height=500)
 
-        with col_save:
-            st.download_button(
-                label="💾 Save PDF",
-                data=st.session_state.highlighted_pdf,
-                file_name="RightRent_Analysis.pdf",
-                mime="application/pdf",
-                use_container_width=True
-            )
-
-        with col_print:
-            if st.button("🖨️ Print", use_container_width=True):
-                st.info("To print, use the printer icon in the PDF menu below. 👇")
-
-    # --- PDF Viewer Section (פתרון חסין דפדפנים) ---
-    if "highlighted_pdf" in st.session_state:
-        # הצגת החוזה המסומן
-        pdf_viewer(st.session_state.highlighted_pdf, height=750)
-
-    # =============================================================
-    # חדש: סעיף Explainable AI (XAI) - שקיפות והסברים
-    # =============================================================
     st.markdown("---")
     st.markdown("### 🔍 Clause Justifications (Explainable AI)")
-    st.caption("Our AI provides reasoning for every highlight to ensure transparency and trust.")
 
     import json
 
-    if "analysis_results" in st.session_state:
-        try:
-            # ניקוי ה-JSON ופירוק הממצאים
-            clean_json = st.session_state.analysis_results.replace("```json", "").replace("```", "").strip()
-            analysis_data = json.loads(clean_json)
+    clean_json = st.session_state.analysis_results.replace("```json", "").replace("```", "").strip()
+    analysis_data = json.loads(clean_json)
 
-            # יצירת כרטיס הסבר לכל ממצא
-            for item in analysis_data:
-                # קביעת האייקון לפי רמת הסיכון (אדום להפרות חוק או תקציב)
-                is_violation = item.get("is_legal_violation", False)
-                is_budget = item.get("preference_category") == "budget"
-                icon = "🔴" if (is_violation or is_budget) else "🟡"
-
-                with st.expander(f"{icon} {item.get('issue_name')}"):
-                    st.write(f"**Justification:** {item.get('explanation')}")
-                    st.write(f"**Negotiation Tip:** {item.get('negotiation_tip')}")
-                    st.info(f"**Verbatim Clause:** \"{item.get('exact_quote')}\"")
-        except:
-            st.info("Additional justifications are being processed.")
+    for item in analysis_data:
+        is_violation = item.get("is_legal_violation", False)
+        icon = "🔴" if (is_violation or item.get("preference_category") == "budget") else "🟡"
+        with st.expander(f"{icon} {item.get('issue_name')}"):
+            st.write(f"**Justification:** {item.get('explanation')}")
+            st.write(f"**Negotiation Tip:** {item.get('negotiation_tip')}")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # --- Negotiation Trigger ---
-    col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
-    with col_btn2:
-        if st.button("Generate message to landlord", type="primary", use_container_width=True):
-            st.session_state.show_popup = True
+    # 2. Handle the "Generate Message" Workflow
+    if not st.session_state.get('show_popup', False):
+        col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
+        with col_btn2:
+            if st.button("Generate message to landlord", type="primary", use_container_width=True):
+                st.session_state.show_popup = True
+                st.rerun()
+    else:
+        # --- THIS IS THE "POPUP" SECTION ---
+        st.markdown("<div class='negotiation-box'>", unsafe_allow_html=True)
+        st.subheader("✉️ Draft Negotiation Message")
 
-    # --- Negotiation Pop-up Window (הקוד הקיים שלך) ---
-    if st.session_state.get('show_popup', False):
-        st.markdown(
-            "<div style='background-color: rgba(0,0,0,0.5); position: fixed; top:0; left:0; width:100%; height:100%; z-index:999;'></div>",
-            unsafe_allow_html=True)
+        # CLOSE BUTTON
+        if st.button("✖️ Close"):
+            st.session_state.show_popup = False
+            st.session_state.pop_generated_msg = ""
+            st.rerun()
 
-        with st.container():
-            st.markdown(
-                "<div style='background-color: white; padding: 30px; border-radius: 15px; border: 1px solid #ddd; position: relative; z-index: 1000; margin-top: -700px;'>",
-                unsafe_allow_html=True)
+        st.write("---")
 
-            st.subheader("Draft message to landlord")
-            st.caption("Based on the highlighted clauses in your contract")
-            tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True)
-            draft_text = f"Hello, I have reviewed the rental agreement. Based on my preferences, I would like to discuss some points..."
-            final_message = st.text_area("Edit your message:", value=draft_text, height=200)
+        # PHASE 1: PREFERENCES
+        st.write("**1. Choose which issues to include:**")
+        selected_items = []
+        c1, c2 = st.columns(2)
+        for idx, item in enumerate(analysis_data):
+            target_col = c1 if idx % 2 == 0 else c2
+            with target_col:
+                if st.checkbox(item['issue_name'], value=True, key=f"sel_{idx}"):
+                    selected_items.append(item)
 
-            c1, c2, c3 = st.columns([1, 1, 2])
-            with c1:
-                if st.button("Cancel"):
-                    st.session_state.show_popup = False
+        st.write("**2. Choose tone:**")
+        chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
+
+        # PHASE 2: GENERATION
+        if st.button("Generate/Update Draft ✨", use_container_width=True):
+            if not selected_items:
+                st.error("Please select at least one issue to negotiate.")
+            else:
+                with st.spinner("AI is writing your message..."):
+                    # Generate the new message
+                    new_draft = generate_negotiation_message(selected_items, chosen_tone)
+
+                    # Store in temporary state
+                    st.session_state.pop_generated_msg = new_draft
+
+                    # FORCE the text area to refresh by updating its session state key
+                    st.session_state.negotiation_text = new_draft
                     st.rerun()
-            with c3:
-                whatsapp_url = f"https://wa.me/?text={final_message.replace(' ', '%20')}"
-                st.markdown(
-                    f'<a href="{whatsapp_url}" target="_blank" style="text-decoration:none;"><div style="background-color:#25D366; color:white; padding:10px; border-radius:10px; text-align:center; font-weight:bold;">Send via WhatsApp</div></a>',
-                    unsafe_allow_html=True)
-            st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("<br>", unsafe_allow_html=True)
+        # PHASE 3: EDITING & SENDING
+        if st.session_state.get("pop_generated_msg"):
+            st.markdown("---")
+            st.write("**3. Review and edit your message:**")
+
+            # The 'value' is ignored by Streamlit if the 'key' already exists in state,
+            # which is why we manually updated the state in Phase 2 above.
+            st.text_area(
+                "Final Message:",
+                height=250,
+                key="negotiation_text"
+            )
+
+            # Capture the current state of the text area (including user edits)
+            final_to_send = st.session_state.negotiation_text
+
+            import urllib.parse
+
+            whatsapp_url = f"https://wa.me/?text={urllib.parse.quote(final_to_send)}"
+
+            st.markdown(
+                f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">'
+                f'Send via WhatsApp</a>',
+                unsafe_allow_html=True
+            )
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
     if st.button("Back"):
         go_to_step(3)
