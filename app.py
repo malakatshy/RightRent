@@ -222,34 +222,42 @@ def extract_text_from_pdf(uploaded_file):
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="RightRent - Rental Agreement Analysis",
+    page_title="RightRent",
     page_icon="icon_page.png",
     layout="wide"
 )
 
-# --- Updated CSS for Logo Safety and Layout ---
+
+# --- Updated CSS for Logo Alignment and Layout ---
 st.markdown("""
     <style>
-        /* Increase top padding to prevent logo clipping */
-        .block-container {
-            padding-top: 3.5rem; 
-            padding-bottom: 1rem;
-        }
-        /* Vertical alignment for the header */
+        .block-container { padding-top: 3.5rem; padding-bottom: 1rem; }
+
+        /* Ensures everything in a column is perfectly centered vertically */
         [data-testid="column"] {
             display: flex;
             align-items: center;
+            align-content: center;
         }
-        /* Tighten headers */
-        h1 { margin-top: 0px !important; padding-top: 5px; }
-        h3 { margin-bottom: 0px !important; }
 
-        /* General gap control */
-        [data-testid="stVerticalBlock"] {
-            gap: 0.7rem;
+        /* Removes default margins from headers that cause "jumps" in height */
+        h1, h2, h3 { 
+            margin: 0px !important; 
+            padding: 0px !important; 
+            display: flex;
+            align-items: center;
         }
+
+        [data-testid="stVerticalBlock"] { gap: 0.7rem; }
+
+        /* Tooltip styles (keep your existing ones) */
+        .tooltip { position: relative; display: inline-block; cursor: pointer; color: #2E7D32; font-weight: bold; margin-left: 5px; }
+        .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.2s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
+        .tooltip:hover .tooltiptext, .tooltip:active .tooltiptext { visibility: visible; opacity: 1; }
     </style>
 """, unsafe_allow_html=True)
+
+
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
@@ -259,11 +267,11 @@ if 'user_prefs' not in st.session_state:
     st.session_state.user_prefs = {
         "rent_increase": "Low",
         "termination": "Low",
-        "repairs": "High",
+        "repairs": "Low",
         "pets": "Low",
         "subletting": "Low",
-        "deposit": "High",
-        "budget": 2500
+        "deposit": "Low",
+        "budget": 0
     }
 
 
@@ -307,6 +315,28 @@ def generate_negotiation_message(selected_items, tone):
     )
     return response.choices[0].message.content
 
+
+def importance_row(label, key, category_name, help_text):
+    options = ["Low", "Medium", "High"]
+    current_val = st.session_state.user_prefs.get(category_name, "Medium")
+    default_index = options.index(current_val)
+
+    c_label, c_input = st.columns([2, 1])
+    with c_label:
+        st.markdown(
+            f"""
+            <div style='margin-top: 12px; font-size: 15px;'>
+                {label}
+                <div class="tooltip">(?)
+                    <span class="tooltiptext">{help_text}</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+    with c_input:
+        return st.radio(label, options, index=default_index, key=key, horizontal=True,
+                        label_visibility="collapsed")
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
@@ -314,17 +344,20 @@ if st.session_state.step == 1:
     # --- Top Navigation Bar ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
-        # Adjusted column widths for better logo/text proximity
-        col_icon, col_brand = st.columns([0.4, 10])
+        # Use columns to put icon and text side-by-side
+        col_icon, col_brand = st.columns([0.5, 9.5])
         with col_icon:
-            st.image("icon_page.png", width=35)
+            st.image("icon_page.svg", width=45)
         with col_brand:
-            # Removed negative margin to prevent top-clipping
-            st.markdown("<h3 style='color: #2E7D32; font-weight: 600; line-height: 1;'>RightRent</h3>",
-                        unsafe_allow_html=True)
+            st.markdown(
+                "<h2 style='color: #2E7D32; font-weight: 700; font-size: 32px; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
+                unsafe_allow_html=True)
+
     with header_right:
-        st.markdown("<p style='text-align: right; color: black; font-weight: 500; margin: 0;'>About / Help</p>",
-                    unsafe_allow_html=True)
+        # Keep your existing "About / Help" or other right-side content
+        if st.session_state.step == 1:
+            st.markdown("<p style='text-align: right; color: black; font-weight: 500; margin: 0;'>About / Help</p>",
+                        unsafe_allow_html=True)
 
     # --- Hero Section ---
     st.markdown(
@@ -381,18 +414,22 @@ if st.session_state.step == 1:
 # Step 2: Personal Preferences
 # ==========================================
 elif st.session_state.step == 2:
+    # --- Header Section ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
         col_icon, col_brand = st.columns([0.4, 10])
-        with col_icon: st.image("icon_page.png", width=35)
-        with col_brand: st.markdown("<h3 style='color: #2E7D32; font-weight: 600; line-height: 1;'>RightRent</h3>",
-                                    unsafe_allow_html=True)
+        with col_icon:
+            st.image("icon_page.png", width=35)
+        with col_brand:
+            st.markdown("<h3 style='color: #2E7D32; font-weight: 600; line-height: 1;'>RightRent</h3>",
+                        unsafe_allow_html=True)
 
     st.markdown("<h1 style='font-size: 32px;'>Tell us what matters to you</h1>", unsafe_allow_html=True)
     st.markdown(
         "<p style='color: gray; font-size: 17px;'>Your preferences help identify clauses that may not match your needs.</p>",
         unsafe_allow_html=True)
 
+    # --- Main Selection Area ---
     col_ratings, col_budget = st.columns([1.6, 1])
 
     with col_ratings:
@@ -400,49 +437,66 @@ elif st.session_state.step == 2:
             "<div style='border: 1px solid #E6E9EF; padding: 15px; border-radius: 10px; background-color: white;'><b>Importance ratings</b></div>",
             unsafe_allow_html=True)
 
+        # Calling the global importance_row function defined at the top of the script
+        rent_inc = importance_row(
+            "📈 Rent increase limitations", "rent_inc", "rent_increase",
+            "<b>How important is price stability?</b><br> <b>🔴High:</b> if you need the rent to stay fixed.<br> <b>🟢Low:</b> if you are okay with price adjustments during the term."
+        )
 
-        # פונקציה מעודכנת שזוכרת את הבחירה הקודמת
-        def importance_row(label, key, category_name, help_text):
-            options = ["Low", "Medium", "High"]
-            # מציאת האינדקס של הערך השמור כיום בזיכרון
-            current_val = st.session_state.user_prefs.get(category_name, "Medium")
-            default_index = options.index(current_val)
+        termination = importance_row(
+            "🕒 Early termination flexibility", "term", "termination",
+            "<b>Do you need an exit strategy?</b><br><b>🔴High:</b> if your plans might change and you must be able to leave early.<br><b>🟢Low:</b> if you commit to the full period."
+        )
 
-            c_label, c_input = st.columns([2, 1])
-            with c_label:
-                st.markdown(
-                    f"<p style='margin-top: 12px; font-size: 15px;'>{label} <span title='{help_text}' style='cursor: help; color: #2E7D32;'>(?)</span></p>",
-                    unsafe_allow_html=True)
-            with c_input:
-                return st.radio(label, options, index=default_index, key=key, horizontal=True,
-                                label_visibility="collapsed")
+        repairs = importance_row(
+            "🔧 Repairs responsibility", "repairs", "repairs",
+            "<b>Want to avoid maintenance 'headaches'?</b><br> <b>🔴High:</b> if you want the landlord to handle every repair.<br><b>🟢Low:</b> if you don't mind fixing minor things yourself."
+        )
 
+        pets = importance_row(
+            "🐾 Pets policy", "pets", "pets",
+            "<b>Are you moving in with a pet?</b><br> <b>🔴High:</b> if a 'no pets' rule is a deal-breaker. <br><b>🟢Low:</b> if this doesn't apply to you."
+        )
 
-        # קריאה לפונקציות עם מיפוי לקטגוריות הנכונות
-        rent_inc = importance_row("📈 Rent increase limitations", "rent_inc", "rent_increase", "Limit rent increases")
-        termination = importance_row("🕒 Early termination flexibility", "term", "termination", "Break lease early")
-        repairs = importance_row("🔧 Repairs responsibility", "repairs", "repairs", "Landlord covers repairs")
-        pets = importance_row("🐾 Pets policy", "pets", "pets", "Pets in property")
-        subletting = importance_row("👥 Subletting permissions", "sublet", "subletting", "Renting to rooms")
-        deposit = importance_row("🛡️ Deposit & guarantees", "deposit", "deposit", "Security deposit fairness")
+        subletting = importance_row(
+            "👥 Subletting permissions", "sublet", "subletting",
+            "<b>Need flexibility to share or rent out your space?</b><br>"
+            "<b>🔴High:</b> if you might need to bring in a roommate or sublet the apartment while you travel. <br>"
+            "<b>🟢Low:</b> if you plan to be the sole resident."
+        )
+
+        deposit = importance_row(
+            "🛡️ Deposit & guarantees", "deposit", "deposit",
+            "<b>Is your upfront budget limited?</b><br> <b>🔴High:</b> if you cannot provide high bank guarantees or large cash deposits. <br> <b>🟢Low:</b> if you have the liquidity."
+        )
 
     with col_budget:
         st.markdown(
             "<div style='border: 1px solid #E6E9EF; padding: 15px; border-radius: 10px; background-color: white;'><b>Budget</b><br><small style='color:gray;'>Maximum monthly rent</small></div>",
             unsafe_allow_html=True)
-        # שימוש בערך השמור בזיכרון כברירת מחדל
-        budget = st.number_input("Budget", min_value=0, step=100, value=st.session_state.user_prefs.get("budget", 2500),
-                                 label_visibility="collapsed")
+
+        # Default value pulled from session state
+        budget = st.number_input(
+            "Budget",
+            min_value=0,
+            step=100,
+            value=st.session_state.user_prefs.get("budget", 2500),
+            label_visibility="collapsed"
+        )
         st.markdown("<p style='color: gray; font-size: 12px; margin-top: -5px;'>Max amount in ₪ (NIS)</p>",
                     unsafe_allow_html=True)
 
+    # --- Navigation Buttons ---
     st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
     f_left, f_mid, f_right = st.columns([1, 4, 1])
+
     with f_left:
-        if st.button("Back", use_container_width=True): go_to_step(1)
+        if st.button("Back", use_container_width=True):
+            go_to_step(1)
+
     with f_right:
         if st.button("Next", use_container_width=True, type="primary"):
-            # שמירה סופית לזיכרון לפני מעבר דף
+            # Update session state with the current selections before moving to Step 3
             st.session_state.user_prefs = {
                 "rent_increase": rent_inc,
                 "termination": termination,
@@ -599,42 +653,43 @@ elif st.session_state.step == 4:
             if not selected_items:
                 st.error("Please select at least one issue to negotiate.")
             else:
-                with st.spinner("AI is writing your message..."):
-                    # Generate the new message
+                with st.spinner("AI is writing..."):
                     new_draft = generate_negotiation_message(selected_items, chosen_tone)
-
-                    # Store in temporary state
                     st.session_state.pop_generated_msg = new_draft
-
-                    # FORCE the text area to refresh by updating its session state key
                     st.session_state.negotiation_text = new_draft
+                    # Reset confirmation status when a new draft is made
+                    st.session_state.is_confirmed = False
                     st.rerun()
 
-        # PHASE 3: EDITING & SENDING
+        # PHASE 3: EDITING & CONFIRMING
         if st.session_state.get("pop_generated_msg"):
             st.markdown("---")
             st.write("**3. Review and edit your message:**")
 
-            # The 'value' is ignored by Streamlit if the 'key' already exists in state,
-            # which is why we manually updated the state in Phase 2 above.
-            st.text_area(
-                "Final Message:",
-                height=250,
-                key="negotiation_text"
-            )
+            # Use a key to track manual edits in session state
+            st.text_area("Final Message:", height=200, key="negotiation_text")
 
-            # Capture the current state of the text area (including user edits)
-            final_to_send = st.session_state.negotiation_text
+            # The NEW Confirm Button
+            if st.button("✅ Confirm My Edits", use_container_width=True):
+                # Save the current state of the text area into a 'confirmed' variable
+                st.session_state.confirmed_final_msg = st.session_state.negotiation_text
+                st.session_state.is_confirmed = True
+                st.success("Edits confirmed! Click below to send via WhatsApp.")
 
-            import urllib.parse
+            # PHASE 4: SENDING (Only visible after confirmation)
+            if st.session_state.get("is_confirmed", False):
+                import urllib.parse
 
-            whatsapp_url = f"https://wa.me/?text={urllib.parse.quote(final_to_send)}"
+                # Pull the strictly confirmed message
+                final_to_send = st.session_state.confirmed_final_msg
+                encoded_msg = urllib.parse.quote(final_to_send)
+                whatsapp_url = f"https://wa.me/?text={encoded_msg}"
 
-            st.markdown(
-                f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">'
-                f'Send via WhatsApp</a>',
-                unsafe_allow_html=True
-            )
+                st.markdown(
+                    f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">'
+                    f'Send via WhatsApp</a>',
+                    unsafe_allow_html=True
+                )
 
         st.markdown("</div>", unsafe_allow_html=True)
 
