@@ -223,40 +223,40 @@ def extract_text_from_pdf(uploaded_file):
 # --- Page Configuration ---
 st.set_page_config(
     page_title="RightRent",
-    page_icon="icon_page.png",
+    page_icon="icon_page.svg",
     layout="wide"
 )
 
-
-# --- Updated CSS for Logo Alignment and Layout ---
+# --- Updated CSS for Fair Logo Proximity ---
 st.markdown("""
     <style>
         .block-container { padding-top: 3.5rem; padding-bottom: 1rem; }
 
-        /* Ensures everything in a column is perfectly centered vertically */
         [data-testid="column"] {
             display: flex;
             align-items: center;
-            align-content: center;
         }
 
-        /* Removes default margins from headers that cause "jumps" in height */
         h1, h2, h3 { 
             margin: 0px !important; 
             padding: 0px !important; 
-            display: flex;
-            align-items: center;
+            color: #308C14 !important; /* RightRent Green */
+        }
+
+        /* Pulls text closer without overlapping the icon */
+        .brand-text {
+            margin-left: -15px !important; 
+            white-space: nowrap;
         }
 
         [data-testid="stVerticalBlock"] { gap: 0.7rem; }
 
-        /* Tooltip styles (keep your existing ones) */
-        .tooltip { position: relative; display: inline-block; cursor: pointer; color: #2E7D32; font-weight: bold; margin-left: 5px; }
-        .tooltip .tooltiptext { visibility: hidden; width: 220px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.2s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
+        /* Tooltip styles */
+        .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
+        .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
         .tooltip:hover .tooltiptext, .tooltip:active .tooltiptext { visibility: visible; opacity: 1; }
     </style>
 """, unsafe_allow_html=True)
-
 
 
 # --- Initialize Session State ---
@@ -337,20 +337,24 @@ def importance_row(label, key, category_name, help_text):
     with c_input:
         return st.radio(label, options, index=default_index, key=key, horizontal=True,
                         label_visibility="collapsed")
+
+
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
 if st.session_state.step == 1:
     # --- Top Navigation Bar ---
+    # --- Standardized Header Layout ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
-        # Use columns to put icon and text side-by-side
-        col_icon, col_brand = st.columns([0.5, 9.5])
+        # Using 0.06 to give the icon a bit more room
+        col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
             st.image("icon_page.svg", width=45)
         with col_brand:
+            # Styled h2 with the brand-text class
             st.markdown(
-                "<h2 style='color: #2E7D32; font-weight: 700; font-size: 32px; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
+                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
                 unsafe_allow_html=True)
 
     with header_right:
@@ -414,15 +418,18 @@ if st.session_state.step == 1:
 # Step 2: Personal Preferences
 # ==========================================
 elif st.session_state.step == 2:
-    # --- Header Section ---
+    # --- Standardized Header Logic ---
+    # --- Standardized Header Layout ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
-        col_icon, col_brand = st.columns([0.4, 10])
+        col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
-            st.image("icon_page.png", width=35)
+            st.image("icon_page.svg", width=45)
         with col_brand:
-            st.markdown("<h3 style='color: #2E7D32; font-weight: 600; line-height: 1;'>RightRent</h3>",
-                        unsafe_allow_html=True)
+            # Styled h2 with the brand-text class
+            st.markdown(
+                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
+                unsafe_allow_html=True)
 
     st.markdown("<h1 style='font-size: 32px;'>Tell us what matters to you</h1>", unsafe_allow_html=True)
     st.markdown(
@@ -511,12 +518,17 @@ elif st.session_state.step == 2:
 # Step 3: Contract Upload
 # ==========================================
 elif st.session_state.step == 3:
+    # --- Standardized Header Logic ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
-        col_icon, col_brand = st.columns([0.4, 10])
-        with col_icon: st.image("icon_page.png", width=35)
-        with col_brand: st.markdown("<h3 style='color: #2E7D32; font-weight: 600;'>RightRent</h3>",
-                                    unsafe_allow_html=True)
+        col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
+        with col_icon:
+            st.image("icon_page.svg", width=45)
+        with col_brand:
+            # Styled h2 with the brand-text class
+            st.markdown(
+                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
+                unsafe_allow_html=True)
 
     st.markdown("<h1 style='text-align: center; font-size: 42px; font-weight: 700;'>Upload your rental contract</h1>",
                 unsafe_allow_html=True)
@@ -569,7 +581,7 @@ elif st.session_state.step == 4:
             background-color: #f9f9f9;
             padding: 25px;
             border-radius: 15px;
-            border: 2px solid #2E7D32;
+            border: 2px solid #308C14;
             margin-top: 20px;
         }
         .whatsapp-btn {
@@ -585,12 +597,18 @@ elif st.session_state.step == 4:
         </style>
     """, unsafe_allow_html=True)
 
+    # --- Standardized Header Logic ---
     header_left, header_right = st.columns([8, 2])
     with header_left:
-        col_icon, col_brand = st.columns([0.4, 10])
-        with col_icon: st.image("icon_page.png", width=35)
-        with col_brand: st.markdown("<h3 style='color: #2E7D32; font-weight: 600;'>RightRent</h3>",
-                                    unsafe_allow_html=True)
+        # Using 0.06 to give the icon a bit more room
+        col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
+        with col_icon:
+            st.image("icon_page.svg", width=45)
+        with col_brand:
+            # Styled h2 with the brand-text class
+            st.markdown(
+                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
+                unsafe_allow_html=True)
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
