@@ -227,29 +227,82 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- Updated CSS for Fair Logo Proximity ---
+# --- Updated CSS for Branding, Spacing, and Right-Alignment ---
 st.markdown("""
     <style>
-        .block-container { padding-top: 3.5rem; padding-bottom: 1rem; }
+        /* 1. Background Gradient */
+        .stApp {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F1F8E9 100%);
+        }
 
-        [data-testid="column"] {
+        .block-container { padding-top: 3rem; padding-bottom: 1rem; }
+
+        /* 2. Vertically Align Columns */
+        [data-testid="column"] { display: flex; align-items: center; justify-content: center; }
+
+        /* 3. Header Styling */
+        h1 { 
+            margin-bottom: 10px !important; /* Added space between title and sentence */
+            color: black !important;
+            text-align: center !important;
+            font-size: 38px !important;
+            font-weight: 700 !important;
+        }
+        /* Professional Section Headers for Step 2 */
+        .section-header {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 2px solid #308C14; /* RightRent Green Underline */
+            padding-bottom: 5px;
+            margin-bottom: 20px !important;
+            width: 100%;
+            text-align: left;
+        }
+        
+        h2, h3 { margin: 0px !important; padding: 0px !important; color: #308C14 !important; }
+
+        .brand-text { margin-left: -15px !important; white-space: nowrap; }
+
+        /* 4. Help Button: Pushed to the far right */
+        div[data-testid="column"]:last-child {
+            justify-content: flex-end; /* Pushes content in the right-most column to the edge */
+        }
+
+        div[key="help_btn_step1"] button {
+            background-color: transparent !important;
+            border: none !important;
+            color: black !important;
+            text-decoration: underline !important;
+            text-align: right !important;
+            padding-right: 0px !important; /* Align exactly with the grid edge */
+        }
+
+        /* 5. Start Now Button */
+        div.stButton > button[kind="primary"] {
+            background-color: #308C14 !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 0.6rem 2rem !important;
+            border: none !important;
+            font-weight: 600 !important;
+        }
+
+        /* 6. Feature Cards Styling (Centered Design) */
+        .feature-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            height: 210px;
+            width: 100%;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            border: 1px solid #E6E9EF;
         }
-
-        h1, h2, h3 { 
-            margin: 0px !important; 
-            padding: 0px !important; 
-            color: #308C14 !important; /* RightRent Green */
-        }
-
-        /* Pulls text closer without overlapping the icon */
-        .brand-text {
-            margin-left: -15px !important; 
-            white-space: nowrap;
-        }
-
-        [data-testid="stVerticalBlock"] { gap: 0.7rem; }
 
         /* Tooltip styles */
         .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
@@ -321,7 +374,7 @@ def importance_row(label, key, category_name, help_text):
     current_val = st.session_state.user_prefs.get(category_name, "Medium")
     default_index = options.index(current_val)
 
-    c_label, c_input = st.columns([2, 1])
+    c_label, c_input = st.columns([1, 1.5])
     with c_label:
         st.markdown(
             f"""
@@ -339,71 +392,76 @@ def importance_row(label, key, category_name, help_text):
                         label_visibility="collapsed")
 
 
+@st.dialog("How RightRent Works")
+def show_help_dialog():
+    st.markdown("""
+    Welcome to **RightRent**! Our system uses advanced AI to ensure your rental agreement is fair and legally compliant.
+
+    ### Your Journey:
+    1. **Preferences Setup:** Tell us what matters most (e.g., pets, subletting, or budget).
+    2. **Contract Upload:** Upload your PDF contract. Our AI analyzes every clause against Israeli law.
+    3. **AI Review:** See risks highlighted directly on your PDF with clear justifications.
+    4. **Negotiation:** Choose the issues you want to fix and generate a professional message for your landlord.
+
+    ---
+    **If you need help, contact us:** 📧 [rightrent.israel@gmail.com](https://mail.google.com/mail/?view=cm&fs=1&to=rightrent.israel@gmail.com)
+    """)
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
 if st.session_state.step == 1:
-    # --- Top Navigation Bar ---
-    # --- Standardized Header Layout ---
-    header_left, header_right = st.columns([8, 2])
+    # --- Standardized Header ---
+    # Using [9, 1] instead of [8, 2] to push the button even further to the edge
+    header_left, header_right = st.columns([9, 1])
     with header_left:
-        # Using 0.06 to give the icon a bit more room
-        col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
-        with col_icon:
-            st.image("icon_page.svg", width=45)
-        with col_brand:
-            # Styled h2 with the brand-text class
-            st.markdown(
-                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
-                unsafe_allow_html=True)
+        col_icon, col_brand = st.columns([0.04, 0.94], gap="small")
+        with col_icon: st.image("icon_page.svg", width=45)
+        with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>", unsafe_allow_html=True)
 
     with header_right:
-        # Keep your existing "About / Help" or other right-side content
-        if st.session_state.step == 1:
-            st.markdown("<p style='text-align: right; color: black; font-weight: 500; margin: 0;'>About / Help</p>",
-                        unsafe_allow_html=True)
+        if st.button("About / Help", key="help_btn_step1"):
+            show_help_dialog()
 
     # --- Hero Section ---
-    st.markdown(
-        "<h1 style='text-align: center; font-size: 42px; font-weight: 700;'>Understand your rental <br> contract with confidence</h1>",
-        unsafe_allow_html=True)
-    st.markdown(
-        "<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>",
-        unsafe_allow_html=True)
+    st.markdown("<h1>Understand your rental <br> contract with confidence</h1>", unsafe_allow_html=True)
+    # The space here is now controlled by the CSS margin-bottom in h1
+    st.markdown("<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>", unsafe_allow_html=True)
 
-    st.markdown("<div style='margin: 10px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 35px;'></div>", unsafe_allow_html=True)
 
-    # --- Feature Cards ---
-    c_pad1, c1, c2, c3, c_pad2 = st.columns([1, 3, 3, 3, 1])
+    # --- Feature Cards aligned to the middle ---
+    c1, c2, c3 = st.columns(3)
 
     with c1:
-        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("<h2 style='margin-bottom: 0;'>⚙️</h2>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top: 5px;'>Preferences setup</h4>", unsafe_allow_html=True)
-        st.markdown(
-            "<p style='color: #666; font-size: 15px;'>Tell us what matters so the AI can personalize the review</p>",
-            unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class="feature-card">
+                <h2 style="font-size: 45px; margin-bottom: 15px !important;">⚙️</h2>
+                <h4 style="color: #333 !important; font-weight: 600;">Preferences setup</h4>
+                <p style="color: #666; font-size: 15px; margin-top: 10px;">Tell us what matters so the AI can personalize the review</p>
+            </div>
+        """, unsafe_allow_html=True)
 
     with c2:
-        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("<h2 style='margin-bottom: 0;'>📄</h2>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top: 5px;'>Contract upload</h4>", unsafe_allow_html=True)
-        st.markdown("<p style='color: #666; font-size: 15px;'>We analyse risks, mismatches, and unclear terms</p>",
-                    unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class="feature-card">
+                <h2 style="font-size: 45px; margin-bottom: 15px !important;">📄</h2>
+                <h4 style="color: #333 !important; font-weight: 600;">Contract upload</h4>
+                <p style="color: #666; font-size: 15px; margin-top: 10px;">We analyse risks, mismatches, and unclear terms</p>
+            </div>
+        """, unsafe_allow_html=True)
 
     with c3:
-        st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
-        st.markdown("<h2 style='margin-bottom: 0;'>👁️</h2>", unsafe_allow_html=True)
-        st.markdown("<h4 style='margin-top: 5px;'>Review & negotiation</h4>", unsafe_allow_html=True)
-        st.markdown("<p style='color: #666; font-size: 15px;'>See AI-highlighted clauses and draft your message</p>",
-                    unsafe_allow_html=True)
-        st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown("""
+            <div class="feature-card">
+                <h2 style="font-size: 45px; margin-bottom: 15px !important;">👁️</h2>
+                <h4 style="color: #333 !important; font-weight: 600;">Review & negotiation</h4>
+                <p style="color: #666; font-size: 15px; margin-top: 10px;">See AI-highlighted clauses and draft your message</p>
+            </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("<div style='margin: 15px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 40px;'></div>", unsafe_allow_html=True)
 
-    # --- Centered Start Button ---
+    # --- Centered Green Start Button ---
     b_left, b_center, b_right = st.columns([2, 1, 2])
     with b_center:
         if st.button("Start now", use_container_width=True, type="primary"):
@@ -418,92 +476,91 @@ if st.session_state.step == 1:
 # Step 2: Personal Preferences
 # ==========================================
 elif st.session_state.step == 2:
-    # --- Standardized Header Logic ---
-    # --- Standardized Header Layout ---
-    header_left, header_right = st.columns([8, 2])
+    # --- Standardized Header Layout (Matching Page 1) ---
+    header_left, header_right = st.columns([9, 1])
     with header_left:
         col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
-        with col_icon:
-            st.image("icon_page.svg", width=45)
-        with col_brand:
-            # Styled h2 with the brand-text class
-            st.markdown(
-                "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
-                unsafe_allow_html=True)
+        with col_icon: st.image("icon_page.svg", width=45)
+        with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>",
+                                    unsafe_allow_html=True)
+    with header_right:
+        st.empty()
 
-    st.markdown("<h1 style='font-size: 32px;'>Tell us what matters to you</h1>", unsafe_allow_html=True)
+    # Title and Centered Gray Subtitle
+    st.markdown("<h1 style='text-align: center;'>Tell us what matters to you</h1>", unsafe_allow_html=True)
     st.markdown(
-        "<p style='color: gray; font-size: 17px;'>Your preferences help identify clauses that may not match your needs.</p>",
+        "<p style='text-align: center; color: gray; font-size: 17px; margin-top: -10px; margin-bottom: 45px;'>"
+        "Your preferences help identify clauses that may not match your needs.</p>",
         unsafe_allow_html=True)
 
-    # --- Main Selection Area ---
-    col_ratings, col_budget = st.columns([1.6, 1])
+    # --- Main Selection Area (Symmetrical Layout) ---
+    # We use [1.2, 1, 0.3] to push both sections slightly to the left
+    # col_ratings, col_budget, col_spacer = st.columns([1.2, 1, 0.3], gap="large")
+    col_p_l, col_ratings, col_gap, col_budget, col_p_r = st.columns([0.1, 1.4, 0.1, 0.7, 0.1])
 
     with col_ratings:
-        st.markdown(
-            "<div style='border: 1px solid #E6E9EF; padding: 15px; border-radius: 10px; background-color: white;'><b>Importance ratings</b></div>",
-            unsafe_allow_html=True)
+        # Professional Underlined Header
+        st.markdown("<div class='section-header'>Importance ratings</div>", unsafe_allow_html=True)
 
-        # Calling the global importance_row function defined at the top of the script
         rent_inc = importance_row(
             "📈 Rent increase limitations", "rent_inc", "rent_increase",
-            "<b>How important is price stability?</b><br> <b>🔴High:</b> if you need the rent to stay fixed.<br> <b>🟢Low:</b> if you are okay with price adjustments during the term."
+            "<b>How important is price stability?</b><br> <b>🔴High:</b> if you need the rent to stay fixed.<br> <b>🟢Low:</b> if you are okay with price adjustments."
         )
 
         termination = importance_row(
             "🕒 Early termination flexibility", "term", "termination",
-            "<b>Do you need an exit strategy?</b><br><b>🔴High:</b> if your plans might change and you must be able to leave early.<br><b>🟢Low:</b> if you commit to the full period."
+            "<b>Do you need an exit strategy?</b><br><b>🔴High:</b> if plans might change. <b>🟢Low:</b> if you commit to the full period."
         )
 
         repairs = importance_row(
             "🔧 Repairs responsibility", "repairs", "repairs",
-            "<b>Want to avoid maintenance 'headaches'?</b><br> <b>🔴High:</b> if you want the landlord to handle every repair.<br><b>🟢Low:</b> if you don't mind fixing minor things yourself."
+            "<b>Avoid maintenance headaches?</b><br> <b>🔴High:</b> landlord handles everything. <b>🟢Low:</b> you fix minor things."
         )
 
         pets = importance_row(
             "🐾 Pets policy", "pets", "pets",
-            "<b>Are you moving in with a pet?</b><br> <b>🔴High:</b> if a 'no pets' rule is a deal-breaker. <br><b>🟢Low:</b> if this doesn't apply to you."
+            "<b>Moving with a pet?</b><br> <b>🔴High:</b> 'no pets' is a deal-breaker. <b>🟢Low:</b> this doesn't apply."
         )
 
         subletting = importance_row(
             "👥 Subletting permissions", "sublet", "subletting",
-            "<b>Need flexibility to share or rent out your space?</b><br>"
-            "<b>🔴High:</b> if you might need to bring in a roommate or sublet the apartment while you travel. <br>"
-            "<b>🟢Low:</b> if you plan to be the sole resident."
+            "<b>Need flexibility to share space?</b><br><b>🔴High:</b> might need a roommate or to sublet. <b>🟢Low:</b> sole resident."
         )
 
         deposit = importance_row(
             "🛡️ Deposit & guarantees", "deposit", "deposit",
-            "<b>Is your upfront budget limited?</b><br> <b>🔴High:</b> if you cannot provide high bank guarantees or large cash deposits. <br> <b>🟢Low:</b> if you have the liquidity."
+            "<b>Limited upfront budget?</b><br> <b>🔴High:</b> cannot provide high guarantees. <b>🟢Low:</b> you have liquidity."
         )
 
     with col_budget:
+        # Professional Underlined Header for Budget
+        st.markdown("<div class='section-header'>Budget</div>", unsafe_allow_html=True)
         st.markdown(
-            "<div style='border: 1px solid #E6E9EF; padding: 15px; border-radius: 10px; background-color: white;'><b>Budget</b><br><small style='color:gray;'>Maximum monthly rent</small></div>",
+            "<p style='color: gray; font-size: 14px; margin-top: -15px; margin-bottom: 25px;'>Maximum monthly rent</p>",
             unsafe_allow_html=True)
 
-        # Default value pulled from session state
+        # Budget Input Box
         budget = st.number_input(
             "Budget",
             min_value=0,
             step=100,
-            value=st.session_state.user_prefs.get("budget", 2500),
+            value=st.session_state.user_prefs.get("budget", 0),
             label_visibility="collapsed"
         )
         st.markdown("<p style='color: gray; font-size: 12px; margin-top: -5px;'>Max amount in ₪ (NIS)</p>",
                     unsafe_allow_html=True)
 
     # --- Navigation Buttons ---
-    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
-    f_left, f_mid, f_right = st.columns([1, 4, 1])
+    st.markdown("<div style='margin-top: 50px;'></div>", unsafe_allow_html=True)
+    # Aligning buttons with the main content area
+    b_left, b_mid, b_right, b_spacer = st.columns([0.4, 1.8, 0.4, 0.1])
 
-    with f_left:
+    with b_left:
         if st.button("Back", use_container_width=True):
             go_to_step(1)
 
-    with f_right:
+    with b_right:
         if st.button("Next", use_container_width=True, type="primary"):
-            # Update session state with the current selections before moving to Step 3
             st.session_state.user_prefs = {
                 "rent_increase": rent_inc,
                 "termination": termination,
@@ -519,18 +576,26 @@ elif st.session_state.step == 2:
 # ==========================================
 elif st.session_state.step == 3:
     # --- Standardized Header Logic ---
-    header_left, header_right = st.columns([8, 2])
+    # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
+    # We keep [9, 1] to ensure the logo doesn't shift when the button is removed
+    header_left, header_right = st.columns([9, 1])
+
     with header_left:
+        # Exact same 0.05 / 0.94 ratio from Page 1
         col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
             st.image("icon_page.svg", width=45)
         with col_brand:
-            # Styled h2 with the brand-text class
+            # Using the brand-text class and the same alignment from Page 1
             st.markdown(
                 "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
                 unsafe_allow_html=True)
 
-    st.markdown("<h1 style='text-align: center; font-size: 42px; font-weight: 700;'>Upload your rental contract</h1>",
+    with header_right:
+        # We leave this empty to keep the logo in its exact position
+        st.empty()
+
+    st.markdown("<h1 style='text-align: center; font-size: 38px; font-weight: 700;'>Upload your rental contract</h1>",
                 unsafe_allow_html=True)
 
     col_pad_left, col_main, col_pad_right = st.columns([1, 2, 1])
@@ -598,17 +663,24 @@ elif st.session_state.step == 4:
     """, unsafe_allow_html=True)
 
     # --- Standardized Header Logic ---
-    header_left, header_right = st.columns([8, 2])
+    # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
+    # We keep [9, 1] to ensure the logo doesn't shift when the button is removed
+    header_left, header_right = st.columns([9, 1])
+
     with header_left:
-        # Using 0.06 to give the icon a bit more room
+        # Exact same 0.05 / 0.94 ratio from Page 1
         col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
             st.image("icon_page.svg", width=45)
         with col_brand:
-            # Styled h2 with the brand-text class
+            # Using the brand-text class and the same alignment from Page 1
             st.markdown(
                 "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
                 unsafe_allow_html=True)
+
+    with header_right:
+        # We leave this empty to keep the logo in its exact position
+        st.empty()
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
