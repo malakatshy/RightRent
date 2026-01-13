@@ -183,6 +183,21 @@ def analyze_contract(contract_text, user_prefs):
         "negotiation_tip": "How to fix it"
     }}
 
+    **STEP 4 - GAP ANALYSIS (MISSING PROTECTIONS):**
+    Identify standard protective clauses that are MISSING from this contract.
+    If the contract is silent on these, recommend them as "missing_protection".
+    Examples include:
+    - Maximum repair time (e.g., landlord must fix urgent issues within 24-48 hours).
+    - Grace period for late payment (e.g., 3-5 days before a penalty).
+    - Clear mechanism for renewing the contract (Option).
+    - Professional cleaning requirements (making sure they are mutual).
+
+    # Update the preference_category list in the prompt to include "missing_protection"
+    "preference_category": "rent_increase" | "termination" | ... | "missing_protection" | "budget",
+
+    # Update the exact_quote rule:
+    - If it is a "missing_protection", set "exact_quote" to "N/A (Missing Clause)".
+
     IMPORTANT: 
     - Set is_legal_violation to TRUE if the clause violates any Article in the Legal Knowledge Base.
     - Legal violations MUST always be included, even for "Low" importance user preferences.
@@ -259,7 +274,7 @@ st.markdown("""
             width: 100%;
             text-align: left;
         }
-        
+
         h2, h3 { margin: 0px !important; padding: 0px !important; color: #308C14 !important; }
 
         .brand-text { margin-left: -15px !important; white-space: nowrap; }
@@ -304,13 +319,34 @@ st.markdown("""
             border: 1px solid #E6E9EF;
         }
 
+
+        /* 7. Elegant Close Button for Negotiation Popup */
+        div[key="close_negotiation"] button {
+            border: none !important;
+            background: transparent !important;
+            color: #999 !important;
+            font-size: 26px !important;
+            padding: 0px !important;
+            margin-top: -10px !important;
+            transition: color 0.3s !important;
+        }
+        div[key="close_negotiation"] button:hover {
+            color: #ff4b4b !important; /* אדום עדין במעבר עכבר */
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        /* Fix checkbox alignment in columns */
+        [data-testid="stCheckbox"] {
+            margin-bottom: -5px !important;
+        }    
+            
         /* Tooltip styles */
         .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
         .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
         .tooltip:hover .tooltiptext, .tooltip:active .tooltiptext { visibility: visible; opacity: 1; }
     </style>
 """, unsafe_allow_html=True)
-
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
@@ -406,6 +442,8 @@ def show_help_dialog():
     ---
     **If you need help, contact us:** 📧 [rightrent.israel@gmail.com](https://mail.google.com/mail/?view=cm&fs=1&to=rightrent.israel@gmail.com)
     """)
+
+
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
@@ -416,7 +454,8 @@ if st.session_state.step == 1:
     with header_left:
         col_icon, col_brand = st.columns([0.04, 0.94], gap="small")
         with col_icon: st.image("icon_page.svg", width=45)
-        with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>", unsafe_allow_html=True)
+        with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>",
+                                    unsafe_allow_html=True)
 
     with header_right:
         if st.button("About / Help", key="help_btn_step1"):
@@ -425,7 +464,9 @@ if st.session_state.step == 1:
     # --- Hero Section ---
     st.markdown("<h1>Understand your rental <br> contract with confidence</h1>", unsafe_allow_html=True)
     # The space here is now controlled by the CSS margin-bottom in h1
-    st.markdown("<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>", unsafe_allow_html=True)
+    st.markdown(
+        "<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>",
+        unsafe_allow_html=True)
 
     st.markdown("<div style='margin: 35px;'></div>", unsafe_allow_html=True)
 
@@ -689,23 +730,45 @@ elif st.session_state.step == 4:
         pdf_viewer(st.session_state.highlighted_pdf, height=500)
 
     st.markdown("---")
-    st.markdown("### 🔍 Clause Justifications (Explainable AI)")
 
     import json
 
     clean_json = st.session_state.analysis_results.replace("```json", "").replace("```", "").strip()
     analysis_data = json.loads(clean_json)
 
-    for item in analysis_data:
-        is_violation = item.get("is_legal_violation", False)
-        icon = "🔴" if (is_violation or item.get("preference_category") == "budget") else "🟡"
-        with st.expander(f"{icon} {item.get('issue_name')}"):
-            st.write(f"**Justification:** {item.get('explanation')}")
-            st.write(f"**Negotiation Tip:** {item.get('negotiation_tip')}")
+    # 1. Separate the data into two lists (Logic correctly identifies the types)
+    risks_found = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
+    suggestions = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
+
+    # 2. Show Risks first (🔴/🟡)
+    st.markdown("### 🔍 Critical Issues & Risks")
+    if not risks_found:
+        st.success("No critical risks or legal violations found based on your preferences!")
+    else:
+        for item in risks_found:
+            is_violation = item.get("is_legal_violation", False)
+            icon = "🔴" if (is_violation or item.get("preference_category") == "budget") else "🟡"
+            with st.expander(f"{icon} {item.get('issue_name')}"):
+                st.write(f"**Found in Contract:** _{item.get('exact_quote')}_")
+                st.write(f"**Why it's a risk:** {item.get('explanation')}")
+                st.write(f"**Negotiation Tip:** {item.get('negotiation_tip')}")
+
+    # 3. Show Suggested Add-ons (🔵/💡) - Only if they exist
+    if suggestions:
+        st.markdown("---")
+        st.markdown("### 💡 Recommended Additions (Best Practices)")
+        st.info("These clauses are not in your contract but would protect you if added.")
+
+        for item in suggestions:
+            with st.expander(f"🔵 {item.get('issue_name')}"):
+                st.write(f"**Recommendation:** {item.get('explanation')}")
+                st.write(f"**Suggested Phrasing:** {item.get('negotiation_tip')}")
+
+    # --- שימי לב: מחקתי כאן את הלולאה הישנה שהתחילה ב- "for item in analysis_data:" ---
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 2. Handle the "Generate Message" Workflow
+    # 4. Handle the "Generate Message" Workflow
     if not st.session_state.get('show_popup', False):
         col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
         with col_btn2:
@@ -728,12 +791,35 @@ elif st.session_state.step == 4:
         # PHASE 1: PREFERENCES
         st.write("**1. Choose which issues to include:**")
         selected_items = []
-        c1, c2 = st.columns(2)
-        for idx, item in enumerate(analysis_data):
-            target_col = c1 if idx % 2 == 0 else c2
-            with target_col:
-                if st.checkbox(item['issue_name'], value=True, key=f"sel_{idx}"):
+
+        # Data separation (remains the same)
+        risks_in_popup = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
+        suggestions_in_popup = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
+
+        # Simplified to 2 columns with a small gap
+        col_left, col_right = st.columns([1, 1], gap="medium")
+
+        with col_left:
+            st.markdown(
+                "<p style='font-weight: bold; color: #d32f2f; margin-bottom: 10px;'>🔍 Issues found in contract:</p>",
+                unsafe_allow_html=True)
+            if not risks_in_popup:
+                st.caption("No risks found.")
+            for idx, item in enumerate(risks_in_popup):
+                if st.checkbox(item['issue_name'], value=True, key=f"sel_risk_{idx}"):
                     selected_items.append(item)
+
+        with col_right:
+            st.markdown(
+                "<p style='font-weight: bold; color: #1976d2; margin-bottom: 10px;'>💡 Recommended additions:</p>",
+                unsafe_allow_html=True)
+            if not suggestions_in_popup:
+                st.caption("No recommendations found.")
+            for idx, item in enumerate(suggestions_in_popup):
+                if st.checkbox(item['issue_name'], value=True, key=f"sel_sug_{idx}"):
+                    selected_items.append(item)
+
+        st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
 
         st.write("**2. Choose tone:**")
         chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
