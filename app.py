@@ -335,12 +335,163 @@ st.markdown("""
             background: transparent !important;
             border: none !important;
         }
-        
+
         /* Fix checkbox alignment in columns */
         [data-testid="stCheckbox"] {
             margin-bottom: -5px !important;
         }    
+        /* --- Add this to your existing <style> block --- */
+        .loading-percentage {
+            color: #308C14;
+            font-size: 48px;
+            font-weight: 800;
+            text-align: center;
+            margin-top: -10px;
+        }
+        .loading-text {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 5px;
+        }        
+
+        .progress-wrapper {
+            width: 100%;
+            background-color: #E6E9EF;
+            border-radius: 25px; /* Rounder, modern look */
+            margin: 30px 0 10px 0;
+            height: 35px; /* Slightly taller for better visibility */
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #308C14;
+            width: 0%; 
+            transition: width 0.4s ease-out; /* Smoother movement */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers text horizontally */
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        .loading-subtext {
+            color: #999; /* Subtle gray */
+            font-size: 14px;
+            text-align: center;
+            width: 100%;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+        
+        .upload-card {
+            border: none !important;
+            background-color: transparent !important;
+            padding: 0px !important;
+        }
+        
+        .upload-card:hover {
+            border-color: #308C14; 
+        }
+        
+        [data-testid="stFileUploader"] section {
+            padding: 50px 20px !important; /* הגדלת הריווח הפנימי להגדלת המלבן */
+            min-height: 220px !important;   /* הגדרת גובה מינימלי למלבן */
+            background-color: #f8f9fb !important; /* צבע אפור עדין */
+            border-radius: 15px !important;
+            border: 1px solid #E6E9EF !important;
+        }
+        
+                /* סרגל כלים אלגנטי ל-PDF (סטייל דפדפן כרום) */
+        .pdf-toolbar {
+            background-color: #323639; /* אפור כהה מקצועי */
+            padding: 6px 12px;
+            border-radius: 10px 10px 0 0; /* פינות מעוגלות רק למעלה */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px; /* צמצום רווחים למראה מהודק */
+            width: 100%;
+            border-bottom: 1px solid #444;
+        }
+        
+        /* עיצוב כפתור ההורדה בתוך הסרגל - להתאמה מושלמת */
+        div[data-testid="stDownloadButton"] button {
+            background-color: transparent !important;
+            color: white !important;
+            border: none !important;
+            padding: 2px 5px !important;
+            font-size: 18px !important;
+            height: auto !important;
+            line-height: 1 !important;
+            transition: opacity 0.2s !important;
+        }
+        
+        div[data-testid="stDownloadButton"] button:hover {
+            opacity: 0.7 !important;
+            background-color: transparent !important;
+        }
+        /* 1. Unified PDF Wrapper */
+        .pdf-container-box {
+            border: 1px solid #323639;
+            border-radius: 12px;
+            overflow: hidden; /* Clips the PDF edges to the border radius */
+            background-color: #525659; /* Classic PDF viewer background */
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        /* 2. Seamless Chrome-Style Toolbar */
+        /* This styling applies to the columns containing your icons */
+        [data-testid="stHorizontalBlock"]:has(button[key="toolbar_dl_btn"]) {
+            background-color: #323639 !important;
+            padding: 8px 16px !important;
+            margin-bottom: 0px !important; /* Forces it to touch the PDF */
+            border-bottom: 1px solid #444;
+        }
+        /* 3. Icon Styling (Cleaning up Streamlit defaults) */
+        div[key="toolbar_dl_btn"] button {
+            background-color: transparent !important;
+            border: none !important;
+            color: #FFFFFF !important;
+            font-size: 20px !important;
+            transition: transform 0.2s, color 0.2s !important;
+        }
+        
+        div[key="toolbar_dl_btn"] button:hover {
+            transform: scale(1.15);
+            color: #308C14 !important; /* RightRent Green on hover */
+        }
+        
+        .toolbar-print-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            transition: transform 0.2s;
+        }
+        
+        .toolbar-print-btn:hover {
+            transform: scale(1.15);
+        }
+        
+        /* 4. THE PRINT FIX: Define what happens when window.print() is called */
+        @media print {
+            /* Hide all UI elements */
+            .stApp > header, [data-testid="stSidebar"], .stButton, .negotiation-box, 
+            header, footer, hr, .stMarkdown h1, .stMarkdown p { display: none !important; }
             
+            /* Show only the PDF container, centered and full-width */
+            .pdf-container-box { border: none !important; box-shadow: none !important; width: 100% !important; }
+            [data-testid="column"] { width: 100% !important; flex: none !important; }
+        }
+        
         /* Tooltip styles */
         .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
         .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
@@ -550,27 +701,27 @@ elif st.session_state.step == 2:
 
         termination = importance_row(
             "🕒 Early termination flexibility", "term", "termination",
-            "<b>Do you need an exit strategy?</b><br><b>🔴High:</b> if plans might change. <b>🟢Low:</b> if you commit to the full period."
+            "<b>Do you need an exit strategy?</b><br><b>🔴High:</b> if plans might change.<br> <b>🟢Low:</b> if you commit to the full period."
         )
 
         repairs = importance_row(
             "🔧 Repairs responsibility", "repairs", "repairs",
-            "<b>Avoid maintenance headaches?</b><br> <b>🔴High:</b> landlord handles everything. <b>🟢Low:</b> you fix minor things."
+            "<b>Avoid maintenance headaches?</b><br> <b>🔴High:</b> landlord handles everything. <br> <b>🟢Low:</b> you fix minor things."
         )
 
         pets = importance_row(
             "🐾 Pets policy", "pets", "pets",
-            "<b>Moving with a pet?</b><br> <b>🔴High:</b> 'no pets' is a deal-breaker. <b>🟢Low:</b> this doesn't apply."
+            "<b>Moving with a pet?</b><br> <b>🔴High:</b> 'no pets' is a deal-breaker.<br> <b>🟢Low:</b> this doesn't apply."
         )
 
         subletting = importance_row(
             "👥 Subletting permissions", "sublet", "subletting",
-            "<b>Need flexibility to share space?</b><br><b>🔴High:</b> might need a roommate or to sublet. <b>🟢Low:</b> sole resident."
+            "<b>Need flexibility to share space?</b><br><b>🔴High:</b> might need a roommate or to sublet.<br> <b>🟢Low:</b> sole resident."
         )
 
         deposit = importance_row(
             "🛡️ Deposit & guarantees", "deposit", "deposit",
-            "<b>Limited upfront budget?</b><br> <b>🔴High:</b> cannot provide high guarantees. <b>🟢Low:</b> you have liquidity."
+            "<b>Limited upfront budget?</b><br> <b>🔴High:</b> cannot provide high guarantees.<br> <b>🟢Low:</b> you have liquidity."
         )
 
     with col_budget:
@@ -638,43 +789,80 @@ elif st.session_state.step == 3:
 
     st.markdown("<h1 style='text-align: center; font-size: 38px; font-weight: 700;'>Upload your rental contract</h1>",
                 unsafe_allow_html=True)
+    st.markdown(
+        "<p style='text-align: center; color: gray; margin-top: -10px; margin-bottom: 30px;'>Please provide your contract in PDF format for AI analysis.</p>",
+        unsafe_allow_html=True)
 
     col_pad_left, col_main, col_pad_right = st.columns([1, 2, 1])
-    with col_main:
-        st.markdown(
-            "<div style='border: 1px solid #E6E9EF; padding: 40px; border-radius: 15px; background-color: white; text-align: center;'>Select your PDF</div>",
-            unsafe_allow_html=True)
-        st.markdown("<div style='margin-top: -80px;'></div>", unsafe_allow_html=True)
 
+
+    with col_main:
+        # הסרנו את הכותרות המנופחות והשארנו רק את רכיב ההעלאה שמעוצב עכשיו דרך ה-CSS
         uploaded_file = st.file_uploader("Upload PDF", type=["pdf"], label_visibility="collapsed")
 
         if uploaded_file is not None:
             st.success(f"'{uploaded_file.name}' ready! ✔️")
 
             if st.button("Upload & analyze →", type="primary", use_container_width=True):
-                with st.spinner("Our AI is performing RAG-based analysis..."):
-                    try:
-                        # FIX: Capture bytes BEFORE extracting text
-                        pdf_bytes = uploaded_file.getvalue()
+                # Placeholder for the custom progress bar
+                ui_placeholder = st.empty()
 
-                        # Reset file pointer and extract text
-                        uploaded_file.seek(0)
-                        contract_text = extract_text_from_pdf(uploaded_file)
 
-                        # Analyze with DeepSeek-R1
-                        analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
+                def update_ui(percent, text):
+                    ui_placeholder.markdown(f"""
+                                    <div class="progress-wrapper">
+                                        <div class="progress-bar-fill" style="width: {percent}%;">{percent}%</div>
+                                    </div>
+                                    <div class="loading-subtext">{text}</div>
+                                """, unsafe_allow_html=True)
 
-                        # Create Highlighted PDF
-                        highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
 
-                        # Save to session state
-                        st.session_state.highlighted_pdf = highlighted_pdf
-                        st.session_state.analysis_results = analysis_results
-                        go_to_step(4)
-                    except Exception as e:
-                        st.error(f"Analysis Error: {e}")
+                try:
+                    import time
 
-    if st.button("Back"): go_to_step(2)
+                    # --- PHASE 1: Reading (1% to 30%) ---
+                    for p in range(1, 31):
+                        update_ui(p, "The system is reading your file...")
+                        time.sleep(0.05)  # Smooth crawl
+
+                    pdf_bytes = uploaded_file.getvalue()
+                    uploaded_file.seek(0)
+                    contract_text = extract_text_from_pdf(uploaded_file)
+
+                    # --- PHASE 2: AI Analysis (31% to 70%) ---
+                    # We crawl slowly while the AI "thinks"
+                    update_ui(35, "Comparing clauses to Israeli laws...")
+
+                    # Actual heavy processing
+                    analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
+
+                    for p in range(36, 71):
+                        update_ui(p, "Analyzing legal risks and preferences...")
+                        time.sleep(0.03)
+
+                    # --- PHASE 3: Highlighting (71% to 90%) ---
+                    for p in range(71, 91):
+                        update_ui(p, "Marking problematic sections in your PDF...")
+                        time.sleep(0.04)
+
+                    highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
+
+                    # --- PHASE 4: Finalizing (91% to 100%) ---
+                    for p in range(91, 101):
+                        update_ui(p, "Preparing your personalized report...")
+                        time.sleep(0.02)
+
+                    # Save and transition
+                    st.session_state.highlighted_pdf = highlighted_pdf
+                    st.session_state.analysis_results = analysis_results
+                    go_to_step(4)
+
+                except Exception as e:
+                    st.error(f"Analysis Error: {e}")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("← Back to Preferences", key="back_to_2"):
+        go_to_step(2)
 
 # ==========================================
 # Step 4: Review & Negotiation
@@ -725,9 +913,45 @@ elif st.session_state.step == 4:
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
-    # 1. Show PDF and Justifications first
-    if "highlighted_pdf" in st.session_state:
-        pdf_viewer(st.session_state.highlighted_pdf, height=500)
+    # --- תצוגת PDF עם ה-TOOLBAR החדש ---
+    # שימוש בטורים רחבים בצדדים כדי להקטין את ה-PDF ולמרכז אותו
+    # --- Integrated PDF View ---
+    pdf_col_l, pdf_col_main, pdf_col_r = st.columns([1, 4, 1])
+
+    with pdf_col_main:
+        if "highlighted_pdf" in st.session_state:
+            # Wrap the toolbar and viewer in the unified container
+            st.markdown('<div class="pdf-container-box">', unsafe_allow_html=True)
+
+            # Integrated Toolbar Row
+            t_col_name, t_col_spacer, t_col_print, t_col_dl = st.columns([2, 5, 0.6, 0.6])
+
+            with t_col_name:
+                st.markdown(
+                    "<p style='color: white; margin-top: 12px; font-size: 13px; font-weight: 500;'>Reviewed_Contract.pdf</p>",
+                    unsafe_allow_html=True)
+
+            with t_col_print:
+                # The "Print" button now triggers the browser dialog properly
+                st.markdown("""
+                        <button class="toolbar-print-btn" onclick="window.print()" title="Print Contract">
+                            🖨️
+                        </button>
+                    """, unsafe_allow_html=True)
+
+            with t_col_dl:
+                st.download_button(
+                    label="📥",
+                    data=st.session_state.highlighted_pdf,
+                    file_name="RightRent_Analysis.pdf",
+                    mime="application/pdf",
+                    key="toolbar_dl_btn"
+                )
+
+            # The PDF Viewer (Fits flush below the toolbar)
+            pdf_viewer(st.session_state.highlighted_pdf, width=800, height=600)
+
+            st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
