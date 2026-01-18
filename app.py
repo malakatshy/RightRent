@@ -5,6 +5,10 @@ import io
 from streamlit_pdf_viewer import pdf_viewer
 
 
+def local_css(file_name):
+    with open(file_name, encoding="utf-8") as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
     """
     Highlights the PDF based on user preference importance levels:
@@ -242,223 +246,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# --- Updated CSS for Branding, Spacing, and Right-Alignment ---
-st.markdown("""
-    <style>
-        /* 1. Background Gradient */
-        .stApp {
-            background: linear-gradient(180deg, #FFFFFF 0%, #F1F8E9 100%);
-        }
-
-        .block-container { padding-top: 3rem; padding-bottom: 1rem; }
-
-        /* 2. Vertically Align Columns */
-        [data-testid="column"] { display: flex; align-items: center; justify-content: center; }
-
-        /* 3. Header Styling */
-        h1 { 
-            margin-bottom: 10px !important; /* Added space between title and sentence */
-            color: black !important;
-            text-align: center !important;
-            font-size: 38px !important;
-            font-weight: 700 !important;
-        }
-        /* Professional Section Headers for Step 2 */
-        .section-header {
-            color: #333;
-            font-size: 18px;
-            font-weight: 600;
-            border-bottom: 2px solid #308C14; /* RightRent Green Underline */
-            padding-bottom: 5px;
-            margin-bottom: 20px !important;
-            width: 100%;
-            text-align: left;
-        }
-
-        h2, h3 { margin: 0px !important; padding: 0px !important; color: #308C14 !important; }
-
-        .brand-text { margin-left: -15px !important; white-space: nowrap; }
-
-        /* 4. Help Button: Pushed to the far right */
-        div[data-testid="column"]:last-child {
-            justify-content: flex-end; /* Pushes content in the right-most column to the edge */
-        }
-
-        div[key="help_btn_step1"] button {
-            background-color: transparent !important;
-            border: none !important;
-            color: black !important;
-            text-decoration: underline !important;
-            text-align: right !important;
-            padding-right: 0px !important; /* Align exactly with the grid edge */
-        }
-
-        /* 5. Start Now Button */
-        div.stButton > button[kind="primary"] {
-            background-color: #308C14 !important;
-            color: white !important;
-            border-radius: 8px !important;
-            padding: 0.6rem 2rem !important;
-            border: none !important;
-            font-weight: 600 !important;
-        }
-
-        /* 6. Feature Cards Styling (Centered Design) */
-        .feature-card {
-            background-color: white;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            height: 210px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #E6E9EF;
-        }
-
-
-        /* 7. Elegant Close Button for Negotiation Popup */
-        div[key="close_negotiation"] button {
-            border: none !important;
-            background: transparent !important;
-            color: #999 !important;
-            font-size: 26px !important;
-            padding: 0px !important;
-            margin-top: -10px !important;
-            transition: color 0.3s !important;
-        }
-        div[key="close_negotiation"] button:hover {
-            color: #ff4b4b !important; 
-            background: transparent !important;
-            border: none !important;
-        }
-
-        /* Fix checkbox alignment in columns */
-        [data-testid="stCheckbox"] {
-            margin-bottom: -5px !important;
-        }    
-        /* --- Add this to your existing <style> block --- */
-        .loading-percentage {
-            color: #308C14;
-            font-size: 48px;
-            font-weight: 800;
-            text-align: center;
-            margin-top: -10px;
-        }
-        .loading-text {
-            color: #666;
-            font-size: 14px;
-            text-align: center;
-            margin-top: 5px;
-        }        
-
-        .progress-wrapper {
-            width: 100%;
-            background-color: #E6E9EF;
-            border-radius: 25px; /* Rounder, modern look */
-            margin: 30px 0 10px 0;
-            height: 35px; /* Slightly taller for better visibility */
-            position: relative;
-            overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            background-color: #308C14;
-            width: 0%; 
-            transition: width 0.4s ease-out; /* Smoother movement */
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centers text horizontally */
-            color: white;
-            font-weight: 700;
-            font-size: 15px;
-            white-space: nowrap;
-        }
-
-        .loading-subtext {
-            color: #999; /* Subtle gray */
-            font-size: 14px;
-            text-align: center;
-            width: 100%;
-            margin-top: 8px;
-            font-family: inherit;
-        }
-        
-        .upload-card {
-            border: none !important;
-            background-color: transparent !important;
-            padding: 0px !important;
-        }
-        
-        .upload-card:hover {
-            border-color: #308C14; 
-        }
-        
-        [data-testid="stFileUploader"] section {
-            padding: 50px 20px !important; 
-            min-height: 220px !important;  
-            background-color: #f8f9fb !important; 
-            border-radius: 15px !important;
-            border: 1px solid #E6E9EF !important;
-        }
-        
-        .pdf-toolbar {
-            background-color: #323639; 
-            padding: 6px 12px;
-            border-radius: 10px 10px 0 0; 
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 10px; 
-            width: 100%;
-            border-bottom: 1px solid #444;
-        }
-        
-        /* DownloadButton */
-        div[data-testid="stDownloadButton"] button {
-            background-color: #308C14 !important;
-            color: white !important;
-            border: 1.5px solid #308C14 !important;
-            padding: 2px 5px !important;
-            font-size: 18px !important;
-            height: auto !important;
-            line-height: 1 !important;
-            transition: opacity 0.2s !important;
-        }
-        
-        div[data-testid="stDownloadButton"] button:hover {
-            opacity: 0.7 !important;
-            background-color: transparent !important;
-        }
-        /* 1. Unified PDF Wrapper */
-        .pdf-container-box {
-            border: 1px solid #323639;
-            border-radius: 12px;
-            overflow: hidden; /* Clips the PDF edges to the border radius */
-            background-color: #525659; /* Classic PDF viewer background */
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-    
-        
-        /* אפקט מעבר עכבר אלגנטי */
-        div[key="toolbar_dl_btn"] button:hover {
-            border-color: #308C14 !important;
-            color: #308C14 !important;
-            background-color: rgba(255, 255, 255, 0.1) !important;
-        }
-        
-         
-        /* Tooltip styles */
-        .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
-        .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
-        .tooltip:hover .tooltiptext, .tooltip:active .tooltiptext { visibility: visible; opacity: 1; }
-    </style>
-""", unsafe_allow_html=True)
+local_css("style.css")
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
@@ -765,61 +553,47 @@ elif st.session_state.step == 3:
             st.success(f"'{uploaded_file.name}' ready! ✔️")
 
             if st.button("Upload & analyze →", type="primary", use_container_width=True):
-                # Placeholder for the custom progress bar
-                ui_placeholder = st.empty()
+                with st.status("Initializing analysis... 0%", expanded=True) as status:
+                    try:
+                        import time
 
+                        # --- PHASE 1: Data Ingestion (0% - 30%) ---
+                        status.update(label="Ingesting document... 15%", state="running")
+                        st.write("Extracting verbatim text from PDF...")
 
-                def update_ui(percent, text):
-                    ui_placeholder.markdown(f"""
-                                    <div class="progress-wrapper">
-                                        <div class="progress-bar-fill" style="width: {percent}%;">{percent}%</div>
-                                    </div>
-                                    <div class="loading-subtext">{text}</div>
-                                """, unsafe_allow_html=True)
+                        pdf_bytes = uploaded_file.getvalue()
+                        uploaded_file.seek(0)
+                        contract_text = extract_text_from_pdf(uploaded_file)
+                        time.sleep(0.5)
 
+                        # --- PHASE 2: Core Analysis (31% - 75%) ---
+                        status.update(label="Evaluating legal compliance... 45%", state="running")
+                        st.write("Cross-referencing clauses with regulatory frameworks...")
 
-                try:
-                    import time
+                        # The actual AI Processing
+                        analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
 
-                    # --- PHASE 1: Reading (1% to 30%) ---
-                    for p in range(1, 31):
-                        update_ui(p, "The system is reading your file...")
-                        time.sleep(0.05)  # Smooth crawl
+                        status.update(label="Assessing tenant preferences... 70%", state="running")
+                        st.write("Evaluating alignment with user-defined priorities...")
+                        time.sleep(0.5)
 
-                    pdf_bytes = uploaded_file.getvalue()
-                    uploaded_file.seek(0)
-                    contract_text = extract_text_from_pdf(uploaded_file)
+                        # --- PHASE 3: Report Generation (76% - 100%) ---
+                        status.update(label="Constructing visual report... 90%", state="running")
+                        st.write("Applying highlights and generating risk justifications...")
 
-                    # --- PHASE 2: AI Analysis (31% to 70%) ---
-                    # We crawl slowly while the AI "thinks"
-                    update_ui(35, "Comparing clauses to Israeli laws...")
+                        highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
 
-                    # Actual heavy processing
-                    analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
+                        # --- PHASE 4: Completion ---
+                        status.update(label="Analysis complete! 100%", state="complete", expanded=False)
 
-                    for p in range(36, 71):
-                        update_ui(p, "Analyzing legal risks and preferences...")
-                        time.sleep(0.03)
+                        st.session_state.highlighted_pdf = highlighted_pdf
+                        st.session_state.analysis_results = analysis_results
+                        time.sleep(0.5)
+                        go_to_step(4)
 
-                    # --- PHASE 3: Highlighting (71% to 90%) ---
-                    for p in range(71, 91):
-                        update_ui(p, "Marking problematic sections in your PDF...")
-                        time.sleep(0.04)
-
-                    highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
-
-                    # --- PHASE 4: Finalizing (91% to 100%) ---
-                    for p in range(91, 101):
-                        update_ui(p, "Preparing your personalized report...")
-                        time.sleep(0.02)
-
-                    # Save and transition
-                    st.session_state.highlighted_pdf = highlighted_pdf
-                    st.session_state.analysis_results = analysis_results
-                    go_to_step(4)
-
-                except Exception as e:
-                    st.error(f"Analysis Error: {e}")
+                    except Exception as e:
+                        status.update(label="Analysis Interrupted", state="error")
+                        st.error(f"Technical details: {e}")
 
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("← Back to Preferences", key="back_to_2"):
