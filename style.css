@@ -1,0 +1,196 @@
+/* 1. Background Gradient */
+.stApp {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F8E9 100%);
+}
+
+.block-container { padding-top: 3rem; padding-bottom: 1rem; }
+
+/* 2. Vertically Align Columns */
+[data-testid="column"] { display: flex; align-items: center; justify-content: center; }
+
+/* 3. Header Styling */
+h1 {
+    margin-bottom: 10px !important; /* Added space between title and sentence */
+    color: black !important;
+    text-align: center !important;
+    font-size: 38px !important;
+    font-weight: 700 !important;
+}
+/* Professional Section Headers for Step 2 */
+.section-header {
+    color: #333;
+    font-size: 18px;
+    font-weight: 600;
+    border-bottom: 2px solid #308C14; /* RightRent Green Underline */
+    padding-bottom: 5px;
+    margin-bottom: 20px !important;
+    width: 100%;
+    text-align: left;
+}
+
+h2, h3 { margin: 0px !important; padding: 0px !important; color: #308C14 !important; }
+
+.brand-text { margin-left: -15px !important; white-space: nowrap; }
+
+/* 4. Help Button: Pushed to the far right */
+div[data-testid="column"]:last-child {
+    justify-content: flex-end; /* Pushes content in the right-most column to the edge */
+}
+
+div[key="help_btn_step1"] button {
+    background-color: transparent !important;
+    border: none !important;
+    color: black !important;
+    text-decoration: underline !important;
+    text-align: right !important;
+    padding-right: 0px !important; /* Align exactly with the grid edge */
+}
+
+/* 5. Start Now Button */
+div.stButton > button[kind="primary"] {
+    background-color: #308C14 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 0.6rem 2rem !important;
+    border: none !important;
+    font-weight: 600 !important;
+}
+
+/* 6. Feature Cards Styling (Centered Design) */
+.feature-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    height: 210px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #E6E9EF;
+}
+
+
+/* 7. Elegant Close Button for Negotiation Popup */
+div[key="close_negotiation"] button {
+    border: none !important;
+    background: transparent !important;
+    color: #999 !important;
+    font-size: 26px !important;
+    padding: 0px !important;
+    margin-top: -10px !important;
+    transition: color 0.3s !important;
+}
+div[key="close_negotiation"] button:hover {
+    color: #ff4b4b !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Fix checkbox alignment in columns */
+[data-testid="stCheckbox"] {
+    margin-bottom: -5px !important;
+}
+/* --- Add this to your existing <style> block --- */
+.loading-percentage {
+    color: #308C14;
+    font-size: 48px;
+    font-weight: 800;
+    text-align: center;
+    margin-top: -10px;
+}
+.loading-text {
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.upload-card {
+    border: none !important;
+    background-color: transparent !important;
+    padding: 0px !important;
+}
+
+.upload-card:hover {
+    border-color: #308C14;
+}
+
+[data-testid="stFileUploader"] section {
+    padding: 50px 20px !important;
+    min-height: 220px !important;
+    background-color: #f8f9fb !important;
+    border-radius: 15px !important;
+    border: 1px solid #E6E9EF !important;
+}
+
+.pdf-toolbar {
+    background-color: #323639;
+    padding: 6px 12px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    border-bottom: 1px solid #444;
+}
+
+/* DownloadButton */
+div[data-testid="stDownloadButton"] button {
+    background-color: #308C14 !important;
+    color: white !important;
+    border: 1.5px solid #308C14 !important;
+    padding: 2px 5px !important;
+    font-size: 18px !important;
+    height: auto !important;
+    line-height: 1 !important;
+    transition: opacity 0.2s !important;
+}
+
+div[data-testid="stDownloadButton"] button:hover {
+    opacity: 0.7 !important;
+    background-color: transparent !important;
+}
+/* 1. Unified PDF Wrapper */
+.pdf-container-box {
+    border: 1px solid #323639;
+    border-radius: 12px;
+    overflow: hidden; /* Clips the PDF edges to the border radius */
+    background-color: #525659; /* Classic PDF viewer background */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+
+/* אפקט מעבר עכבר אלגנטי */
+div[key="toolbar_dl_btn"] button:hover {
+    border-color: #308C14 !important;
+    color: #308C14 !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* התאמת רכיב הסטטוס לשפה של RightRent */
+[data-testid="stStatusWidget"] {
+    border: 1px solid #E6E9EF !important;
+    border-radius: 12px !important;
+    background-color: white !important;
+}
+
+/* צביעת האייקונים של הסטטוס בירוק שלכם */
+[data-testid="stStatusWidget"] svg {
+    fill: #308C14 !important;
+}
+
+/* עיצוב הטקסט בתוך הסטטוס */
+[data-testid="stStatusWidget"] div {
+    font-family: inherit;
+    color: #333;
+}
+
+
+    /* Tooltip styles */
+.tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
+.tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
+.tooltip:hover .tooltiptext, .tooltip:active .tooltiptext { visibility: visible; opacity: 1; }
