@@ -331,7 +331,7 @@ st.markdown("""
             transition: color 0.3s !important;
         }
         div[key="close_negotiation"] button:hover {
-            color: #ff4b4b !important; /* אדום עדין במעבר עכבר */
+            color: #ff4b4b !important; 
             background: transparent !important;
             border: none !important;
         }
@@ -400,31 +400,30 @@ st.markdown("""
         }
         
         [data-testid="stFileUploader"] section {
-            padding: 50px 20px !important; /* הגדלת הריווח הפנימי להגדלת המלבן */
-            min-height: 220px !important;   /* הגדרת גובה מינימלי למלבן */
-            background-color: #f8f9fb !important; /* צבע אפור עדין */
+            padding: 50px 20px !important; 
+            min-height: 220px !important;  
+            background-color: #f8f9fb !important; 
             border-radius: 15px !important;
             border: 1px solid #E6E9EF !important;
         }
         
-                /* סרגל כלים אלגנטי ל-PDF (סטייל דפדפן כרום) */
         .pdf-toolbar {
-            background-color: #323639; /* אפור כהה מקצועי */
+            background-color: #323639; 
             padding: 6px 12px;
-            border-radius: 10px 10px 0 0; /* פינות מעוגלות רק למעלה */
+            border-radius: 10px 10px 0 0; 
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            gap: 10px; /* צמצום רווחים למראה מהודק */
+            gap: 10px; 
             width: 100%;
             border-bottom: 1px solid #444;
         }
         
-        /* עיצוב כפתור ההורדה בתוך הסרגל - להתאמה מושלמת */
+        /* DownloadButton */
         div[data-testid="stDownloadButton"] button {
-            background-color: transparent !important;
+            background-color: #308C14 !important;
             color: white !important;
-            border: none !important;
+            border: 1.5px solid #308C14 !important;
             padding: 2px 5px !important;
             font-size: 18px !important;
             height: auto !important;
@@ -444,54 +443,16 @@ st.markdown("""
             background-color: #525659; /* Classic PDF viewer background */
             box-shadow: 0 8px 24px rgba(0,0,0,0.12);
         }
+    
         
-        /* 2. Seamless Chrome-Style Toolbar */
-        /* This styling applies to the columns containing your icons */
-        [data-testid="stHorizontalBlock"]:has(button[key="toolbar_dl_btn"]) {
-            background-color: #323639 !important;
-            padding: 8px 16px !important;
-            margin-bottom: 0px !important; /* Forces it to touch the PDF */
-            border-bottom: 1px solid #444;
-        }
-        /* 3. Icon Styling (Cleaning up Streamlit defaults) */
-        div[key="toolbar_dl_btn"] button {
-            background-color: transparent !important;
-            border: none !important;
-            color: #FFFFFF !important;
-            font-size: 20px !important;
-            transition: transform 0.2s, color 0.2s !important;
-        }
-        
+        /* אפקט מעבר עכבר אלגנטי */
         div[key="toolbar_dl_btn"] button:hover {
-            transform: scale(1.15);
-            color: #308C14 !important; /* RightRent Green on hover */
+            border-color: #308C14 !important;
+            color: #308C14 !important;
+            background-color: rgba(255, 255, 255, 0.1) !important;
         }
         
-        .toolbar-print-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0;
-            transition: transform 0.2s;
-        }
-        
-        .toolbar-print-btn:hover {
-            transform: scale(1.15);
-        }
-        
-        /* 4. THE PRINT FIX: Define what happens when window.print() is called */
-        @media print {
-            /* Hide all UI elements */
-            .stApp > header, [data-testid="stSidebar"], .stButton, .negotiation-box, 
-            header, footer, hr, .stMarkdown h1, .stMarkdown p { display: none !important; }
-            
-            /* Show only the PDF container, centered and full-width */
-            .pdf-container-box { border: none !important; box-shadow: none !important; width: 100% !important; }
-            [data-testid="column"] { width: 100% !important; flex: none !important; }
-        }
-        
+         
         /* Tooltip styles */
         .tooltip { position: relative; display: inline-block; cursor: pointer; color: #308C14; font-weight: bold; margin-left: 5px; }
         .tooltip .tooltiptext { visibility: hidden; width: 280px; background-color: #333; color: #fff; text-align: left; border-radius: 8px; padding: 12px; position: absolute; z-index: 1000; bottom: 125%; left: 50%; margin-left: -140px; opacity: 0; transition: opacity 0.3s; transition-delay: 0.4s; font-size: 13px; line-height: 1.4; font-weight: normal; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); pointer-events: none; }
@@ -913,44 +874,34 @@ elif st.session_state.step == 4:
 
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
-    # --- תצוגת PDF עם ה-TOOLBAR החדש ---
-    # שימוש בטורים רחבים בצדדים כדי להקטין את ה-PDF ולמרכז אותו
+
     # --- Integrated PDF View ---
     pdf_col_l, pdf_col_main, pdf_col_r = st.columns([1, 4, 1])
 
     with pdf_col_main:
         if "highlighted_pdf" in st.session_state:
-            # Wrap the toolbar and viewer in the unified container
             st.markdown('<div class="pdf-container-box">', unsafe_allow_html=True)
 
-            # Integrated Toolbar Row
-            t_col_name, t_col_spacer, t_col_print, t_col_dl = st.columns([2, 5, 0.6, 0.6])
+            # יחס טורים חדש שנותן מקום לכפתור: [2, 5, 2]
+            t_col_name, t_col_spacer, t_col_dl = st.columns([2, 5, 2])
 
             with t_col_name:
                 st.markdown(
-                    "<p style='color: white; margin-top: 12px; font-size: 13px; font-weight: 500;'>Reviewed_Contract.pdf</p>",
+                    "<p style='color: white; margin-top: 15px; font-size: 13px; font-weight: 500; opacity: 0.8;'>Reviewed_Contract.pdf</p>",
                     unsafe_allow_html=True)
 
-            with t_col_print:
-                # The "Print" button now triggers the browser dialog properly
-                st.markdown("""
-                        <button class="toolbar-print-btn" onclick="window.print()" title="Print Contract">
-                            🖨️
-                        </button>
-                    """, unsafe_allow_html=True)
-
             with t_col_dl:
+                st.markdown('<div class="download-wrapper">', unsafe_allow_html=True)
                 st.download_button(
-                    label="📥",
+                    label="📥 Download",
                     data=st.session_state.highlighted_pdf,
                     file_name="RightRent_Analysis.pdf",
                     mime="application/pdf",
-                    key="toolbar_dl_btn"
+                    key="actual_dl_button" # ה-key פה כבר לא משנה ל-CSS
                 )
+                st.markdown('</div>', unsafe_allow_html=True)
 
-            # The PDF Viewer (Fits flush below the toolbar)
             pdf_viewer(st.session_state.highlighted_pdf, width=800, height=600)
-
             st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
