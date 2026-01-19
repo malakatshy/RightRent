@@ -9,6 +9,9 @@ def local_css(file_name):
     with open(file_name, encoding="utf-8") as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+
+local_css("style.css")
+
 def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
     """
     Highlights the PDF based on user preference importance levels:
@@ -192,6 +195,12 @@ def analyze_contract(contract_text, user_prefs):
     - Grace period for late payment (e.g., 3-5 days before a penalty).
     - Clear mechanism for renewing the contract (Option).
     - Professional cleaning requirements (making sure they are mutual).
+    
+    -CRITICAL RULE FOR MISSING CLAUSES: 
+      If a protection is missing because a clause explicitly DENIES it (e.g., 'Tenant has NO option to extend'), 
+      this is NOT a "missing_protection". It is a "termination" or "rent_increase" issue. 
+      In this case, you MUST provide the "exact_quote" from the contract so it can be highlighted.
+      Use "missing_protection" ONLY if the contract is completely silent on the topic.
 
     # Update the preference_category list in the prompt to include "missing_protection"
     "preference_category": "rent_increase" | "termination" | ... | "missing_protection" | "budget",
@@ -203,7 +212,17 @@ def analyze_contract(contract_text, user_prefs):
     - Set is_legal_violation to TRUE if the clause violates any Article in the Legal Knowledge Base.
     - Legal violations MUST always be included, even for "Low" importance user preferences.
     - If no issues found, return an empty array: []
+    
+     
+    STRICT ADHERENCE REQUIRED:
+    1. You MUST NOT skip any clause that violates Israeli Law.
+    2. You MUST NOT skip the budget check.
+    3. If a clause is identified as 'is_legal_violation: true', it is MANDATORY to include it in the JSON array.
+    4. If a clause is identified as 'is_legal_violation: true' OR it conflicts with a Tenant Preference, it is MANDATORY to include it in the JSON array.
+    
+    FAILURE TO INCLUDE LEGAL VIOLATIONS IS A CRITICAL SYSTEM ERROR.
     """
+
 
     # 3. Call DeepSeek Chat (Fast model)
     # Using 'deepseek-chat' for fast responses (deepseek-reasoner is too slow - 10+ minutes)
@@ -213,7 +232,7 @@ def analyze_contract(contract_text, user_prefs):
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": f"CONTRACT TEXT TO ANALYZE:\n{contract_text}"},
         ],
-        # timeout=60,  # 60 second timeout to prevent hanging
+        temperature=0,
         stream=False
     )
 
@@ -236,14 +255,13 @@ def extract_text_from_pdf(uploaded_file):
     return full_text
 
 
+
 # --- Page Configuration ---
 st.set_page_config(
     page_title="RightRent",
     page_icon="icon_page.svg",
     layout="wide"
 )
-
-local_css("style.css")
 
 # --- Initialize Session State ---
 if 'step' not in st.session_state:
@@ -339,20 +357,38 @@ def show_help_dialog():
     **If you need help, contact us:** 📧 [rightrent.israel@gmail.com](https://mail.google.com/mail/?view=cm&fs=1&to=rightrent.israel@gmail.com)
     """)
 
+def render_stepper(current_step):
+    steps = ["Start", "Setup", "Analyze", "Review & Negotiate"]
 
+    stepper_html = '<div class="stepper-wrapper">'
+    for i, label in enumerate(steps, 1):
+        status_class = ""
+        if i == current_step:
+            status_class = "active"
+        elif i < current_step:
+            status_class = "completed"
+
+        stepper_html += f'''
+<div class="step-item {status_class}">
+<div class="step-counter">{i}</div>
+<div class="step-label">{label}</div>
+</div>
+'''
+    stepper_html += '</div>'
+
+    st.markdown(stepper_html, unsafe_allow_html=True)
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
 if st.session_state.step == 1:
     # --- Standardized Header ---
-    # Using [9, 1] instead of [8, 2] to push the button even further to the edge
     header_left, header_right = st.columns([9, 1])
     with header_left:
         col_icon, col_brand = st.columns([0.04, 0.94], gap="small")
         with col_icon: st.image("icon_page.svg", width=45)
         with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>",
                                     unsafe_allow_html=True)
-
+    render_stepper(1)
     with header_right:
         if st.button("About / Help", key="help_btn_step1"):
             show_help_dialog()
@@ -374,7 +410,7 @@ if st.session_state.step == 1:
             <div class="feature-card">
                 <h2 style="font-size: 45px; margin-bottom: 15px !important;">⚙️</h2>
                 <h4 style="color: #333 !important; font-weight: 600;">Preferences setup</h4>
-                <p style="color: #666; font-size: 15px; margin-top: 10px;">Tell us what matters so the AI can personalize the review</p>
+                <p style="color: #666; font-size: 17px; margin-top: 10px;">Tell us what matters so the AI can personalize the review</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -383,7 +419,7 @@ if st.session_state.step == 1:
             <div class="feature-card">
                 <h2 style="font-size: 45px; margin-bottom: 15px !important;">📄</h2>
                 <h4 style="color: #333 !important; font-weight: 600;">Contract upload</h4>
-                <p style="color: #666; font-size: 15px; margin-top: 10px;">We analyse risks, mismatches, and unclear terms</p>
+                <p style="color: #666; font-size: 17px; margin-top: 10px;">We analyse risks, mismatches, and unclear terms</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -392,7 +428,7 @@ if st.session_state.step == 1:
             <div class="feature-card">
                 <h2 style="font-size: 45px; margin-bottom: 15px !important;">👁️</h2>
                 <h4 style="color: #333 !important; font-weight: 600;">Review & negotiation</h4>
-                <p style="color: #666; font-size: 15px; margin-top: 10px;">See AI-highlighted clauses and draft your message</p>
+                <p style="color: #666; font-size: 17px; margin-top: 10px;">See AI-highlighted clauses and draft your message</p>
             </div>
         """, unsafe_allow_html=True)
 
@@ -413,6 +449,7 @@ if st.session_state.step == 1:
 # Step 2: Personal Preferences
 # ==========================================
 elif st.session_state.step == 2:
+
     # --- Standardized Header Layout (Matching Page 1) ---
     header_left, header_right = st.columns([9, 1])
     with header_left:
@@ -420,13 +457,14 @@ elif st.session_state.step == 2:
         with col_icon: st.image("icon_page.svg", width=45)
         with col_brand: st.markdown("<h2 class='brand-text' style='font-size: 32px; font-weight: 700;'>RightRent</h2>",
                                     unsafe_allow_html=True)
+    render_stepper(2)
     with header_right:
         st.empty()
 
     # Title and Centered Gray Subtitle
     st.markdown("<h1 style='text-align: center;'>Tell us what matters to you</h1>", unsafe_allow_html=True)
     st.markdown(
-        "<p style='text-align: center; color: gray; font-size: 17px; margin-top: -10px; margin-bottom: 45px;'>"
+        "<p style='text-align: center; color: #666; font-size: 19px; margin-top: -10px; margin-bottom: 45px;'>"
         "Your preferences help identify clauses that may not match your needs.</p>",
         unsafe_allow_html=True)
 
@@ -437,8 +475,8 @@ elif st.session_state.step == 2:
         # Professional Underlined Header
         st.markdown("<div class='section-header'>Importance ratings</div>", unsafe_allow_html=True)
 
-        rent_inc = importance_row(
-            "📈 Rent increase limitations", "rent_inc", "rent_increase",
+        rent_increase = importance_row(
+            "📈 Rent increase limitations", "rent_increase", "rent_increase",
             "<b>How important is price stability?</b><br> <b>🔴High:</b> if you need the rent to stay fixed.<br> <b>🟢Low:</b> if you are okay with price adjustments."
         )
 
@@ -471,7 +509,7 @@ elif st.session_state.step == 2:
         # Professional Underlined Header for Budget
         st.markdown("<div class='section-header'>Budget</div>", unsafe_allow_html=True)
         st.markdown(
-            "<p style='color: gray; font-size: 14px; margin-top: -15px; margin-bottom: 25px;'>Maximum monthly rent</p>",
+            "<p style='color: gray; font-size: 15px; margin-top: -15px; margin-bottom: 25px;'>Maximum monthly rent</p>",
             unsafe_allow_html=True)
 
         # Budget Input Box
@@ -482,7 +520,7 @@ elif st.session_state.step == 2:
             value=st.session_state.user_prefs.get("budget", 0),
             label_visibility="collapsed"
         )
-        st.markdown("<p style='color: gray; font-size: 12px; margin-top: -5px;'>Max amount in ₪ (NIS)</p>",
+        st.markdown("<p style='color: gray; font-size: 13px; margin-top: -5px;'>Max amount in ₪ (NIS)</p>",
                     unsafe_allow_html=True)
 
     # --- Navigation Buttons ---
@@ -497,7 +535,7 @@ elif st.session_state.step == 2:
     with b_right:
         if st.button("Next", use_container_width=True, type="primary"):
             st.session_state.user_prefs = {
-                "rent_increase": rent_inc,
+                "rent_increase": rent_increase,
                 "termination": termination,
                 "repairs": repairs,
                 "pets": pets,
@@ -510,6 +548,7 @@ elif st.session_state.step == 2:
 # Step 3: Contract Upload
 # ==========================================
 elif st.session_state.step == 3:
+
     # --- Standardized Header Logic ---
     # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
     header_left, header_right = st.columns([9, 1])
@@ -523,7 +562,7 @@ elif st.session_state.step == 3:
             st.markdown(
                 "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
                 unsafe_allow_html=True)
-
+    render_stepper(3)
     with header_right:
         # We leave this empty to keep the logo in its exact position
         st.empty()
@@ -531,7 +570,7 @@ elif st.session_state.step == 3:
     st.markdown("<h1 style='text-align: center; font-size: 38px; font-weight: 700;'>Upload your rental contract</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-        "<p style='text-align: center; color: gray; margin-top: -10px; margin-bottom: 30px;'>Please provide your contract in PDF format for AI analysis.</p>",
+        "<p style='text-align: center; color: #666;font-size: 19px; margin-top: -10px; margin-bottom: 30px;'>Please provide your contract in PDF format for AI analysis.</p>",
         unsafe_allow_html=True)
 
     col_pad_left, col_main, col_pad_right = st.columns([1, 2, 1])
@@ -587,7 +626,7 @@ elif st.session_state.step == 3:
                         st.error(f"Technical details: {e}")
 
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("← Back to Preferences", key="back_to_2"):
+    if st.button("← Back", key="back_to_2"):
         go_to_step(2)
 
 # ==========================================
@@ -597,7 +636,7 @@ elif st.session_state.step == 4:
 
     # --- Sidebar Navigation Menu ---
     with st.sidebar:
-        st.markdown("<h2 style='font-size: 20px; font-weight: 700; color: #308C14;'>📍 Navigation</h2>",
+        st.markdown("<h2 style='font-size: 20px; font-weight: 700; color: #308C14;'> Navigation</h2>",
                     unsafe_allow_html=True)
 
         st.markdown(f"""
@@ -629,6 +668,8 @@ elif st.session_state.step == 4:
                 "<h2 class='brand-text' style='font-size: 32px; font-weight: 700; height: 45px; display: flex; align-items: center;'>RightRent</h2>",
                 unsafe_allow_html=True)
 
+    render_stepper(4)
+
     with header_right:
         # We leave this empty to keep the logo in its exact position
         st.empty()
@@ -636,34 +677,28 @@ elif st.session_state.step == 4:
     st.markdown("<div id='rental-document'></div>", unsafe_allow_html=True)
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
-
+    # --- Integrated PDF View ---
+    # --- Integrated PDF View ---
     # --- Integrated PDF View ---
     pdf_col_l, pdf_col_main, pdf_col_r = st.columns([0.1, 5.8, 0.1])
 
     with pdf_col_main:
         if "highlighted_pdf" in st.session_state:
+            # פקודה נקייה - ה-CSS החדש יתפוס אותה אוטומטית וימרכז אותה
+            st.download_button(
+                label="📥 Download Pdf",
+                data=st.session_state.highlighted_pdf,
+                file_name="RightRent_Analysis.pdf",
+                mime="application/pdf",
+                key="centered_download_btn",
+                use_container_width=False
+            )
+
+            # תיבת ה-PDF
             st.markdown('<div class="pdf-container-box">', unsafe_allow_html=True)
-
-            t_col_name, t_col_spacer, t_col_dl = st.columns([2, 5, 2])
-
-            with t_col_name:
-                st.markdown(
-                    "<p style='color: white; margin-top: 15px; font-size: 13px; font-weight: 500; opacity: 0.8;'>Reviewed_Contract.pdf</p>",
-                    unsafe_allow_html=True)
-
-            with t_col_dl:
-                st.markdown('<div class="download-wrapper">', unsafe_allow_html=True)
-                st.download_button(
-                    label="📥 Download",
-                    data=st.session_state.highlighted_pdf,
-                    file_name="RightRent_Analysis.pdf",
-                    mime="application/pdf",
-                    key="actual_dl_button" # ה-key פה כבר לא משנה ל-CSS
-                )
-                st.markdown('</div>', unsafe_allow_html=True)
-
             pdf_viewer(st.session_state.highlighted_pdf, width=800, height=700)
             st.markdown('</div>', unsafe_allow_html=True)
+
 
     st.markdown("---")
 
@@ -672,36 +707,56 @@ elif st.session_state.step == 4:
     clean_json = st.session_state.analysis_results.replace("```json", "").replace("```", "").strip()
     analysis_data = json.loads(clean_json)
 
-    # 1. Separate the data into two lists (Logic correctly identifies the types)
+    # 1. הפרדת הנתונים (הלוגיקה נשארת זהה לחלוטין לקוד המקורי שלך)
     risks_found = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
     suggestions = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
 
-    # 2. Show Risks first (🔴/🟡)
+    # --- מנגנון מיון ויזואלי (חדש) ---
+    critical_items = []
+    ordinary_risk_items = []
+
+    for item in risks_found:
+        is_violation = item.get("is_legal_violation", False)
+        # שימוש בלוגיקה המקורית שלך להגדרה מהו קריטי
+        is_critical = is_violation or item.get("preference_category") == "budget"
+
+        if is_critical:
+            critical_items.append(item)
+        else:
+            ordinary_risk_items.append(item)
+
+    # איחוד הרשימות: קודם כל האדומים (Critical), אחר כך הצהובים (Risk)
+    all_ordered_risks = critical_items + ordinary_risk_items
+
+    # 2. הצגת הנתונים (Show Risks)
     st.markdown("<div id='critical-risks'></div>", unsafe_allow_html=True)
     st.markdown("### 🔍 Critical Issues & Risks")
 
-    if not risks_found:
+    if not all_ordered_risks:
         st.success("No critical risks found!")
     else:
-        for item in risks_found:
+        # הלולאה עכשיו רצה על הרשימה הממוינת
+        for item in all_ordered_risks:
             is_violation = item.get("is_legal_violation", False)
             is_critical = is_violation or item.get("preference_category") == "budget"
+
+            # התוויות והצבעים נשארים בדיוק כפי שהגדרת במקור
             status_label = "🚨 CRITICAL" if is_critical else "⚠️ RISK"
             color = "#d32f2f" if is_critical else "#ffa000"
 
             with st.expander(f"{status_label} | {item.get('issue_name')}"):
                 st.markdown(f"""
-                        <div style="border-left: 5px solid {color}; padding-left: 15px; margin-top: 10px;">
-                            <p style="margin-bottom: 5px;"><b>📄 Found in Contract:</b></p>
-                            <i style="color: #555;">"{item.get('exact_quote')}"</i>
-                            <div style="margin-top: 15px;"></div>
-                            <p style="margin-bottom: 5px;"><b>💡 Why it's a risk:</b></p>
-                            <p style="color: #333;">{item.get('explanation')}</p>
-                            <div style="margin-top: 15px;"></div>
-                            <p style="margin-bottom: 5px; color: {color};"><b>💬 Negotiation Tip:</b></p>
-                            <p>{item.get('negotiation_tip')}</p>
-                        </div>
-                    """, unsafe_allow_html=True)
+                            <div style="border-left: 5px solid {color}; padding-left: 15px; margin-top: 10px;">
+                                <p style="margin-bottom: 5px;"><b>📄 Found in Contract:</b></p>
+                                <i style="color: #555;">"{item.get('exact_quote')}"</i>
+                                <div style="margin-top: 15px;"></div>
+                                <p style="margin-bottom: 5px;"><b>💡 Why it's a risk:</b></p>
+                                <p style="color: #333;">{item.get('explanation')}</p>
+                                <div style="margin-top: 15px;"></div>
+                                <p style="margin-bottom: 5px; color: {color};"><b>💬 Negotiation Tip:</b></p>
+                                <p>{item.get('negotiation_tip')}</p>
+                            </div>
+                        """, unsafe_allow_html=True)
 
     # 3. Show Suggested Add-ons (🔵/💡) - Only if they exist
     if suggestions:
@@ -725,11 +780,9 @@ elif st.session_state.step == 4:
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 4. Handle the "Generate Message" Workflow
-
     st.write("---")
 
-    # --- THIS IS THE "POPUP" SECTION ---
+    # --- Draft Negotiation Message ---
     st.markdown("<div id='negotiation-message'></div>", unsafe_allow_html=True)
     st.subheader("✉️ Draft Negotiation Message")
 
@@ -747,7 +800,7 @@ elif st.session_state.step == 4:
 
     with col_left:
         st.markdown(
-            "<p style='font-weight: bold; color: #d32f2f; margin-bottom: 10px;'> ⬜ Issues found in contract:</p>",
+            "<p style='font-weight: bold; color: #d32f2f; margin-bottom: 10px;'> Issues found in contract:</p>",
             unsafe_allow_html=True)
         if not risks_in_popup:
             st.caption("No risks found.")
@@ -757,7 +810,7 @@ elif st.session_state.step == 4:
 
     with col_right:
         st.markdown(
-            "<p style='font-weight: bold; color: #1976d2; margin-bottom: 10px;'> ⬜ Recommended additions:</p>",
+            "<p style='font-weight: bold; color: #1976d2; margin-bottom: 10px;'> Recommended additions:</p>",
             unsafe_allow_html=True)
         if not suggestions_in_popup:
             st.caption("No recommendations found.")
@@ -770,7 +823,6 @@ elif st.session_state.step == 4:
     st.write("**2. Choose tone:**")
     chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
 
-    # PHASE 2: GENERATION
     # PHASE 2: GENERATION
 
     c1, c2, c3 = st.columns([1, 1.5, 1])
