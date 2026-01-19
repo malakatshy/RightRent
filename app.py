@@ -582,13 +582,13 @@ elif st.session_state.step == 3:
             st.success(f"'{uploaded_file.name}' ready! ✔️")
 
             if st.button("Upload & analyze →", type="primary", use_container_width=True):
-                with st.status("Initializing analysis... 0%", expanded=True) as status:
+                with st.status("Starting AI Analysis... 0%", expanded=True) as status:
                     try:
                         import time
 
                         # --- PHASE 1: Data Ingestion (0% - 30%) ---
-                        status.update(label="Ingesting document... 15%", state="running")
-                        st.write("Extracting verbatim text from PDF...")
+                        status.update(label="Reading your contract... 15%", state="running")
+                        st.write("Scanning the document text...")
 
                         pdf_bytes = uploaded_file.getvalue()
                         uploaded_file.seek(0)
@@ -596,19 +596,19 @@ elif st.session_state.step == 3:
                         time.sleep(0.5)
 
                         # --- PHASE 2: Core Analysis (31% - 75%) ---
-                        status.update(label="Evaluating legal compliance... 45%", state="running")
-                        st.write("Cross-referencing clauses with regulatory frameworks...")
+                        status.update(label="Checking legal compliance... 45%", state="running")
+                        st.write("Comparing clauses with Israeli rental laws...")
 
                         # The actual AI Processing
                         analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
 
-                        status.update(label="Assessing tenant preferences... 70%", state="running")
-                        st.write("Evaluating alignment with user-defined priorities...")
+                        status.update(label="Matching your preferences... 70%", state="running")
+                        st.write("Checking how the contract fits your needs...")
                         time.sleep(0.5)
 
                         # --- PHASE 3: Report Generation (76% - 100%) ---
-                        status.update(label="Constructing visual report... 90%", state="running")
-                        st.write("Applying highlights and generating risk justifications...")
+                        status.update(label="Finalizing your review... 90%", state="running")
+                        st.write("Highlighting key clauses and organizing your results...")
 
                         highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
 
