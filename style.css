@@ -163,14 +163,14 @@ div[key="close_negotiation"] button:hover {
 
 div[data-testid="stDownloadButton"] {
     display: flex !important;
-    justify-content: center !important; /* מרכוז לפי ציר האמצע של הכותרת */
+    justify-content: center !important;
     width: 100% !important;
     margin: 20px 0 !important;
 }
 
 div[data-testid="stDownloadButton"] button {
-    width: auto !important; /* גודל לפי הטקסט בלבד */
-    min-width: 200px !important; /* גודל מינימלי למראה אלגנטי */
+    width: auto !important;
+    min-width: 200px !important;
     background-color: #308C14 !important;
     color: white !important;
     border-radius: 8px !important;
@@ -180,9 +180,8 @@ div[data-testid="stDownloadButton"] button {
 }
 
 
-/* 3. אפקט מעבר (Hover) */
 div[data-testid="stDownloadButton"] button:hover {
-    background-color: #A5D6A7 !important; /* הירוק הבהיר שהצעתי */
+    background-color: #A5D6A7 !important;
     color: #308C14 !important;
     box-shadow: 0 4px 12px rgba(48, 140, 20, 0.2) !important;
 }
@@ -215,19 +214,16 @@ div[key="toolbar_dl_btn"] button:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-/* התאמת רכיב הסטטוס לשפה של RightRent */
 [data-testid="stStatusWidget"] {
     border: 1px solid #E6E9EF !important;
     border-radius: 12px !important;
     background-color: white !important;
 }
 
-/* צביעת האייקונים של הסטטוס בירוק שלכם */
 [data-testid="stStatusWidget"] svg {
     fill: #308C14 !important;
 }
 
-/* עיצוב הטקסט בתוך הסטטוס */
 [data-testid="stStatusWidget"] div {
     font-family: inherit;
     color: #333;
@@ -248,10 +244,9 @@ div[key="toolbar_dl_btn"] button:hover {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    background-color: #25D366 !important; /* ירוק WhatsApp */
+    background-color: #25D366 !important;
     color: white !important;
 
-    /* מידות זהות לכפתורי המערכת */
     height: 48px !important;
     width: 220px !important;
     border-radius: 8px !important;
@@ -268,7 +263,6 @@ div[key="toolbar_dl_btn"] button:hover {
 }
 
 
-/* --- תפריט ניווט אלגנטי בסגנון Streamlit Pages --- */
 .nav-container {
     display: flex;
     flex-direction: column;
@@ -280,21 +274,19 @@ div[key="toolbar_dl_btn"] button:hover {
     display: flex;
     align-items: center;
     padding: 10px 12px;
-    color: #31333F !important; /* צבע טקסט סטנדרטי */
+    color: #31333F !important;
     text-decoration: none !important;
     border-radius: 8px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     transition: background-color 0.2s;
 }
 
-/* אפקט מעבר עכבר - Hover */
 .nav-link:hover {
     background-color: #f0f2f6;
-    color: #308C14 !important; /* ירוק של המותג שלכם */
+    color: #308C14 !important;
 }
 
-/* הוספת רווח קטן לאייקונים */
 .nav-link i, .nav-link span {
     margin-right: 12px;
     font-size: 18px;
@@ -308,7 +300,6 @@ div[key="toolbar_dl_btn"] button:hover {
 }
 
 
-/* עיצוב מחדש של ה-Expanders (הופך אותם לכרטיסים) */
 .streamlit-expanderHeader {
     background-color: white !important;
     border-radius: 12px !important;
@@ -316,16 +307,15 @@ div[key="toolbar_dl_btn"] button:hover {
     font-weight: 600 !important;
     font-size: 16px !important;
     padding: 15px !important;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; /* צל עדין */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
     transition: all 0.3s ease;
 }
 
 .streamlit-expanderHeader:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important; /* צל חזק יותר במעבר עכבר */
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
     background-color: #fafafa !important;
 }
 
-/* ביטול הגבולות המקוריים של סטרימליט */
 .streamlit-expanderContent {
     border: none !important;
     background-color: #ffffff !important;
@@ -342,27 +332,17 @@ div[key="toolbar_dl_btn"] button:hover {
     border: none !important;
 }
 
-/* 2. עיצוב התיבה הכחולה (st.info) - קיצור ה"צל" ומרכוז מדויק */
 .stAlert {
-    /* width: fit-content גורם לרקע הכחול להיות בדיוק באורך המשפט */
     width: fit-content !important;
-    /* מגביל שלא יהיה רחב מדי במקרה של משפט ארוך */
     max-width: 850px !important;
-
-    /* מרכוז התיבה בדיוק באמצע */
     margin-left: auto !important;
     margin-right: auto !important;
-
-    /* רווח בין המשפט למלבנים שמתחתיו */
     margin-bottom: 30px !important;
-
-    /* עיצוב פנימי עדין */
     padding: 10px 25px !important;
     border-radius: 10px !important;
 }
 
 
-/* עיצוב סרגל השלבים (Stepper) */
 .stepper-wrapper {
     display: flex;
     justify-content: space-between;
@@ -380,12 +360,11 @@ div[key="toolbar_dl_btn"] button:hover {
     position: relative;
 }
 
-/* העיגול של כל שלב */
 .step-counter {
     width: 28px;
     height: 35px;
     border-radius: 50%;
-    background: #e0e0e0; /* אפור לשלבים שטרם בוצעו */
+    background: #e0e0e0;
     display: flex;
     font-size: 12px;
     justify-content: center;
@@ -395,7 +374,6 @@ div[key="toolbar_dl_btn"] button:hover {
     margin-bottom: 10px;
 }
 
-/* השלב הפעיל או שלבים שהושלמו נצבעים בירוק */
 .step-item.active .step-counter{
     background-color: #A5D6A7;
     color: white;
@@ -420,7 +398,6 @@ div[key="toolbar_dl_btn"] button:hover {
     font-weight: 500;
 }
 
-/* הקו המחבר בין העיגולים */
 .stepper-wrapper::before {
     content: '';
     position: absolute;

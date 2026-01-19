@@ -358,7 +358,7 @@ def show_help_dialog():
     """)
 
 def render_stepper(current_step):
-    steps = ["Start", "Setup", "Analyze", "Review & Negotiate"]
+    steps = ["Start", "Setup", "Upload & Analyze", "Review & Negotiate"]
 
     stepper_html = '<div class="stepper-wrapper">'
     for i, label in enumerate(steps, 1):
@@ -473,7 +473,7 @@ elif st.session_state.step == 2:
 
     with col_ratings:
         # Professional Underlined Header
-        st.markdown("<div class='section-header'>Importance ratings</div>", unsafe_allow_html=True)
+        st.markdown("<div class='section-header'>Personal Preference Settings</div>", unsafe_allow_html=True)
 
         rent_increase = importance_row(
             "📈 Rent increase limitations", "rent_increase", "rent_increase",
@@ -550,7 +550,6 @@ elif st.session_state.step == 2:
 elif st.session_state.step == 3:
 
     # --- Standardized Header Logic ---
-    # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
     header_left, header_right = st.columns([9, 1])
 
     with header_left:
@@ -678,13 +677,10 @@ elif st.session_state.step == 4:
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
     # --- Integrated PDF View ---
-    # --- Integrated PDF View ---
-    # --- Integrated PDF View ---
     pdf_col_l, pdf_col_main, pdf_col_r = st.columns([0.1, 5.8, 0.1])
 
     with pdf_col_main:
         if "highlighted_pdf" in st.session_state:
-            # פקודה נקייה - ה-CSS החדש יתפוס אותה אוטומטית וימרכז אותה
             st.download_button(
                 label="📥 Download Pdf",
                 data=st.session_state.highlighted_pdf,
@@ -694,9 +690,8 @@ elif st.session_state.step == 4:
                 use_container_width=False
             )
 
-            # תיבת ה-PDF
             st.markdown('<div class="pdf-container-box">', unsafe_allow_html=True)
-            pdf_viewer(st.session_state.highlighted_pdf, width=800, height=700)
+            pdf_viewer(st.session_state.highlighted_pdf, width=1000, height=900)
             st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -707,17 +702,14 @@ elif st.session_state.step == 4:
     clean_json = st.session_state.analysis_results.replace("```json", "").replace("```", "").strip()
     analysis_data = json.loads(clean_json)
 
-    # 1. הפרדת הנתונים (הלוגיקה נשארת זהה לחלוטין לקוד המקורי שלך)
     risks_found = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
     suggestions = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
 
-    # --- מנגנון מיון ויזואלי (חדש) ---
     critical_items = []
     ordinary_risk_items = []
 
     for item in risks_found:
         is_violation = item.get("is_legal_violation", False)
-        # שימוש בלוגיקה המקורית שלך להגדרה מהו קריטי
         is_critical = is_violation or item.get("preference_category") == "budget"
 
         if is_critical:
@@ -725,22 +717,19 @@ elif st.session_state.step == 4:
         else:
             ordinary_risk_items.append(item)
 
-    # איחוד הרשימות: קודם כל האדומים (Critical), אחר כך הצהובים (Risk)
     all_ordered_risks = critical_items + ordinary_risk_items
 
-    # 2. הצגת הנתונים (Show Risks)
+    # 2. (Show Risks)
     st.markdown("<div id='critical-risks'></div>", unsafe_allow_html=True)
     st.markdown("### 🔍 Critical Issues & Risks")
 
     if not all_ordered_risks:
         st.success("No critical risks found!")
     else:
-        # הלולאה עכשיו רצה על הרשימה הממוינת
         for item in all_ordered_risks:
             is_violation = item.get("is_legal_violation", False)
             is_critical = is_violation or item.get("preference_category") == "budget"
 
-            # התוויות והצבעים נשארים בדיוק כפי שהגדרת במקור
             status_label = "🚨 CRITICAL" if is_critical else "⚠️ RISK"
             color = "#d32f2f" if is_critical else "#ffa000"
 
