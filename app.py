@@ -24,9 +24,9 @@ def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
 
     # Color map based on USER PREFERENCE importance level
     color_map = {
-        "High": (1, 0, 0),  # Red - critical issues user cannot compromise on
-        "Medium": (1, 1, 0),  # Yellow - might be problematic but acceptable
-        # "Low" is intentionally omitted - no highlighting for low importance
+        "High": (1, 0, 0),
+        "Medium": (1, 1, 0),
+
     }
 
     for risk in risks:
@@ -39,7 +39,6 @@ def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
             importance = "High"
         # Special handling for budget - verify with Python math (AI can't be trusted with math)
         elif category == "budget":
-            # חילוץ בטוח של המספר (ניקוי פסיקים או סימני מטבע אם ה-AI טעה והחזיר מחרוזת)
             raw_rent = risk.get("rent_amount", 0)
             try:
                 rent_amount = float(str(raw_rent).replace(',', '').replace('$', '').replace('₪', '').strip())
@@ -48,11 +47,9 @@ def highlight_pdf(original_pdf_bytes, analysis_json, user_prefs):
 
             user_budget = float(user_prefs.get("budget", 0))
 
-            # בדיקה מתמטית קשיחה: רק אם X > Budget נצבע באדום
             if rent_amount > user_budget:
                 importance = "High"
             else:
-                # אם שכר הדירה תקין, אנחנו מגדירים חשיבות נמוכה כדי שהקוד ידלג על זה
                 importance = "Low"
 
         else:
@@ -252,7 +249,6 @@ local_css("style.css")
 if 'step' not in st.session_state:
     st.session_state.step = 1
 if 'user_prefs' not in st.session_state:
-    # הגדרת ערכי ברירת מחדל התחלתיים
     st.session_state.user_prefs = {
         "rent_increase": "Low",
         "termination": "Low",
@@ -435,8 +431,6 @@ elif st.session_state.step == 2:
         unsafe_allow_html=True)
 
     # --- Main Selection Area (Symmetrical Layout) ---
-    # We use [1.2, 1, 0.3] to push both sections slightly to the left
-    # col_ratings, col_budget, col_spacer = st.columns([1.2, 1, 0.3], gap="large")
     col_p_l, col_ratings, col_gap, col_budget, col_p_r = st.columns([0.1, 1.4, 0.1, 0.7, 0.1])
 
     with col_ratings:
@@ -518,11 +512,9 @@ elif st.session_state.step == 2:
 elif st.session_state.step == 3:
     # --- Standardized Header Logic ---
     # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
-    # We keep [9, 1] to ensure the logo doesn't shift when the button is removed
     header_left, header_right = st.columns([9, 1])
 
     with header_left:
-        # Exact same 0.05 / 0.94 ratio from Page 1
         col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
             st.image("icon_page.svg", width=45)
@@ -546,7 +538,6 @@ elif st.session_state.step == 3:
 
 
     with col_main:
-        # הסרנו את הכותרות המנופחות והשארנו רק את רכיב ההעלאה שמעוצב עכשיו דרך ה-CSS
         uploaded_file = st.file_uploader("Upload PDF", type=["pdf"], label_visibility="collapsed")
 
         if uploaded_file is not None:
@@ -603,36 +594,32 @@ elif st.session_state.step == 3:
 # Step 4: Review & Negotiation
 # ==========================================
 elif st.session_state.step == 4:
-    # --- CSS for a clean "Popup" look without breaking widgets ---
-    st.markdown("""
-        <style>
-        .negotiation-box {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-radius: 15px;
-            border: 2px solid #308C14;
-            margin-top: 20px;
-        }
-        .whatsapp-btn {
-            background-color: #25D366;
-            color: white !important;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-            display: block;
-            text-decoration: none;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+
+    # --- Sidebar Navigation Menu ---
+    with st.sidebar:
+        st.markdown("<h2 style='font-size: 20px; font-weight: 700; color: #308C14;'>📍 Navigation</h2>",
+                    unsafe_allow_html=True)
+
+        st.markdown(f"""
+                <div class="nav-container">
+                    <a href="#rental-document" class="nav-link"><span>📜</span> Rental Reviewed</a>
+                    <a href="#critical-risks" class="nav-link"><span>🔍</span> Critical Risks</a>
+                    <a href="#recommended-additions" class="nav-link"><span>💡</span> Recommendations</a>
+                    <a href="#negotiation-message" class="nav-link"><span>✉️</span> Negotiation Draft</a>
+                </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<div style='margin-top: 20px; border-top: 1px solid #ddd; padding-top: 20px;'></div>",
+                    unsafe_allow_html=True)
+
+        if st.button("← Back to Upload", use_container_width=True):
+            go_to_step(3)
+
 
     # --- Standardized Header Logic ---
-    # --- Standardized Header Layout (Matching Page 1 positioning without the button) ---
-    # We keep [9, 1] to ensure the logo doesn't shift when the button is removed
     header_left, header_right = st.columns([9, 1])
 
     with header_left:
-        # Exact same 0.05 / 0.94 ratio from Page 1
         col_icon, col_brand = st.columns([0.05, 0.94], gap="small")
         with col_icon:
             st.image("icon_page.svg", width=45)
@@ -646,17 +633,17 @@ elif st.session_state.step == 4:
         # We leave this empty to keep the logo in its exact position
         st.empty()
 
+    st.markdown("<div id='rental-document'></div>", unsafe_allow_html=True)
     st.markdown("<h1 style='text-align: center;'>Your rental contract - reviewed</h1>", unsafe_allow_html=True)
 
 
     # --- Integrated PDF View ---
-    pdf_col_l, pdf_col_main, pdf_col_r = st.columns([1, 4, 1])
+    pdf_col_l, pdf_col_main, pdf_col_r = st.columns([0.1, 5.8, 0.1])
 
     with pdf_col_main:
         if "highlighted_pdf" in st.session_state:
             st.markdown('<div class="pdf-container-box">', unsafe_allow_html=True)
 
-            # יחס טורים חדש שנותן מקום לכפתור: [2, 5, 2]
             t_col_name, t_col_spacer, t_col_dl = st.columns([2, 5, 2])
 
             with t_col_name:
@@ -675,7 +662,7 @@ elif st.session_state.step == 4:
                 )
                 st.markdown('</div>', unsafe_allow_html=True)
 
-            pdf_viewer(st.session_state.highlighted_pdf, width=800, height=600)
+            pdf_viewer(st.session_state.highlighted_pdf, width=800, height=700)
             st.markdown('</div>', unsafe_allow_html=True)
 
     st.markdown("---")
@@ -690,90 +677,104 @@ elif st.session_state.step == 4:
     suggestions = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
 
     # 2. Show Risks first (🔴/🟡)
+    st.markdown("<div id='critical-risks'></div>", unsafe_allow_html=True)
     st.markdown("### 🔍 Critical Issues & Risks")
+
     if not risks_found:
-        st.success("No critical risks or legal violations found based on your preferences!")
+        st.success("No critical risks found!")
     else:
         for item in risks_found:
             is_violation = item.get("is_legal_violation", False)
-            icon = "🔴" if (is_violation or item.get("preference_category") == "budget") else "🟡"
-            with st.expander(f"{icon} {item.get('issue_name')}"):
-                st.write(f"**Found in Contract:** _{item.get('exact_quote')}_")
-                st.write(f"**Why it's a risk:** {item.get('explanation')}")
-                st.write(f"**Negotiation Tip:** {item.get('negotiation_tip')}")
+            is_critical = is_violation or item.get("preference_category") == "budget"
+            status_label = "🚨 CRITICAL" if is_critical else "⚠️ RISK"
+            color = "#d32f2f" if is_critical else "#ffa000"
+
+            with st.expander(f"{status_label} | {item.get('issue_name')}"):
+                st.markdown(f"""
+                        <div style="border-left: 5px solid {color}; padding-left: 15px; margin-top: 10px;">
+                            <p style="margin-bottom: 5px;"><b>📄 Found in Contract:</b></p>
+                            <i style="color: #555;">"{item.get('exact_quote')}"</i>
+                            <div style="margin-top: 15px;"></div>
+                            <p style="margin-bottom: 5px;"><b>💡 Why it's a risk:</b></p>
+                            <p style="color: #333;">{item.get('explanation')}</p>
+                            <div style="margin-top: 15px;"></div>
+                            <p style="margin-bottom: 5px; color: {color};"><b>💬 Negotiation Tip:</b></p>
+                            <p>{item.get('negotiation_tip')}</p>
+                        </div>
+                    """, unsafe_allow_html=True)
 
     # 3. Show Suggested Add-ons (🔵/💡) - Only if they exist
     if suggestions:
         st.markdown("---")
-        st.markdown("### 💡 Recommended Additions (Best Practices)")
+        st.markdown("<div id='recommended-additions'></div>", unsafe_allow_html=True)
+        st.markdown("### 💡 Recommended Additions")
+
         st.info("These clauses are not in your contract but would protect you if added.")
 
         for item in suggestions:
-            with st.expander(f"🔵 {item.get('issue_name')}"):
-                st.write(f"**Recommendation:** {item.get('explanation')}")
-                st.write(f"**Suggested Phrasing:** {item.get('negotiation_tip')}")
-
-    # --- שימי לב: מחקתי כאן את הלולאה הישנה שהתחילה ב- "for item in analysis_data:" ---
+            with st.expander(f"🔵 RECOMMENDED | {item.get('issue_name')}"):
+                st.markdown(f"""
+                    <div style="border-left: 5px solid #1976d2; padding-left: 15px; margin-top: 10px;">
+                        <p style="margin-bottom: 5px;"><b>🔍 Recommendation:</b></p>
+                        <p style="color: #333;">{item.get('explanation')}</p>
+                        <div style="margin-top: 15px;"></div>
+                        <p style="margin-bottom: 5px; color: #1976d2;"><b>📝 Suggested Phrasing:</b></p>
+                        <p>{item.get('negotiation_tip')}</p>
+                    </div>
+                """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
     # 4. Handle the "Generate Message" Workflow
-    if not st.session_state.get('show_popup', False):
-        col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
-        with col_btn2:
-            if st.button("Generate message to landlord", type="primary", use_container_width=True):
-                st.session_state.show_popup = True
-                st.rerun()
-    else:
-        # --- THIS IS THE "POPUP" SECTION ---
-        st.markdown("<div class='negotiation-box'>", unsafe_allow_html=True)
-        st.subheader("✉️ Draft Negotiation Message")
 
-        # CLOSE BUTTON
-        if st.button("✖️ Close"):
-            st.session_state.show_popup = False
-            st.session_state.pop_generated_msg = ""
-            st.rerun()
+    st.write("---")
 
-        st.write("---")
+    # --- THIS IS THE "POPUP" SECTION ---
+    st.markdown("<div id='negotiation-message'></div>", unsafe_allow_html=True)
+    st.subheader("✉️ Draft Negotiation Message")
 
-        # PHASE 1: PREFERENCES
-        st.write("**1. Choose which issues to include:**")
-        selected_items = []
 
-        # Data separation (remains the same)
-        risks_in_popup = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
-        suggestions_in_popup = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
+    # PHASE 1: PREFERENCES
+    st.write("**1. Choose which issues to include:**")
+    selected_items = []
 
-        # Simplified to 2 columns with a small gap
-        col_left, col_right = st.columns([1, 1], gap="medium")
+    # Data separation (remains the same)
+    risks_in_popup = [i for i in analysis_data if i.get("preference_category") != "missing_protection"]
+    suggestions_in_popup = [i for i in analysis_data if i.get("preference_category") == "missing_protection"]
 
-        with col_left:
-            st.markdown(
-                "<p style='font-weight: bold; color: #d32f2f; margin-bottom: 10px;'>🔍 Issues found in contract:</p>",
-                unsafe_allow_html=True)
-            if not risks_in_popup:
-                st.caption("No risks found.")
-            for idx, item in enumerate(risks_in_popup):
-                if st.checkbox(item['issue_name'], value=True, key=f"sel_risk_{idx}"):
-                    selected_items.append(item)
+    # Simplified to 2 columns with a small gap
+    col_left, col_right = st.columns([1, 1], gap="medium")
 
-        with col_right:
-            st.markdown(
-                "<p style='font-weight: bold; color: #1976d2; margin-bottom: 10px;'>💡 Recommended additions:</p>",
-                unsafe_allow_html=True)
-            if not suggestions_in_popup:
-                st.caption("No recommendations found.")
-            for idx, item in enumerate(suggestions_in_popup):
-                if st.checkbox(item['issue_name'], value=True, key=f"sel_sug_{idx}"):
-                    selected_items.append(item)
+    with col_left:
+        st.markdown(
+            "<p style='font-weight: bold; color: #d32f2f; margin-bottom: 10px;'> ⬜ Issues found in contract:</p>",
+            unsafe_allow_html=True)
+        if not risks_in_popup:
+            st.caption("No risks found.")
+        for idx, item in enumerate(risks_in_popup):
+            if st.checkbox(item['issue_name'], value=True, key=f"sel_risk_{idx}"):
+                selected_items.append(item)
 
-        st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
+    with col_right:
+        st.markdown(
+            "<p style='font-weight: bold; color: #1976d2; margin-bottom: 10px;'> ⬜ Recommended additions:</p>",
+            unsafe_allow_html=True)
+        if not suggestions_in_popup:
+            st.caption("No recommendations found.")
+        for idx, item in enumerate(suggestions_in_popup):
+            if st.checkbox(item['issue_name'], value=True, key=f"sel_sug_{idx}"):
+                selected_items.append(item)
 
-        st.write("**2. Choose tone:**")
-        chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
+    st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
 
-        # PHASE 2: GENERATION
+    st.write("**2. Choose tone:**")
+    chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
+
+    # PHASE 2: GENERATION
+    # PHASE 2: GENERATION
+
+    c1, c2, c3 = st.columns([1, 1.5, 1])
+    with c2:
         if st.button("Generate/Update Draft ✨", use_container_width=True):
             if not selected_items:
                 st.error("Please select at least one issue to negotiate.")
@@ -782,41 +783,38 @@ elif st.session_state.step == 4:
                     new_draft = generate_negotiation_message(selected_items, chosen_tone)
                     st.session_state.pop_generated_msg = new_draft
                     st.session_state.negotiation_text = new_draft
-                    # Reset confirmation status when a new draft is made
                     st.session_state.is_confirmed = False
                     st.rerun()
 
-        # PHASE 3: EDITING & CONFIRMING
-        if st.session_state.get("pop_generated_msg"):
-            st.markdown("---")
-            st.write("**3. Review and edit your message:**")
+    # PHASE 3: EDITING & CONFIRMING
+    if st.session_state.get("pop_generated_msg"):
+        st.markdown("---")
+        st.write("**3. Review and edit your message:**")
 
-            # Use a key to track manual edits in session state
-            st.text_area("Final Message:", height=200, key="negotiation_text")
-
-            # The NEW Confirm Button
+        # Use a key to track manual edits in session state
+        st.text_area("Final Message:", height=200, key="negotiation_text")
+        conf_l, conf_btn, conf_r = st.columns([1, 1.5, 1])
+        with conf_btn:
+        # The NEW Confirm Button
             if st.button("✅ Confirm My Edits", use_container_width=True):
                 # Save the current state of the text area into a 'confirmed' variable
                 st.session_state.confirmed_final_msg = st.session_state.negotiation_text
                 st.session_state.is_confirmed = True
                 st.success("Edits confirmed! Click below to send via WhatsApp.")
 
-            # PHASE 4: SENDING (Only visible after confirmation)
-            if st.session_state.get("is_confirmed", False):
-                import urllib.parse
+        # PHASE 4: SENDING (Only visible after confirmation)
+        if st.session_state.get("is_confirmed", False):
+            import urllib.parse
 
-                # Pull the strictly confirmed message
-                final_to_send = st.session_state.confirmed_final_msg
-                encoded_msg = urllib.parse.quote(final_to_send)
-                whatsapp_url = f"https://wa.me/?text={encoded_msg}"
+            # Pull the strictly confirmed message
+            final_to_send = st.session_state.confirmed_final_msg
+            encoded_msg = urllib.parse.quote(final_to_send)
+            whatsapp_url = f"https://wa.me/?text={encoded_msg}"
 
+            wa_l, wa_btn, wa_r = st.columns([1, 1.5, 1])
+            with wa_btn:
                 st.markdown(
                     f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">'
                     f'Send via WhatsApp</a>',
                     unsafe_allow_html=True
                 )
-
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    if st.button("Back"):
-        go_to_step(3)
