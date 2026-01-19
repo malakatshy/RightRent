@@ -160,29 +160,42 @@ div[key="close_negotiation"] button:hover {
     border-bottom: 1px solid #444;
 }
 
-/* DownloadButton */
-div[data-testid="stDownloadButton"] button {
-    background-color: #308C14 !important;
-    color: white !important;
-    border: 1.5px solid #308C14 !important;
-    padding: 2px 5px !important;
-    font-size: 18px !important;
-    height: auto !important;
-    line-height: 1 !important;
-    transition: opacity 0.2s !important;
+
+div[data-testid="stDownloadButton"] {
+    display: flex !important;
+    justify-content: center !important; /* מרכוז לפי ציר האמצע של הכותרת */
+    width: 100% !important;
+    margin: 20px 0 !important;
 }
 
-div[data-testid="stDownloadButton"] button:hover {
-    opacity: 0.7 !important;
-    background-color: transparent !important;
+div[data-testid="stDownloadButton"] button {
+    width: auto !important; /* גודל לפי הטקסט בלבד */
+    min-width: 200px !important; /* גודל מינימלי למראה אלגנטי */
+    background-color: #308C14 !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 10px 30px !important;
+    font-size: 18px !important;
+    box-shadow: 0 4px 12px rgba(48, 140, 20, 0.2) !important;
 }
+
+
+/* 3. אפקט מעבר (Hover) */
+div[data-testid="stDownloadButton"] button:hover {
+    background-color: #A5D6A7 !important; /* הירוק הבהיר שהצעתי */
+    color: #308C14 !important;
+    box-shadow: 0 4px 12px rgba(48, 140, 20, 0.2) !important;
+}
+
+
+
 /* 1. Unified PDF Wrapper */
 .pdf-container-box {
     max-width: 100%;
     overflow-x: auto;
     display: flex;
     justify-content: center;
-    border: 1px solid #323639;
+    border: none;
     border-radius: 12px;
     background-color: #525659; /* Classic PDF viewer background */
     box-shadow: 0 8px 24px rgba(0,0,0,0.12);
@@ -191,7 +204,7 @@ div[data-testid="stDownloadButton"] button:hover {
 }
 
 .pdf-container-box div[style*="position: absolute"][style*="right"] {
-    transform: translateX(45px) !important; //סרגל
+    transform: translateX(45px) !important;
     z-index: 99;
 }
 
@@ -321,8 +334,6 @@ div[key="toolbar_dl_btn"] button:hover {
     border-top: 1px solid #f0f2f6 !important;
 }
 
-
-
 .stExpander {
     max-width: 850px !important;
     margin-left: auto !important;
@@ -348,6 +359,77 @@ div[key="toolbar_dl_btn"] button:hover {
     /* עיצוב פנימי עדין */
     padding: 10px 25px !important;
     border-radius: 10px !important;
+}
+
+
+/* עיצוב סרגל השלבים (Stepper) */
+.stepper-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px auto 30px auto;
+    max-width: 500px;
+    position: relative;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    flex: 1;
+    position: relative;
+}
+
+/* העיגול של כל שלב */
+.step-counter {
+    width: 28px;
+    height: 35px;
+    border-radius: 50%;
+    background: #e0e0e0; /* אפור לשלבים שטרם בוצעו */
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+/* השלב הפעיל או שלבים שהושלמו נצבעים בירוק */
+.step-item.active .step-counter{
+    background-color: #A5D6A7;
+    color: white;
+    box-shadow: 0 2px 4px rgba(48, 140, 20, 0.2);
+}
+
+
+
+.step-item.completed .step-counter {
+    background-color: #a5d6a7;
+    color: white;
+}
+
+.step-label {
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+}
+
+.step-item.active .step-label {
+    color: #308C14;
+    font-weight: 500;
+}
+
+/* הקו המחבר בין העיגולים */
+.stepper-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: #ccc;
+    z-index: 1;
 }
 
 
