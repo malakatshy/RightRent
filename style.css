@@ -54,20 +54,55 @@ div[key="help_btn_step1"] button {
     padding-right: 0px !important; /* Align exactly with the grid edge */
 }
 
-.stButton > button {
-    background-color: #308C14 !important; /* ירוק RightRent */
+/*.stButton > button {*/
+/*    background-color: #308C14 !important; !* ירוק RightRent *!*/
+/*    color: white !important;*/
+/*    border: none !important;*/
+/*    border-radius: 8px !important;*/
+/*    font-weight: 600 !important;*/
+/*    height: 48px !important; !* גובה אחיד לכולם *!*/
+/*    width: 100% !important;   !* ממלא את הטור האמצעי *!*/
+/*    transition: background-color 0.3s ease !important;*/
+/*}*/
+
+
+/* 1. כפתור NEXT (Primary) - ירוק RightRent */
+.stButton button[kind="primary"] {
+    background-color: #308C14 !important;
     color: white !important;
     border: none !important;
     border-radius: 8px !important;
     font-weight: 600 !important;
-    height: 48px !important; /* גובה אחיד לכולם */
-    width: 100% !important;   /* ממלא את הטור האמצעי */
+    height: 48px !important;
+    width: 100% !important;
     transition: background-color 0.3s ease !important;
 }
 
-.stButton > button:hover {
-    background-color: #267010 !important;
+.stButton button[kind="primary"]:hover {
+    background-color: #267010 !important; /* ירוק כהה יותר בסיבוב */
 }
+
+/* 2. כפתור BACK (Secondary) - אפור מוצל */
+.stButton button[kind="secondary"] {
+    background-color: #f1f3f5 !important;
+    color: #555 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    height: 48px !important;
+    width: 100% !important;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1) !important; /* הצל שביקש User 3 */
+    transition: all 0.3s ease !important;
+}
+
+.stButton button[kind="secondary"]:hover {
+    background-color: #e9ecef !important;
+    border-color: #ccc !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15) !important;
+    color: #333 !important; /* הטקסט נשאר כהה ולא הופך לירוק */
+}
+
+
 
 
 .action-btn-container .stButton > button {
