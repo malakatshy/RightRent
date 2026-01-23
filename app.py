@@ -3,7 +3,6 @@ import streamlit as st
 import fitz
 import io
 from streamlit_pdf_viewer import pdf_viewer
-import streamlit.components.v1 as components
 
 
 def local_css(file_name):
@@ -854,6 +853,15 @@ elif st.session_state.step == 4:
 
         # Use a key to track manual edits in session state
         st.text_area("Final Message:", height=200, key="negotiation_text")
+
+        st.markdown("""
+                    <div style='background-color: #f0f2f6; color: #444; padding: 12px; border-radius: 8px; 
+                                margin-bottom: 20px; border: 1px solid #d1d5db; font-size: 14px; line-height: 1.4;'>
+                        💡 <b>Important:</b> Every time you update the <b>tone</b> or <b>manually edit</b> the message above, 
+                        you must click <b>'Confirm My Edits'</b> below before you click the <b>'Send via WhatsApp'</b> button.
+                    </div>
+                """, unsafe_allow_html=True)
+
         conf_l, conf_btn, conf_r = st.columns([2, 1, 2])
         with conf_btn:
         # The NEW Confirm Button
