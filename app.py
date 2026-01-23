@@ -397,7 +397,7 @@ if st.session_state.step == 1:
     st.markdown("<h1>Understand your rental <br> contract with confidence</h1>", unsafe_allow_html=True)
     # The space here is now controlled by the CSS margin-bottom in h1
     st.markdown(
-        "<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging.</p>",
+        "<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging - grounded in Israeli rental law.</p>",
         unsafe_allow_html=True)
 
     st.markdown("<div style='margin: 35px;'></div>", unsafe_allow_html=True)
