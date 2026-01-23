@@ -77,6 +77,17 @@ div[key="help_btn_step1"] button {
     margin: 0 auto !important;
 }
 
+/* צמצום המרווח הלבן של העלאת הקבצים */
+[data-testid="stFileUploader"] {
+    margin-bottom: -10px;
+}
+
+/* עיצוב כפתור ה-Upload & Analyze למראה מהודק יותר */
+.stButton button {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
 
 /* 6. Feature Cards Styling (Centered Design) */
 .feature-card {

@@ -3,6 +3,7 @@ import streamlit as st
 import fitz
 import io
 from streamlit_pdf_viewer import pdf_viewer
+import streamlit.components.v1 as components
 
 
 def local_css(file_name):
@@ -377,6 +378,7 @@ def render_stepper(current_step):
     stepper_html += '</div>'
 
     st.markdown(stepper_html, unsafe_allow_html=True)
+
 # ==========================================
 # Step 1: Welcome & Homepage
 # ==========================================
@@ -400,7 +402,7 @@ if st.session_state.step == 1:
         "<p style='text-align: center; color: #666; font-size: 19px;'>AI-powered highlights, personalised risk analysis, and guided <br> negotiation messaging - grounded in Israeli rental law.</p>",
         unsafe_allow_html=True)
 
-    st.markdown("<div style='margin: 35px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 10px;'></div>", unsafe_allow_html=True)
 
     # --- Feature Cards aligned to the middle ---
     c1, c2, c3 = st.columns(3)
@@ -432,7 +434,7 @@ if st.session_state.step == 1:
             </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='margin: 40px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin: 15px;'></div>", unsafe_allow_html=True)
 
     # --- Centered Green Start Button ---
     b_left, b_center, b_right = st.columns([2, 1, 2])
@@ -441,9 +443,17 @@ if st.session_state.step == 1:
             go_to_step(2)
 
     # Disclaimer
-    st.markdown("<div style='margin-top: 20px;'><hr></div>", unsafe_allow_html=True)
-    st.caption(
-        "RightRent is an AI tool and does not provide legal advice. Always review your final contract with a professional.")
+    st.markdown("<div style='margin-top: 15px;'><hr></div>", unsafe_allow_html=True)
+    # st.caption(
+    #     "RightRent is an AI tool and does not provide legal advice. Always review your final contract with a professional.")
+    st.markdown(
+        """
+        <p style="font-size:18px; color:#888;">
+        RightRent is an AI tool and does not provide legal advice. Always review your final contract with a professional.
+        </p>
+        """,
+        unsafe_allow_html=True
+    )
 
 # ==========================================
 # Step 2: Personal Preferences
@@ -524,7 +534,7 @@ elif st.session_state.step == 2:
                     unsafe_allow_html=True)
 
     # --- Navigation Buttons ---
-    st.markdown("<div style='margin-top: 50px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-top: 15px;'></div>", unsafe_allow_html=True)
     # Aligning buttons with the main content area
     b_left, b_mid, b_right, b_spacer = st.columns([0.4, 1.8, 0.4, 0.1])
 
@@ -569,7 +579,7 @@ elif st.session_state.step == 3:
     st.markdown("<h1 style='text-align: center; font-size: 38px; font-weight: 700;'>Upload your rental contract</h1>",
                 unsafe_allow_html=True)
     st.markdown(
-        "<p style='text-align: center; color: #666;font-size: 19px; margin-top: -10px; margin-bottom: 30px;'>Please provide your contract in PDF format for AI analysis.</p>",
+        "<p style='text-align: center; color: #666;font-size: 19px; margin-top: -10px; margin-bottom: 10px;'>Please provide your contract in PDF format for AI analysis.</p>",
         unsafe_allow_html=True)
 
     col_pad_left, col_main, col_pad_right = st.columns([1, 2, 1])
@@ -579,53 +589,61 @@ elif st.session_state.step == 3:
         uploaded_file = st.file_uploader("Upload PDF", type=["pdf"], label_visibility="collapsed")
 
         if uploaded_file is not None:
-            st.success(f"'{uploaded_file.name}' ready! ✔️")
+            # st.success(f"'{uploaded_file.name}' ready! ✔️")
+            st.markdown(f"""
+                <div style='background-color: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 8px; 
+                            text-align: center; margin-bottom: 10px; border: 1px solid #c8e6c9;'>
+                    '{uploaded_file.name}' ready! ✔️
+                </div>
+            """, unsafe_allow_html=True)
 
-            if st.button("Upload & analyze →", type="primary", use_container_width=True):
-                with st.status("Starting AI Analysis... 0%", expanded=True) as status:
-                    try:
-                        import time
+            col_empty1, col_btn, col_empty2 = st.columns([0.6, 1, 0.6])
+            with col_btn:
+                if st.button("Upload & analyze →", type="primary", use_container_width=True):
+                    with st.status("Starting AI Analysis... 0%", expanded=True) as status:
+                        try:
+                            import time
 
-                        # --- PHASE 1: Data Ingestion (0% - 30%) ---
-                        status.update(label="Reading your contract... 15%", state="running")
-                        st.write("Scanning the document text...")
+                            # --- PHASE 1: Data Ingestion (0% - 30%) ---
+                            status.update(label="Reading your contract... 15%", state="running")
+                            st.write("Scanning the document text...")
 
-                        pdf_bytes = uploaded_file.getvalue()
-                        uploaded_file.seek(0)
-                        contract_text = extract_text_from_pdf(uploaded_file)
-                        time.sleep(0.5)
+                            pdf_bytes = uploaded_file.getvalue()
+                            uploaded_file.seek(0)
+                            contract_text = extract_text_from_pdf(uploaded_file)
+                            time.sleep(0.5)
 
-                        # --- PHASE 2: Core Analysis (31% - 75%) ---
-                        status.update(label="Checking legal compliance... 45%", state="running")
-                        st.write("Comparing clauses with Israeli rental laws...")
+                            # --- PHASE 2: Core Analysis (31% - 75%) ---
+                            status.update(label="Checking legal compliance... 45%", state="running")
+                            st.write("Comparing clauses with Israeli rental laws...")
 
-                        # The actual AI Processing
-                        analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
+                            # The actual AI Processing
+                            analysis_results = analyze_contract(contract_text, st.session_state.user_prefs)
 
-                        status.update(label="Matching your preferences... 70%", state="running")
-                        st.write("Checking how the contract fits your needs...")
-                        time.sleep(0.5)
+                            status.update(label="Matching your preferences... 70%", state="running")
+                            st.write("Checking how the contract fits your needs...")
+                            time.sleep(0.5)
 
-                        # --- PHASE 3: Report Generation (76% - 100%) ---
-                        status.update(label="Finalizing your review... 90%", state="running")
-                        st.write("Highlighting key clauses and organizing your results...")
+                            # --- PHASE 3: Report Generation (76% - 100%) ---
+                            status.update(label="Finalizing your review... 90%", state="running")
+                            st.write("Highlighting key clauses and organizing your results...")
 
-                        highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
+                            highlighted_pdf = highlight_pdf(pdf_bytes, analysis_results, st.session_state.user_prefs)
 
-                        # --- PHASE 4: Completion ---
-                        status.update(label="Analysis complete! 100%", state="complete", expanded=False)
+                            # --- PHASE 4: Completion ---
+                            status.update(label="Analysis complete! 100%", state="complete", expanded=False)
 
-                        st.session_state.highlighted_pdf = highlighted_pdf
-                        st.session_state.analysis_results = analysis_results
-                        time.sleep(0.5)
-                        go_to_step(4)
+                            st.session_state.highlighted_pdf = highlighted_pdf
+                            st.session_state.analysis_results = analysis_results
+                            time.sleep(0.5)
+                            go_to_step(4)
 
-                    except Exception as e:
-                        status.update(label="Analysis Interrupted", state="error")
-                        st.error(f"Technical details: {e}")
+                        except Exception as e:
+                            status.update(label="Analysis Interrupted", state="error")
+                            st.error(f"Technical details: {e}")
 
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("← Back", key="back_to_2"):
+    if st.button("← Back to Preference ", key="back_to_2"):
         go_to_step(2)
 
 # ==========================================
@@ -812,9 +830,10 @@ elif st.session_state.step == 4:
     st.write("**2. Choose tone:**")
     chosen_tone = st.radio("Tone:", ["Polite", "Neutral", "Firm"], horizontal=True, key="tone_sel")
 
+    st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
     # PHASE 2: GENERATION
 
-    c1, c2, c3 = st.columns([1, 1.5, 1])
+    c1, c2, c3 = st.columns([2, 1, 2])
     with c2:
         if st.button("Generate/Update Draft ✨", use_container_width=True):
             if not selected_items:
@@ -832,30 +851,43 @@ elif st.session_state.step == 4:
         st.markdown("---")
         st.write("**3. Review and edit your message:**")
 
+
         # Use a key to track manual edits in session state
         st.text_area("Final Message:", height=200, key="negotiation_text")
-        conf_l, conf_btn, conf_r = st.columns([1, 1.5, 1])
+        conf_l, conf_btn, conf_r = st.columns([2, 1, 2])
         with conf_btn:
         # The NEW Confirm Button
             if st.button("✅ Confirm My Edits", use_container_width=True):
                 # Save the current state of the text area into a 'confirmed' variable
                 st.session_state.confirmed_final_msg = st.session_state.negotiation_text
                 st.session_state.is_confirmed = True
-                st.success("Edits confirmed! Click below to send via WhatsApp.")
 
-        # PHASE 4: SENDING (Only visible after confirmation)
+
+        # PHASE 4: SENDING (Balanced side-by-side layout)
         if st.session_state.get("is_confirmed", False):
             import urllib.parse
 
-            # Pull the strictly confirmed message
             final_to_send = st.session_state.confirmed_final_msg
             encoded_msg = urllib.parse.quote(final_to_send)
             whatsapp_url = f"https://wa.me/?text={encoded_msg}"
 
-            wa_l, wa_btn, wa_r = st.columns([1, 1.5, 1])
-            with wa_btn:
+            st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+
+            c_pad1, c_msg, c_btn, c_pad2 = st.columns([1.2, 1.2, 1.2, 1.2])
+
+            with c_msg:
+                st.markdown("""
+                    <div style='background-color: #e8f5e9; color: #2e7d32; padding: 0px 10px; border-radius: 8px; 
+                                text-align: center; border: 1px solid #c8e6c9; font-size: 14px; height: 45px; 
+                                display: flex; align-items: center; justify-content: center; font-weight: 500;'>
+                        ✅ Edits confirmed! Ready:
+                    </div>
+                """, unsafe_allow_html=True)
+
+            with c_btn:
                 st.markdown(
-                    f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn">'
+                    f'<a href="{whatsapp_url}" target="_blank" class="whatsapp-btn" '
+                    f'style="display: flex; align-items: center; justify-content: center; height: 45px; margin: 0; text-decoration: none; width: 100%; font-size: 14px;">'
                     f'Send via WhatsApp</a>',
                     unsafe_allow_html=True
                 )
