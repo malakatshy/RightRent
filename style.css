@@ -34,8 +34,8 @@ h2 { margin: 0px !important; padding: 0px !important; color: #308C14 !important;
 h3 {
     padding: 0px !important;
     color: #308C14 !important;
-    margin-top: 40px !important;    /* רווח מעל הכותרת */
-    margin-bottom: 20px !important; /* רווח מתחת לכותרת (הסימון הכתום) */
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
 }
 
 .brand-text { margin-left: -15px !important; white-space: nowrap; }
@@ -54,19 +54,7 @@ div[key="help_btn_step1"] button {
     padding-right: 0px !important; /* Align exactly with the grid edge */
 }
 
-/*.stButton > button {*/
-/*    background-color: #308C14 !important; !* ירוק RightRent *!*/
-/*    color: white !important;*/
-/*    border: none !important;*/
-/*    border-radius: 8px !important;*/
-/*    font-weight: 600 !important;*/
-/*    height: 48px !important; !* גובה אחיד לכולם *!*/
-/*    width: 100% !important;   !* ממלא את הטור האמצעי *!*/
-/*    transition: background-color 0.3s ease !important;*/
-/*}*/
 
-
-/* 1. כפתור NEXT (Primary) - ירוק RightRent */
 .stButton button[kind="primary"] {
     background-color: #308C14 !important;
     color: white !important;
@@ -79,10 +67,9 @@ div[key="help_btn_step1"] button {
 }
 
 .stButton button[kind="primary"]:hover {
-    background-color: #267010 !important; /* ירוק כהה יותר בסיבוב */
+    background-color: #267010 !important;
 }
 
-/* 2. כפתור BACK (Secondary) - אפור מוצל */
 .stButton button[kind="secondary"] {
     background-color: #f1f3f5 !important;
     color: #555 !important;
@@ -91,7 +78,7 @@ div[key="help_btn_step1"] button {
     font-weight: 600 !important;
     height: 48px !important;
     width: 100% !important;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1) !important; /* הצל שביקש User 3 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1) !important;
     transition: all 0.3s ease !important;
 }
 
@@ -99,7 +86,7 @@ div[key="help_btn_step1"] button {
     background-color: #e9ecef !important;
     border-color: #ccc !important;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15) !important;
-    color: #333 !important; /* הטקסט נשאר כהה ולא הופך לירוק */
+    color: #333 !important;
 }
 
 
@@ -112,12 +99,10 @@ div[key="help_btn_step1"] button {
     margin: 0 auto !important;
 }
 
-/* צמצום המרווח הלבן של העלאת הקבצים */
 [data-testid="stFileUploader"] {
     margin-bottom: -10px;
 }
 
-/* עיצוב כפתור ה-Upload & Analyze למראה מהודק יותר */
 .stButton button {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
@@ -231,7 +216,6 @@ div[data-testid="stDownloadButton"] button:hover {
     color: #308C14 !important;
     box-shadow: 0 4px 12px rgba(48, 140, 20, 0.2) !important;
 }
-
 
 
 /* 1. Unified PDF Wrapper */
