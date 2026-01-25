@@ -255,7 +255,6 @@ def extract_text_from_pdf(uploaded_file):
     return full_text
 
 
-
 # --- Page Configuration ---
 st.set_page_config(
     page_title="RightRent",
@@ -443,8 +442,6 @@ if st.session_state.step == 1:
 
     # Disclaimer
     st.markdown("<div style='margin-top: 15px;'><hr></div>", unsafe_allow_html=True)
-    # st.caption(
-    #     "RightRent is an AI tool and does not provide legal advice. Always review your final contract with a professional.")
     st.markdown(
         """
         <p style="font-size:18px; color:#888;">
@@ -588,7 +585,6 @@ elif st.session_state.step == 3:
         uploaded_file = st.file_uploader("Upload PDF", type=["pdf"], label_visibility="collapsed")
 
         if uploaded_file is not None:
-            # st.success(f"'{uploaded_file.name}' ready! ✔️")
             st.markdown(f"""
                 <div style='background-color: #e8f5e9; color: #2e7d32; padding: 10px; border-radius: 8px; 
                             text-align: center; margin-bottom: 10px; border: 1px solid #c8e6c9;'>
