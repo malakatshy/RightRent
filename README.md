@@ -64,7 +64,9 @@ pip install -r requirements.txt
 
 **3. Configure API Key: Since our API keys are kept private for security, you need to create a local secrets file.**
 
-> [!IMPORTANT] Replace "your_key" with the actual API key provided in the Evaluation_Secrets.txt file included in our Moodle submission.
+> [!IMPORTANT]
+>
+> Replace "your_key" with the actual API key provided in the `Evaluation_Secrets.txt` file included in our Moodle submission.
 
 ```bash
 mkdir .streamlit
