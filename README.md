@@ -77,7 +77,7 @@ RightRent employs a **Hybrid Intelligence architecture** that balances human pre
 Before running the project, make sure you have:
 
 - **Python 3.8 or higher**
-- **A valid DeepSeek API Key** (provided in our submission)
+- **A valid DeepSeek API Key** (provided in our Moodle submission -Evaluation_Secrets.txt-)
 - **An active internet connection** (required for API calls and Streamlit)
 
 ---
@@ -92,7 +92,6 @@ cd RightRent
 
 **2. Install dependencies:**
 
-**Make sure you have Python installed**
 ```bash
 pip install -r requirements.txt
 ```
