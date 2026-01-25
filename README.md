@@ -104,6 +104,8 @@ pip install -r requirements.txt
 
 ```bash
 mkdir .streamlit
+```
+```bash
 echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml
 ```
 
