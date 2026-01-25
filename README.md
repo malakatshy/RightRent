@@ -114,7 +114,7 @@ echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml
 
 **4. Run the app:**
 ```bash
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 
