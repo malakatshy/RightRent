@@ -29,7 +29,7 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 
 ---
 
-### 🏗️ System Overview
+## 🏗️ System Overview
 
 RightRent employs a **Hybrid Intelligence architecture** that balances human preferences with automated legal reasoning:
 
@@ -45,6 +45,9 @@ RightRent employs a **Hybrid Intelligence architecture** that balances human pre
 - **Human-in-the-Loop:**  
   Instead of a simple “yes/no” output, the system provides **Explainable AI (XAI)** highlights, allowing the user to make the final informed decision.
 
+- **Actionable Negotiation Support:**  
+  Bridges the gap between insight and action by generating context-aware **WhatsApp drafts**. The system adjusts the negotiation tone (*Polite, Neutral,* or *Firm*) based on the identified risks and user preferences.
+
 
 ---
 
@@ -57,10 +60,10 @@ RightRent employs a **Hybrid Intelligence architecture** that balances human pre
 ---
 
 ### 📋 How It Works
-1. **Preference Setup:** Define your monthly budget and set importance levels (Low to High) for various legal categories.
+1. **Preference Setup:** Define your monthly budget and weight legal safeguards from Low to High importance to synchronize the analysis with your specific needs.
 2. **Contract Upload:** Upload your rental contract in PDF format.
 3. **Intelligent Analysis:** The system performs **Context-Injected Grounding** to identify legal and personal risks.
-4. **Actionable Output:** Review highlighted risks directly on the PDF and generate a professional negotiation message for your landlord.
+4. **Actionable Output:** Review highlighted risks directly on the PDF, accompanied by detailed explanations of why each clause is problematic. Once informed, generate a professional, tone-adjusted negotiation message for your landlord.
 
 ---
 
@@ -94,7 +97,8 @@ pip install -r requirements.txt
 
 > [!IMPORTANT]
 >
-> Replace **"your_key"** with the actual API key provided in the `Evaluation_Secrets.txt` file included in our **Moodle submission**.
+> Replace **echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml** with the full line provided in the `Evaluation_Secrets.txt` file included in our **Moodle submission**.
+> This line already contains the **actual API key** required for RightRent to function, so you can simply copy and paste it directly into your terminal without any manual changes.
 
 ```bash
 mkdir .streamlit
