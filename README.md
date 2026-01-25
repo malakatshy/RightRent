@@ -66,7 +66,7 @@ pip install -r requirements.txt
 
 > [!IMPORTANT]
 >
-> Replace "your_key" with the actual API key provided in the `Evaluation_Secrets.txt` file included in our Moodle submission.
+> Replace **"your_key"** with the actual API key provided in the `Evaluation_Secrets.txt` file included in our **Moodle submission**.
 
 ```bash
 mkdir .streamlit
