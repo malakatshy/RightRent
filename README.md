@@ -9,8 +9,7 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 
 **Developed by:** **Malak Atshy** & **Noor Shahin**
 
-🚀 **[Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)**
-
+🚀 **[Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
 ---
 
 ### ⚠️ Important Notes
@@ -18,15 +17,34 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 > [!IMPORTANT]
 > **Hosting Policy:** Due to Streamlit's hosting policy, the app may enter **"Sleep Mode"** if inactive. Please click **"Yes, get this app back up"** to reactivate RightRent within seconds.
 
-* **Display Settings:** For the best user experience, please set the Streamlit theme to **"Light Mode"** (Settings > Theme > Light).
+* **Display Settings:** This app is optimized for **Light Mode**. Please make sure your **system or browser theme** is set to **Light**. If your system is currently in Dark Mode, you can manually override it within the app via **Settings > Theme > Light**.
 
 ---
 
 ### 💡 Key Features
-* **Legal Grounding (RAG):** Analysis is grounded in the *Israeli Fair Rental Law (2017)* through context injection to prevent AI hallucinations.
+* **Legal Grounding (RAG):** Context-injected grounding in Israeli rental law to prevent AI hallucinations.
 * **Hybrid Architecture:** Uses semantic LLM reasoning for text interpretation and deterministic logic for 100% accurate budget and preference filtering.
 * **Interactive XAI:** Features a color-coded PDF viewer that explains *why* a clause is risky, bridging the gap between raw data and user understanding.
 * **Negotiation Module:** Generates context-aware WhatsApp drafts based on identified risks, allowing users to choose between *Polite, Neutral,* or *Firm* tones.
+
+---
+
+### 🏗️ System Overview
+
+RightRent employs a **Hybrid Intelligence architecture** that balances human preferences with automated legal reasoning:
+
+- **Knowledge Base:**  
+  The system is grounded in the *Israeli Fair Rental Law (2017)*, which serves as the “source of truth” to minimize AI hallucinations.
+
+- **Analysis Engine:**  
+  A Retrieval-Augmented Generation (RAG) workflow. The system extracts contract text using *PyMuPDF*, matches it against legal constraints, and uses the *DeepSeek LLM* to interpret semantic risks.
+
+- **Decision Logic:**  
+  Uses **Deterministic Filtering** to compare the extracted contract data against the user’s specific budget and priorities (e.g., maintenance responsibilities).
+
+- **Human-in-the-Loop:**  
+  Instead of a simple “yes/no” output, the system provides **Explainable AI (XAI)** highlights, allowing the user to make the final informed decision.
+
 
 ---
 
@@ -47,6 +65,16 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 ---
 
 ### 💻 Local Installation
+
+#### 🔧 Prerequisites
+Before running the project, make sure you have:
+
+- **Python 3.8 or higher**
+- **A valid DeepSeek API Key** (provided in our submission)
+- **An active internet connection** (required for API calls and Streamlit)
+
+---
+
 To run this project locally, follow these steps:
 
 **1. Clone the repository:**
