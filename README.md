@@ -94,7 +94,7 @@ pip install -r requirements.txt
 ```
 
 
-> [!IMPORTANT] 
+> [!WARNING] 
 > 
 > **3. Configure API Key: Since our API keys are kept private for security, you need to create a local secrets file.**
 
