@@ -9,7 +9,11 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 
 **Developed by:** **Malak Atshy** & **Noor Shahin**
 
-🚀 **[Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
+---
+**[🚀Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
+
+**[📄 Download Sample Contract (PDF)](./test.pdf)**  *for System Evaluation*
+
 ---
 
 ### ⚠️ Important Notes
@@ -73,7 +77,7 @@ RightRent employs a **Hybrid Intelligence architecture** that balances human pre
 Before running the project, make sure you have:
 
 - **Python 3.8 or higher**
-- **A valid DeepSeek API Key** (provided in our submission)
+- **A valid DeepSeek API Key** (provided in our Moodle submission -Evaluation_Secrets.txt-)
 - **An active internet connection** (required for API calls and Streamlit)
 
 ---
@@ -88,7 +92,6 @@ cd RightRent
 
 **2. Install dependencies:**
 
-**Make sure you have Python installed**
 ```bash
 pip install -r requirements.txt
 ```
