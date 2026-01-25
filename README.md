@@ -9,7 +9,11 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 
 **Developed by:** **Malak Atshy** & **Noor Shahin**
 
+---
 🚀 **[Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
+
+**[📄 Download Sample Contract (PDF)](./test.pdf)**  *for System Evaluation*
+
 ---
 
 ### ⚠️ Important Notes
