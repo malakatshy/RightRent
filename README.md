@@ -33,6 +33,14 @@ To bridge the power imbalance between landlords and tenants, the system also sur
 
 ---
 
+### 📋 How It Works
+1. **Preference Setup:** Define your monthly budget and weight legal safeguards from Low to High importance to synchronize the analysis with your specific needs.
+2. **Contract Upload:** Upload your rental contract in PDF format.
+3. **Intelligent Analysis:** The system performs **Context-Injected Grounding** to identify legal and personal risks.
+4. **Actionable Output:** Review highlighted risks directly on the PDF, accompanied by detailed explanations of why each clause is problematic. Once informed, generate a professional, tone-adjusted negotiation message for your landlord.
+
+---
+
 ## 🏗️ System Overview
 
 RightRent employs a **Hybrid Intelligence architecture** that balances human preferences with automated legal reasoning:
@@ -63,11 +71,18 @@ RightRent employs a **Hybrid Intelligence architecture** that balances human pre
 
 ---
 
-### 📋 How It Works
-1. **Preference Setup:** Define your monthly budget and weight legal safeguards from Low to High importance to synchronize the analysis with your specific needs.
-2. **Contract Upload:** Upload your rental contract in PDF format.
-3. **Intelligent Analysis:** The system performs **Context-Injected Grounding** to identify legal and personal risks.
-4. **Actionable Output:** Review highlighted risks directly on the PDF, accompanied by detailed explanations of why each clause is problematic. Once informed, generate a professional, tone-adjusted negotiation message for your landlord.
+## 📁 Project Structure
+
+| File | Description                                                                                              |
+|------|----------------------------------------------------------------------------------------------------------|
+| `app.py` | The main application logic, orchestrating the Streamlit UI and the AI analysis engine.                   |
+| `legal_context.txt` | The full text of the **Israeli Fair Rental Law (2017)**, used for Context Injection (RAG grounding).     |
+| `test.pdf` | A sample rental contract for system testing and evaluation.                                              |
+| `style.css` | Custom CSS styling to ensure a clean and professional user interface.                                    |
+| `requirements.txt` | A list of all Python dependencies required to run the project locally.                                   |
+| `icon_page.svg` | The official application icon.                                                                           |
+| `.gitignore` | Ensures sensitive files (such as API keys and local environment configurations) are not uploaded to Git. |
+
 
 ---
 
