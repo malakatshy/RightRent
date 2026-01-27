@@ -1,4 +1,9 @@
-# ✅ RightRent: AI-Powered Decision Support for Renters
+
+<h1 align="center">
+  <img src="icon_page.svg" width="60" style="vertical-align: middle;" />
+  RightRent: AI-Powered Decision Support for Renters
+</h1>
+
 
 ### Description
 **RightRent** is an AI-powered decision-support system that helps tenants understand and act on residential rental contracts before signing. 
@@ -6,22 +11,30 @@ Grounded in the **Israeli Fair Rental Law (2017)**, the system transforms dense 
 Rather than offering a generic overview, RightRent identifies legally problematic clauses, risky terms, and mismatches with user priorities directly within the original contract. 
 To bridge the power imbalance between landlords and tenants, the system also surfaces missing protections as recommendations and generates professional, tone-adjusted negotiation drafts for **WhatsApp**.
 
-
-**Developed by:** **Malak Atshy** & **Noor Shahin**
-
----
-**[🚀Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
-
-**[📄 Download Sample Contract (PDF)](./test.pdf)**  *for System Evaluation*
-
 ---
 
-### ⚠️ Important Notes
+**Project Team:**  
+**Malak Atshy · Noor Shahin**
 
-> [!IMPORTANT]
-> **Hosting Policy:** Due to Streamlit's hosting policy, the app may enter **"Sleep Mode"** if inactive. Please click **"Yes, get this app back up"** to reactivate RightRent within seconds.
+---
+### 🌐 Live Demo & Evaluation Assets
 
-* **Display Settings:** This app is optimized for **Light Mode**. Please make sure your **system or browser theme** is set to **Light**. If your system is currently in Dark Mode, you can manually override it within the app via **Settings > Theme > Light**.
+**[Live Demo: RightRent on Streamlit](https://right-rent.streamlit.app/)** [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://right-rent.streamlit.app/)
+
+**[Download Sample Contract (PDF)](./test.pdf)**  *for System Evaluation*
+
+---
+
+### ⚠️ Usage Notes
+
+**Hosting Policy:**  
+Due to Streamlit’s hosting policy, the app may enter *Sleep Mode* after periods of inactivity.  
+If this happens, simply click **“Yes, get this app back up”** to reactivate RightRent within a few seconds.
+
+**Display Settings:**  
+This application is optimized for **Light Mode**.  
+Please ensure your system or browser theme is set to Light. If you are using Dark Mode, you can override it directly within the app via  
+**Settings → Theme → Light**.
 
 ---
 
@@ -111,18 +124,21 @@ cd RightRent
 pip install -r requirements.txt
 ```
 
+**3. Configure API Key (Local Secrets Setup):**
 
-> [!WARNING] 
-> 
-> **3. Configure API Key: Since our API keys are kept private for security, you need to create a local secrets file.**
+For security reasons, API keys are not stored in the repository.  
+To run RightRent locally, a local secrets file is required.
 
->
-> Replace `echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml` with the full line provided in the `Evaluation_Secrets.txt` file included in our **Moodle submission**.
-> This line already contains the **actual API key** required for RightRent to function, so you can simply copy and paste it directly into your terminal without any manual changes.
+Create the Streamlit secrets directory:
 
 ```bash
 mkdir .streamlit
 ```
+Replace 
+`echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml`  
+with the full command provided in the `Evaluation_Secrets.txt` file from our **Moodle submission**.  
+The provided command already contains the valid API key for RightRent, so you can copy and paste it directly into your terminal without making any changes.
+
 ```bash
 echo DEEPSEEK_API_KEY = "your_key" > .streamlit/secrets.toml
 ```
